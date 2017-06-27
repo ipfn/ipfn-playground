@@ -13,8 +13,8 @@ Documentation for IPFN project is on [ipfn.github.io/documentation](//ipfn.githu
 
 | Language   | Project                              | Status |
 |------------|--------------------------------------|--------|
-| Go         | [js-ipfn](//github.com/ipfn/js-ipfn) | —      |
-| JavaScript | [go-ipfn](//github.com/ipfn/go-ipfn) | —      |
+| Go         | [go-ipfn](//github.com/ipfn/go-ipfn) | —      |
+| JavaScript | [js-ipfn](//github.com/ipfn/js-ipfn) | —      |
 
 ## Specification
 
