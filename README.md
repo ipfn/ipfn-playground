@@ -9,16 +9,24 @@ IPFN – project for interplanetary functions and networks.
 
 Documentation for IPFN project is on [ipfn.github.io/documentation](//ipfn.github.io/documentation/).
 
+## Implementations
+
+| Language   | Project                              | Status |
+|------------|--------------------------------------|--------|
+| Go         | [js-ipfn](//github.com/ipfn/js-ipfn) | —      |
+| JavaScript | [go-ipfn](//github.com/ipfn/go-ipfn) | —      |
+
 ## Specification
 
 IPFN Specification is split into separate parts
 
-| Part                | Specification                                              | Messages                                      | Size |
-|---------------------|------------------------------------------------------------|-----------------------------------------------|------|
-| Graphs              | [Specification](//github.com/ipfn/ipfn-graphs)             | [Messages](//github.com/ipfn/ipfn-graphs-pb)  | Size |
-| Neurons             | [Specification](//github.com/ipfn/ipfn-neurons)            | [Messages](//github.com/ipfn/ipfn-neurons-pb) | Size |
-| Synaptic Types      | [Specification](//github.com/ipfn/ipfn-synaptic-types)     | —                                             | Size |
-| Standard Interfaces | [Specification](//github.com/ipfn/ipfn-neurons-interfaces) | —                                             | Size |
+| Part                | Specification                                              | Messages                                      |
+|---------------------|------------------------------------------------------------|-----------------------------------------------|
+| Graphs              | [Specification](//github.com/ipfn/ipfn-graphs)             | [Messages](//github.com/ipfn/ipfn-graphs-pb)  |
+| Neurons             | [Specification](//github.com/ipfn/ipfn-neurons)            | [Messages](//github.com/ipfn/ipfn-neurons-pb) |
+| Synaptic Types      | [Specification](//github.com/ipfn/ipfn-synaptic-types)     | —                                             |
+| Standard Interfaces | [Specification](//github.com/ipfn/ipfn-neurons-interfaces) | —                                             |
+
 
 ## Examples
 
