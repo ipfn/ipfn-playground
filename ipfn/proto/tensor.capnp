@@ -18,20 +18,20 @@
 
 struct Tensor {
   value :union {
-    voidValue     @0  :List(Void);
-    boolValue     @1  :List(Bool);
-    int8Value     @2  :List(Int8);
-    int16Value    @3  :List(Int16);
-    int32Value    @4  :List(Int32);
-    int64Value    @5  :List(Int64);
-    uint8Value    @6  :List(UInt8);
-    uint16Value   @7  :List(UInt16);
-    uint32Value   @8  :List(UInt32);
-    uint64Value   @9  :List(UInt64);
-    float32Value  @10 :List(Float32);
-    float64Value  @11 :List(Float64);
-    textValue     @12 :List(Text);
-    dataValue     @13 :List(Data);
-    listValue     @14 :List(Tensor);
+    voids     @0  :List(Void);
+    bools     @1  :List(Bool);
+    int8s     @2  :List(Int8);
+    int16s    @3  :List(Int16);
+    int32s    @4  :List(Int32);
+    int64s    @5  :List(Int64);
+    uint8s    @6  :List(UInt8);
+    uint16s   @7  :List(UInt16);
+    uint32s   @8  :List(UInt32);
+    uint64s   @9  :List(UInt64);
+    float32s  @10 :List(Float32);
+    float64s  @11 :List(Float64);
+    text      @12 :List(Text);
+    data      @13 :List(Data);
+    list      @14 :List(Tensor);
   }
 }
