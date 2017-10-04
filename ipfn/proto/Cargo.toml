@@ -1,0 +1,15 @@
+[package]
+name = "ipfn_proto"
+version = "0.1.0"
+authors = ["Lukasz Kurowski <crackcomm@gmail.com>"]
+build = "build.rs"
+
+[lib]
+name = "ipfn_proto"
+path = "lib.rs"
+
+[build-dependencies]
+capnpc = "0.8"
+
+[dependencies]
+capnp = "0.8"

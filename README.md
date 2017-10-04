@@ -5,20 +5,6 @@
 
 IPFN – Interplanetary Functions Project.
 
-## Runtime
-
-This repository contains code for experimental build of IPFN on top of tensorflow runtime.
-
-## Protocol buffers messages
-
-IPFN graphs and operations definitions are tensorflow protocol buffers messages.
-
-| Part                | Messages   |
-|---------------------|------------|
-| Graph               | [Messages](//github.com/ipfn/tensorflow/blob/ipfn/tensorflow/core/framework/graph.proto#L14) |
-| Data Types          | [Messages](//github.com/ipfn/tensorflow/blob/ipfn/tensorflow/core/framework/types.proto#L10) |
-| Operation definition | [Messages](//github.com/ipfn/tensorflow/blob/ipfn/tensorflow/core/framework/op_def.proto#L14) |
-
 <!--
 ## Documentation
 
