@@ -5,6 +5,23 @@
 
 IPFN – Interplanetary Functions Project.
 
+## Cells
+
+Cells have bodies made up of other cells.
+Cell can have a soul which fulfills a purpose.
+Cells can stimulate and produce another cells.
+Cell can contain a memory.
+
+```capnp
+struct Cell {
+  name   @0 :Text;
+  soul   @1 :Text;
+  body   @2 :List(Cell);
+  feed   @4 :List(Text);
+  memory @3 :Tensor;
+}
+```
+
 <!--
 ## Documentation
 
