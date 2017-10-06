@@ -17,7 +17,7 @@ struct Cell {
   name   @0 :Text;
   soul   @1 :Text;
   body   @2 :List(Cell);
-  feed   @4 :List(Text);
+  bonds  @4 :List(Text);
   memory @3 :Tensor;
 }
 ```

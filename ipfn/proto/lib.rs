@@ -22,19 +22,20 @@ mod tests {
     #[test]
     fn it_works() {
         let mut message = ::capnp::message::Builder::new_default();
+
         {
             let mut cell = message.init_root::<cell::Builder>();
 
             {
-                cell.set_id("test");
-                cell.set_op("test");
+                cell.set_name("test");
+                cell.set_soul("test");
             }
 
             let mut cells = cell.init_cells(1);
             
             {
                 let mut cell = cells.borrow().get(0);
-                cell.set_op("test2");
+                cell.set_soul("test2");
             }
         }
 
