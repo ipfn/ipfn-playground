@@ -1,7 +1,9 @@
 # IPFN – Interplanetary Functions
 
 [![IPFN project](https://img.shields.io/badge/project-IPFN-blue.svg?style=flat-square)](//github.com/ipfn)
+[![GoDoc](https://godoc.org/github.com/ipfn/ipfn?status.svg)](https://godoc.org/github.com/ipfn/ipfn)
 [![IPFN Documentation](https://img.shields.io/badge/documentation-IPFN-blue.svg?style=flat-square)](//ipfn.github.io/documentation/)
+[![Circle CI](https://img.shields.io/circleci/project/ipfn/ipfn.svg)](https://circleci.com/gh/ipfn/ipfn)
 
 IPFN – Interplanetary Functions Project.
 
@@ -12,13 +14,14 @@ IPFN – Interplanetary Functions Project.
 * Cells can stimulate and produce another cells.
 * Cell can contain a memory.
 
+### Cell structure
+
 ```capnp
-struct Cell {
-  name   @0 :Text;
-  soul   @1 :Text;
-  body   @2 :List(Cell);
-  bonds  @4 :List(Text);
-  memory @3 :Tensor;
+interface Cell {
+    name?: string;
+    soul?: string;
+    body?: Cell[];
+    memory?: any;
 }
 ```
 
@@ -34,4 +37,4 @@ Repositories containing example neurons are hosted on [ipfn-examples](//github.c
 
 ## Project
 
-This repository is part of [IPFN](//github.com/ipfn) – interplanetary functions project.
+This source code is part of [IPFN](//github.com/ipfn) – interplanetary functions project.
