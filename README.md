@@ -7,14 +7,15 @@
 
 IPFN – Interplanetary Functions Project.
 
-## Cells
+## Install
 
-* Cells have bodies made up of other cells.
-* Cell can have a soul which fulfills a purpose.
-* Cells can stimulate and produce another cells.
-* Cell can contain a memory.
+Implementation of IPFN core with [gRPC service]() daemon can be installed using [Go](//golang.org/).
 
-### Cell structure
+```console
+$ go get -u github.com/ipfn/ipfn
+```
+
+## Cell structure
 
 ```protobuf
 message Cell {
@@ -35,6 +36,12 @@ Documentation for IPFN project is on [ipfn.github.io/documentation](//ipfn.githu
 
 Repositories containing example neurons are hosted on [ipfn-examples](//github.com/ipfn-examples) organization.
 -->
+
+## License
+
+                                 Apache License
+                           Version 2.0, January 2004
+                        http://www.apache.org/licenses/
 
 ## Project
 
