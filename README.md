@@ -15,18 +15,6 @@ Implementation of IPFN core with [gRPC service]() daemon can be installed using 
 $ go get -u github.com/ipfn/ipfn
 ```
 
-## Cell structure
-
-```protobuf
-message Cell {
-  string name = 1;
-  string soul = 2;
-  repeated Cell body = 3;
-  repeated string bonds = 4;
-  google.protobuf.Any memory = 5;
-}
-```
-
 <!--
 ## Documentation
 

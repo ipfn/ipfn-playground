@@ -7,3 +7,23 @@ target/
 *.rs.fmt
 
 Cargo.lock
+
+build/
+node_modules/
+
+yarn.lock
+
+package-lock.json
+
+*.test
+
+main
+
+*.key
+*.pem
+*.crt
+
+**/_vendor*
+
+*.pb.cc
+*.pb.h
