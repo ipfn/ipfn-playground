@@ -1,0 +1,42 @@
+{
+    "name": "@ipfn/cells",
+    "main": "dist/index.js",
+    "version": "0.0.1",
+    "license": "Apache-2.0",
+    "website": "https://github.com/ipfn/ipfn/tree/dev/js/cells",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ipfn/ipfn"
+    },
+    "dependencies": {
+        "@ipfn/protons": "^1.0.0",
+        "multicodec": "^0.2.5"
+    },
+    "devDependencies": {
+        "@types/jest": "^21.1.4",
+        "@types/node": "^8.0.46",
+        "jest": "^21.2.1",
+        "ts-jest": "^21.1.3",
+        "typescript": "^2.5.3"
+    },
+    "contributors": [
+        "Łukasz Kurowski <crackcomm@gmail.com>"
+    ],
+    "jest": {
+        "testMatch": [
+            "**/tests/**/*.spec.ts"
+        ],
+        "moduleFileExtensions": [
+            "js",
+            "ts"
+        ],
+        "transform": {
+            "\\.ts$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+        },
+        "globals": {
+            "ts-jest": {
+                "module": "es6"
+            }
+        }
+    }
+}
