@@ -6,23 +6,28 @@
  * Basic interface of a cell.
  */
 export interface Cell {
-    /**
-     * Returns name of the cell.
-     */
-    name?: string;
+  /**
+   * Name of the cell.
+   */
+  name?: string;
 
-    /**
-     * Returns name of the cell soul.
-     */
-    soul?: string;
+  /**
+   * Name of the cell soul.
+   */
+  soul?: string;
 
-    /**
-     * Returns body of the cell.
-     */
-    body?: Cell[];
+  /**
+   * Memory of the cell.
+   */
+  memory?: any;
 
-    /**
-     * Returns memory of the cell.
-     */
-    memory?: any;
+  /**
+   * Body of the cell.
+   */
+  body?: Cell[];
+
+  /**
+   * Bonds of the cell.
+   */
+  bonds?: string[];
 }

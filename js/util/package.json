@@ -1,24 +1,17 @@
 {
-  "name": "@ipfn/cells",
-  "version": "0.1.0",
-  "description": "IPFN cell interface and codecs.",
+  "name": "@ipfn/util",
+  "version": "0.0.5",
+  "description": "Utilities used across IPFN projects.",
   "keywords": [],
-  "main": "dist/src/index.js",
-  "typings": "dist/src/index.d.ts",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "files": [
-    "dist/src"
+    "dist"
   ],
-  "contributors": [
-    "Łukasz Kurowski <crackcomm@gmail.com>"
-  ],
-  "website": "https://github.com/ipfn/ipfn/tree/dev/js/cells",
+  "author": "Łukasz Kurowski <crackcomm@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ipfn/ipfn/tree/dev/js/cells"
-  },
-  "dependencies": {
-    "@ipfn/protons": "^1.0.3",
-    "multicodec": "^0.2.5"
+    "url": "https://github.com/ipfn/ipfn"
   },
   "license": "Apache-2.0",
   "engines": {
@@ -50,33 +43,39 @@
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 80,
-        "functions": 80,
-        "lines": 90,
-        "statements": 90
+        "branches": 90,
+        "functions": 95,
+        "lines": 95,
+        "statements": 95
       }
     },
     "collectCoverage": true,
     "mapCoverage": true
   },
   "devDependencies": {
-    "@ipfn/util": "0.0.5",
+    "@types/fs-extra": "^4.0.4",
+    "@types/glob": "^5.0.33",
     "@types/jest": "^21.1.0",
-    "@types/node": "^8.0.51",
+    "@types/node": "^8.0.0",
     "colors": "^1.1.2",
     "coveralls": "^3.0.0",
-    "cross-env": "^5.1.1",
-    "jest": "^21.2.1",
+    "cross-env": "^5.0.1",
+    "jest": "^21.0.0",
     "lodash.camelcase": "^4.3.0",
-    "prettier": "^1.8.2",
-    "replace-in-file": "^3.0.0",
+    "prettier": "^1.4.4",
+    "prompt": "^1.0.0",
+    "replace-in-file": "^3.0.0-beta.2",
     "rimraf": "^2.6.1",
-    "ts-jest": "^21.2.1",
+    "ts-jest": "^21.0.0",
     "ts-node": "^3.0.6",
-    "tslint": "^5.8.0",
-    "tslint-config-prettier": "^1.6.0",
+    "tslint": "^5.4.3",
+    "tslint-config-prettier": "^1.1.0",
     "tslint-config-standard": "^7.0.0",
     "typedoc": "^0.9.0",
-    "typescript": "^2.6.1"
+    "typescript": "^2.3.4"
+  },
+  "dependencies": {
+    "fs-extra": "^4.0.2",
+    "glob": "^7.1.2"
   }
 }

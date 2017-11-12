@@ -1,5 +1,7 @@
 
 .vscode/
+.idea/
+.awcache/
 .vagrant/
 
 target/
@@ -8,13 +10,19 @@ target/
 
 Cargo.lock
 
+dist/
+compiled/
 build/
 node_modules/
 
+coverage/
+
 yarn.lock
 
-package-lock.json
+.nyc_output
+.DS_Store
 
+*.log
 *.test
 
 main
@@ -27,3 +35,5 @@ main
 
 *.pb.cc
 *.pb.h
+
+*.gz

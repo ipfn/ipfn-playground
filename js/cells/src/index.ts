@@ -3,4 +3,5 @@
  */
 export * from './cell';
 export * from './codecs';
+export * from './builder';
 export * from './protobuf';
