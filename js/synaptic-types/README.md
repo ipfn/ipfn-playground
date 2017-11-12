@@ -1,9 +1,7 @@
 # IPFN Synaptic Types in JavaScript
 
 [![IPFN project](https://img.shields.io/badge/project-IPFN-blue.svg?style=flat-square)](http://github.com/ipfn)
-[![Dependency Status](https://david-dm.org/ipfn/js-ipfn-synaptic-types.svg?style=flat-square)](https://david-dm.org/ipfn/js-ipfn-synaptic-types)
-[![Dev Dependency Status](https://david-dm.org/ipfn/js-ipfn-synaptic-types/dev-status.svg?style=flat-square)](https://david-dm.org/ipfn/js-ipfn-synaptic-types?type=dev)
-[![Circle CI](https://img.shields.io/circleci/project/ipfn/js-ipfn-synaptic-types.svg)](https://circleci.com/gh/ipfn/js-ipfn-synaptic-types)
+[![npm](https://img.shields.io/npm/v/synaptic-types.svg?maxAge=86400&style=flat-square)](https://www.npmjs.com/package/synaptic-types)
 
 This package exports JavaScript definitions of IPFN **synaptic types**.
 
