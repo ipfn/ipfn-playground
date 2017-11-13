@@ -1,13 +1,15 @@
 {
   "name": "ts-cell",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "IPFN descriptor generator for TypeScript.",
   "keywords": [
     "ipfn"
   ],
+  "bin": "dist/bin/ts-cell.js",
   "main": "dist/src/index.js",
   "typings": "dist/src/index.d.ts",
   "files": [
+    "dist/bin",
     "dist/src"
   ],
   "contributors": [

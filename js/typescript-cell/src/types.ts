@@ -20,13 +20,12 @@ export function typeToCells(type: Type, name?: string): Cell[] {
     const props = type.getProperties()
       .map(prop => {
         const propName = prop.getName();
-        const cells = prop.getDeclarations()
-          .map((decl: PropertySignature) => {
-            // if (propName === 'header') {
-            //   console.log(`${propName}`, decl.getType().getStringIndexType())
-            // }
-
-            return typeToCells(decl.getType(), propName);
+        const cells: Cell[][] = prop.getDeclarations()
+          .map(decl => {
+            if (decl instanceof PropertySignature) {
+              return typeToCells(decl.getType(), propName);
+            }
+            return [];
           });
         return reduceCells(cells);
       })

@@ -17,7 +17,6 @@
     ]
   },
   "include": [
-    "index.ts",
     "bin",
     "src",
     "test"
