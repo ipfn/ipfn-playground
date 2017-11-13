@@ -10,9 +10,9 @@ Go implementation of IPFN core with command line tool and daemon.
 
 | Name | Description   | Documentation |
 |------|---------------|---------------|
-| [cells](http://github.com/ipfn/ipfn) | Cells codecs | [![GoDoc](https://godoc.org/github.com/ipfn/ipfn/go/cells?status.svg)](https://godoc.org/github.com/ipfn/ipfn/go/cells) |
-| [commands](http://github.com/ipfn/ipfn) | CLI commands | [![GoDoc](https://godoc.org/github.com/ipfn/ipfn/go/commands?status.svg)](https://godoc.org/github.com/ipfn/ipfn/go/commands) |
-| [identity](http://github.com/ipfn/ipfn) | Identity utilities | [![GoDoc](https://godoc.org/github.com/ipfn/ipfn/go/identity?status.svg)](https://godoc.org/github.com/ipfn/ipfn/go/identity) |
+| [cells](http://github.com/ipfn/ipfn) | Cells & Codecs | [![GoDoc](https://godoc.org/github.com/ipfn/ipfn/go/cells?status.svg)](https://godoc.org/github.com/ipfn/ipfn/go/cells) |
+| [commands](http://github.com/ipfn/ipfn) | Console Commands | [![GoDoc](https://godoc.org/github.com/ipfn/ipfn/go/commands?status.svg)](https://godoc.org/github.com/ipfn/ipfn/go/commands) |
+| [identity](http://github.com/ipfn/ipfn) | Identity Utilities | [![GoDoc](https://godoc.org/github.com/ipfn/ipfn/go/identity?status.svg)](https://godoc.org/github.com/ipfn/ipfn/go/identity) |
 
 ## License
 

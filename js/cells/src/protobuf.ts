@@ -17,7 +17,7 @@ export const protobuf = protons(`
     string name = 1;
     string soul = 2;
     bytes memory = 3;
-    repeated Cell body = 4;
-    repeated string bonds = 5;
+    repeated string bonds = 4;
+    repeated Cell body = 5;
   }
 `);

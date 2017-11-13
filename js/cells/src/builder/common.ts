@@ -9,8 +9,8 @@ import { Builder, CellOrBuilder } from './builder';
 /**
  * Creates a new instance of Cell Builder.
  */
-export function cell(name?: string, soul?: string): Builder {
-  return new Builder(name, soul);
+export function cell(name?: string): Builder {
+  return new Builder(name);
 }
 
 /**

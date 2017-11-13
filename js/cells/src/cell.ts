@@ -22,12 +22,12 @@ export interface Cell {
   memory?: any;
 
   /**
-   * Body of the cell.
-   */
-  body?: Cell[];
-
-  /**
    * Bonds of the cell.
    */
   bonds?: string[];
+
+  /**
+   * Body of the cell.
+   */
+  body?: Cell[];
 }

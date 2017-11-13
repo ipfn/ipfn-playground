@@ -25,12 +25,9 @@ export class Builder {
    * Constructs a cell builder.
    * @param name Cell name
    */
-  constructor(name?: string, soul?: string) {
+  constructor(name?: string) {
     if (name) {
       this.cell.name = name;
-    }
-    if (soul) {
-      this.cell.soul = soul;
     }
   }
 

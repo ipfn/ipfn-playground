@@ -15,14 +15,12 @@ syntax = "proto3";
 
 package ipfn;
 
-import "google/protobuf/any.proto";
-
-option go_package = "github.com/ipfn/ipfn/ipfn/go/codec/pb;pb";
+option go_package = "github.com/ipfn/ipfn/go/cells/pb;pb";
 
 message Cell {
   string name = 1;
   string soul = 2;
-  repeated Cell body = 3;
+  bytes memory = 3;
   repeated string bonds = 4;
-  google.protobuf.Any memory = 5;
+  repeated Cell body = 5;
 }

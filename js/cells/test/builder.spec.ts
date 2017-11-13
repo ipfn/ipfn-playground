@@ -11,7 +11,7 @@ describe('builder', () => {
       "name": "Counter",
       "soul": "/ipfn/Qm...xyz",
     };
-    expect(cell(json.name, json.soul).build()).toEqual(json);
+    expect(cell(json.name).soul(json.soul).build()).toEqual(json);
   })
   it('should set cell bonds', async () => {
     const json = {
@@ -21,7 +21,8 @@ describe('builder', () => {
         "input:test"
       ]
     };
-    const res = cell(json.name, json.soul)
+    const res = cell(json.name)
+      .soul(json.soul)
       .bonds(json.bonds)
       .build();
     expect(res).toEqual(json);
@@ -32,7 +33,8 @@ describe('builder', () => {
       "soul": "/ipfn/Qm...xyz",
       "memory": "test"
     };
-    const res = cell(json.name, json.soul)
+    const res = cell(json.name)
+      .soul(json.soul)
       .memory(json.memory)
       .build();
     expect(res).toEqual(json);
