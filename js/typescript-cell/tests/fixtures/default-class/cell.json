@@ -1,0 +1,44 @@
+{
+  "name": "Counter",
+  "soul": "/core/class",
+  "body": [
+    {
+      "name": "increment",
+      "soul": "/core/method",
+      "body": [
+        {
+          "soul": "/core/input",
+          "body": [
+            {
+              "name": "count",
+              "soul": "/synaptic/number"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "count",
+      "soul": "/synaptic/number"
+    },
+    {
+      "name": "countGetter",
+      "soul": "/synaptic/number"
+    },
+    {
+      "name": "countSetter",
+      "soul": "/core/method",
+      "body": [
+        {
+          "soul": "/core/input",
+          "body": [
+            {
+              "name": "count",
+              "soul": "/synaptic/number"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

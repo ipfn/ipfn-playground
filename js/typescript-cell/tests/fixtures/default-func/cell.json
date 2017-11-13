@@ -1,0 +1,27 @@
+{
+  "name": "greet",
+  "soul": "/core/function",
+  "body": [
+    {
+      "soul": "/core/input",
+      "body": [
+        {
+          "name": "name",
+          "soul": "/synaptic/string"
+        },
+        {
+          "name": "name",
+          "soul": "/synaptic/number"
+        }
+      ]
+    },
+    {
+      "soul": "/core/output",
+      "body": [
+        {
+          "soul": "/synaptic/string"
+        }
+      ]
+    }
+  ]
+}

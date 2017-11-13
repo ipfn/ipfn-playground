@@ -1,0 +1,63 @@
+{
+  "body": [
+    {
+      "name": "remove2",
+      "soul": "/core/namespace",
+      "body": [
+        {
+          "name": "test2",
+          "soul": "/core/function"
+        }
+      ]
+    },
+    {
+      "name": "remove",
+      "soul": "/core/namespace",
+      "body": [
+        {
+          "name": "test",
+          "soul": "/core/function"
+        }
+      ]
+    },
+    {
+      "name": "example",
+      "soul": "/core/namespace",
+      "body": [
+        {
+          "name": "Counter",
+          "soul": "/core/class",
+          "body": [
+            {
+              "name": "increment",
+              "soul": "/core/method",
+              "body": [
+                {
+                  "soul": "/core/input",
+                  "body": [
+                    {
+                      "name": "count",
+                      "soul": "/synaptic/number"
+                    }
+                  ]
+                },
+                {
+                  "soul": "/core/output",
+                  "body": [
+                    {
+                      "soul": "/synaptic/number"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "count",
+              "soul": "/synaptic/number"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

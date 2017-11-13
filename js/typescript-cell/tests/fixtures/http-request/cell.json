@@ -1,0 +1,63 @@
+{
+  "name": "http",
+  "soul": "/core/namespace",
+  "body": [
+    {
+      "name": "request",
+      "soul": "/core/function",
+      "body": [
+        {
+          "soul": "/core/input",
+          "body": [
+            {
+              "name": "request",
+              "body": [
+                {
+                  "name": "url",
+                  "body": [
+                    {
+                      "name": "scheme",
+                      "soul": "/synaptic/string"
+                    },
+                    {
+                      "name": "host",
+                      "soul": "/synaptic/string"
+                    },
+                    {
+                      "name": "path",
+                      "soul": "/synaptic/string"
+                    },
+                    {
+                      "name": "query",
+                      "soul": "/synaptic/string"
+                    }
+                  ]
+                },
+                {
+                  "name": "method",
+                  "soul": "/synaptic/string"
+                },
+                {
+                  "name": "header",
+                  "body": []
+                },
+                {
+                  "name": "body",
+                  "soul": "/synaptic/string"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "soul": "/core/output",
+          "body": [
+            {
+              "soul": "/synaptic/Promise<http.Response>"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
