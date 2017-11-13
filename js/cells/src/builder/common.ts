@@ -36,12 +36,12 @@ export const string = (name: string) => cell(name).soul('/synaptic/string');
 /**
  * Constructs a cell with `/core/input` soul.
  */
-export const input = (body: CellOrBuilder[]) => cell('input').soul('/core/input').body(body);
+export const input = (body: CellOrBuilder[]) => cell().soul('/core/input').body(body);
 
 /**
  * Constructs a cell with `/core/output` soul.
  */
-export const output = (body: CellOrBuilder[]) => cell('output').soul('/core/output').body(body);
+export const output = (body: CellOrBuilder[]) => cell().soul('/core/output').body(body);
 
 /**
  * Constructs a cell with `/core/method` soul.

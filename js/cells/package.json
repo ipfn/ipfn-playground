@@ -1,8 +1,10 @@
 {
   "name": "@ipfn/cells",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "IPFN cell interface and codecs.",
-  "keywords": [],
+  "keywords": [
+    "ipfn"
+  ],
   "main": "dist/src/index.js",
   "typings": "dist/src/index.d.ts",
   "files": [
@@ -17,7 +19,7 @@
     "url": "https://github.com/ipfn/ipfn/tree/dev/js/cells"
   },
   "dependencies": {
-    "@ipfn/protons": "^1.0.3",
+    "@ipfn/protons": "^1.0.4",
     "multicodec": "^0.2.5"
   },
   "license": "Apache-2.0",
@@ -50,7 +52,7 @@
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 80,
+        "branches": 75,
         "functions": 80,
         "lines": 90,
         "statements": 90

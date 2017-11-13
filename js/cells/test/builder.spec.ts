@@ -63,7 +63,6 @@ describe('builder', () => {
           "soul": "/core/method",
           "body": [
             {
-              "name": "input",
               "soul": "/core/input",
               "body": [
                 {
@@ -73,7 +72,6 @@ describe('builder', () => {
               ]
             },
             {
-              "name": "output",
               "soul": "/core/output",
               "body": [
                 {
