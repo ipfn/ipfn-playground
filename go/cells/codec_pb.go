@@ -51,10 +51,6 @@ type cellProtoBuf struct {
 }
 
 func newProtoBufCell(c Cell) (_ *pb.Cell, err error) {
-	mem, err := pb.Memory(c.Memory())
-	if err != nil {
-		return
-	}
 	cellBody := c.Body()
 	body := make([]*pb.Cell, len(cellBody))
 	for n, child := range cellBody {
@@ -68,7 +64,7 @@ func newProtoBufCell(c Cell) (_ *pb.Cell, err error) {
 		Soul:   c.Soul(),
 		Body:   body,
 		Bonds:  c.Bonds(),
-		Memory: mem,
+		Memory: c.Memory().([]byte),
 	}, nil
 }
 
@@ -101,7 +97,7 @@ func (cell *cellProtoBuf) Bonds() []string {
 }
 
 // Memory - Returns memory of the cell.
-// BUG(crackcomm): this returns *google_protobuf.Any
+// BUG(crackcomm): this returns byte array
 func (cell *cellProtoBuf) Memory() interface{} {
 	return cell.GetMemory()
 }
