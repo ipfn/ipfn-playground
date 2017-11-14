@@ -26,11 +26,13 @@ export const buffer = (name: string) => cell(name).soul('/synaptic/buffer');
 /**
  * Constructs a cell with `/synaptic/number` soul.
  */
+// tslint:disable-next-line:variable-name
 export const number = (name: string) => cell(name).soul('/synaptic/number');
 
 /**
  * Constructs a cell with `/synaptic/string` soul.
  */
+// tslint:disable-next-line:variable-name
 export const string = (name: string) => cell(name).soul('/synaptic/string');
 
 /**

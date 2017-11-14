@@ -19,7 +19,7 @@ export function encodeCell(cell: Cell): Buffer {
  * Cell can be a serialized JSON or protobuf.
  */
 export function decodeCell(body: string | Buffer): Cell {
-  if (!(body instanceof Buffer) && body.length != 0 && body[0] === '{') {
+  if (!(body instanceof Buffer) && body.length !== 0 && body[0] === '{') {
     return JSON.parse(body);
   }
   const buff = body instanceof Buffer ? body : Buffer.from(body);
@@ -29,6 +29,6 @@ export function decodeCell(body: string | Buffer): Cell {
       // TODO(crackcomm): memory
       return protobuf.Cell.decode(multicodec.rmPrefix(buff));
     default:
-      throw `multicodec not recognized: "${prefix}"`;
+      throw new Error(`multicodec not recognized: "${prefix}"`);
   }
 }
