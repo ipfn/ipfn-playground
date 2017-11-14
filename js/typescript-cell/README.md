@@ -39,4 +39,4 @@ See command line entry [bin/ts-cell.ts](bin/ts-cell.ts) code to see example usag
 
 ## Project
 
-This source code is part of [IPFN](//github.com/ipfn) – interplanetary functions project.
+This source code is part of [IPFN](https://github.com/ipfn) – interplanetary functions project.

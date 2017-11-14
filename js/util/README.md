@@ -1,7 +1,7 @@
 # @ipfn/util: IPFN util JavaScript
 
-[![IPFN project](https://img.shields.io/badge/project-IPFN-blue.svg?style=flat-square)](//github.com/ipfn)
-[![npm](https://img.shields.io/npm/v/@ipfn/util.svg?maxAge=86400&style=flat-square)](https://www.npmjs.com/package/@ipfn/util)
+[![IPFN project](https://img.shields.io/badge/project-IPFN-blue.svg?style=flat-square)](https://github.com/ipfn)
+[![npm](https://img.shields.io/npm/v/@ipfn/util.svg?maxAge=8640&style=flat-square)](https://www.npmjs.com/package/@ipfn/util)
 
 Utilities used across IPFN projects.
 
@@ -21,4 +21,4 @@ $ npm install --save @ipfn/util
 
 ## Project
 
-This source code is part of [IPFN](//github.com/ipfn) – interplanetary functions project.
+This source code is part of [IPFN](https://github.com/ipfn) – interplanetary functions project.
