@@ -1,9 +1,9 @@
-# @ipfn/synaptic: JavaScript codecs for IPFN synaptic types
+# JavaScript synaptic types definition table
 
 [![IPFN project](https://img.shields.io/badge/project-IPFN-blue.svg?style=flat-square)](http://github.com/ipfn)
 [![npm](https://img.shields.io/npm/v/synaptic-types.svg?maxAge=8640&style=flat-square)](https://www.npmjs.com/package/synaptic-types)
 
-This package provides JavaScript implementation of codecs to read and write IPFN **synaptic types**.
+This package provides JavaScript definition table of IPFN **synaptic types**.
 
 ## Synaptic types
 
