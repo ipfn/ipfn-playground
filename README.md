@@ -1,16 +1,16 @@
-# @ipfn/cells: IPFN cells JavaScript
+# @ipfn/cell-codec-pb: JavaScript IPFN Cell Protocol Buffers codec
 
 [![IPFN project](https://img.shields.io/badge/project-IPFN-blue.svg?style=flat-square)](https://github.com/ipfn)
-[![npm](https://img.shields.io/npm/v/@ipfn/cells.svg?maxAge=8640&style=flat-square)](https://www.npmjs.com/package/@ipfn/cells)
+[![npm](https://img.shields.io/npm/v/@ipfn/cell-codec-pb.svg?maxAge=8640&style=flat-square)](https://www.npmjs.com/package/@ipfn/cell-codec-pb)
 
-Interface of a cell and [codecs](https://github.com/ipfn/ipfn/blob/dev/protobuf/cell.proto).
+IPFN Cell Protocol Buffers codec in JavaScript.
 
 ## Install
 
 In node.js project directory run:
 
 ```console
-$ npm install --save @ipfn/cells
+$ npm install --save @ipfn/cell-codec-pb
 ```
 
 ## License
