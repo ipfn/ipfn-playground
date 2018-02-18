@@ -1,0 +1,32 @@
+{
+  "name": "@ipfn/cell",
+  "version": "0.0.1",
+  "description": "IPFN cell interface for TypeScript",
+  "keywords": [
+    "ipfn"
+  ],
+  "main": "dist/src/index.js",
+  "typings": "dist/src/index.d.ts",
+  "files": [
+    "dist/src"
+  ],
+  "contributors": [
+    "Łukasz Kurowski <crackcomm@gmail.com>"
+  ],
+  "website": "https://github.com/ipfn/ts-ipfn-cell",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ipfn/ts-ipfn-cell"
+  },
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "rimraf": "^2.6.2"
+  }
+}
