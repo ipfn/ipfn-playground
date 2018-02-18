@@ -7,19 +7,42 @@ This package provides JavaScript implementation of codecs to read and write IPFN
 
 ## Synaptic types
 
-| IPFN Name | String    | Type             |
-|-----------|-----------|------------------|
-| Bool      | bool      | boolean          |
-| Number    | number    | number           |
-| String    | string    | string           |
+Currently this relies heavily on protocol buffers and it's clearly work-in-progress.
+
+| Name      | Type       | Done |
+|-----------|------------|------|
+| bool      | boolean    | ✓    |
+| number    | number     | ✓    |
+| string    | string     | ✓    |
+| float     | Number     | ✗    |
+| double    | Number     | ✗    |
+| sfixed32  | Number     | ✗    |
+| fixed32   | Number     | ✗    |
+| int32     | Number     | ✗    |
+| int64     | Number     | ✗    |
+| uint32    | Number     | ✗    |
+| uint64    | Number     | ✗    |
+| uint128   | BigNumber  | ✗    |
+| uint256   | BigNumber  | ✗    |
+| sint64    | Number     | ✗    |
+| sint32    | Number     | ✗    |
+| varint    | Number     | ✗    |
 
 ## Install
 
 To include in node.js project in its directory run:
 
 ```console
-$ npm install --save @ipfn/synaptic
+$ npm install --save synaptic-types
 ```
+
+## Notes
+
+Possibilites in the future include `enum`.
+
+## References
+
+* [Protocol Buffers](https://developers.google.com/protocol-buffers/)
 
 ## License
 

@@ -1,16 +1,19 @@
 {
-  "name": "@ipfn/synaptic",
-  "version": "0.1.0",
-  "description": "IPFN synaptic types codecs for JavaScript.",
+  "name": "synaptic-types",
+  "version": "0.2.0",
+  "description": "Synaptic types",
+  "license": "Apache-2.0",
+  "files": [
+    "dist/index.js",
+    "dist/index.d.ts"
+  ],
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
-  "website": "https://github.com/ipfn/ipfn/tree/dev/js/synaptic",
+  "website": "https://github.com/ipfn/js-synaptic-types",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ipfn/ipfn/tree/dev/js/synaptic"
+    "url": "https://github.com/ipfn/js-synaptic-types"
   },
-  "dependencies": {},
-  "license": "Apache-2.0",
   "engines": {
     "node": ">=6.0.0"
   },
@@ -19,42 +22,7 @@
     "typescript": "next"
   },
   "scripts": {
-    "lint": "tslint -t codeFrame 'src/**/*.ts' 'test/**/*.ts'",
-    "prebuild": "npm run lint && rimraf dist",
-    "build": "tsc && typedoc --out dist/docs --target es6 --theme minimal src",
-    "start": "tsc -w",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:prod": "npm run build && npm run test -- --coverage --no-cache",
-    "report-coverage": "cat ./coverage/lcov.info | coveralls"
-  },
-  "jest": {
-    "transform": {
-      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
-    },
-    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js"
-    ],
-    "coveragePathIgnorePatterns": [
-      "/node_modules/",
-      "/test/"
-    ],
-    "coverageThreshold": {
-      "global": {
-        "branches": 90,
-        "functions": 95,
-        "lines": 95,
-        "statements": 95
-      }
-    },
-    "collectCoverage": true,
-    "mapCoverage": true
-  },
-  "files": [
-    "dist/index.js",
-    "dist/index.d.ts"
-  ]
+    "prebuild": "rimraf dist",
+    "build": "tsc"
+  }
 }
