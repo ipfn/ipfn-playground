@@ -45,7 +45,12 @@ func NewMnemonic(entropy []byte) (string, error) {
 // NewSeed - Creates a new key generation seed from mnemonic and salt.
 func NewSeed(mnemonic, salt []byte) []byte {
 	salt = append([]byte("mnemonic"), salt[:]...)
-	return pbkdf2.Key(mnemonic, salt, 2048, 64, sha512.New)
+	return NewCustomSeed(mnemonic, salt, 2048, 64)
+}
+
+// NewCustomSeed - Creates a new key generation seed from mnemonic and salt.
+func NewCustomSeed(mnemonic, salt []byte, iter, size int) []byte {
+	return pbkdf2.Key(mnemonic, salt, iter, size, sha512.New)
 }
 
 // NewMaster - Creates a new master key from seed.
