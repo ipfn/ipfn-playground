@@ -97,6 +97,6 @@ func indexKey(key *hdkeychain.ExtendedKey, index uint32) string {
 		log.Fatal(err)
 	}
 
-	addr, _ := acc.Address(&parachaincfg.MainNetParamsms)
+	addr, _ := acc.Address(&chaincfg.MainNetParams)
 	return addr.String()
 }

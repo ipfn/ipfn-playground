@@ -13,7 +13,7 @@ IPFN HD key chain wallet derivation helpers.
 * [BIP0043](https://github.com/bitcoin/bips/blob/master/bip-0043.mediawiki) - Purpose Field for Deterministic Wallets
 * [BIP0044](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki) - Multi-Account Hierarchy for Deterministic Wallets
 * [SLIP-0044](https://github.com/satoshilabs/slips/blob/master/slip-0044.md) - Registered coin types for BIP-0044
-* [Mnemonic code converter](https://iancoleman.io/bip39/) - compatibility in browser
+* [Mnemonic code converter](https://iancoleman.io/bip39/) - Browser UI implementation
 
 ## License
 
