@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package multicodec
+package codecs
 
 import "github.com/ipfn/go-ipfn-cell"
 
