@@ -17,8 +17,8 @@ package cellmem
 import (
 	cid "github.com/ipfs/go-cid"
 
-	"github.com/ipfn/go-ipfn-cell"
-	"github.com/ipfn/go-ipfn-cell-pb"
+	cell "github.com/ipfn/go-ipfn-cell"
+	cellcid "github.com/ipfn/go-ipfn-cell-cid"
 )
 
 // Cell - In-memory cell.
@@ -41,7 +41,7 @@ func (cell *Cell) CID() (*cid.Cid, error) {
 	if cell.cid != nil {
 		return cell.cid, nil
 	}
-	return cellpb.CellCID(cell)
+	return cellcid.CID(cell)
 }
 
 // Memory - Returns memory of the cell.
