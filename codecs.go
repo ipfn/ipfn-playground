@@ -26,5 +26,3 @@ func CodecByID(id uint64) (codec Codec, ok bool) {
 	codec, ok = codecs[id]
 	return
 }
-
-// TODO: func CodecByName()
