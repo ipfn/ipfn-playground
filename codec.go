@@ -20,8 +20,8 @@ import (
 
 	"github.com/gogo/protobuf/jsonpb"
 
-	"github.com/ipfn/go-ipfn/cells"
-	"github.com/ipfn/go-ipfn/cells/codecs/cellpb"
+	cell "github.com/ipfn/go-ipfn-cell"
+	cellpb "github.com/ipfn/go-ipfn-cell-pb"
 )
 
 // Codec - Protocol buffers cells codec.
@@ -37,8 +37,8 @@ var (
 )
 
 // Encode - Encodes a cell.
-func Encode(cell cells.Cell) ([]byte, error) {
-	switch msg := cell.(type) {
+func Encode(c cell.Cell) ([]byte, error) {
+	switch msg := c.(type) {
 	case *cellpb.CellWrapper:
 		var buf bytes.Buffer
 		if err := marshaler.Marshal(&buf, msg.Cell); err != nil {
@@ -46,7 +46,7 @@ func Encode(cell cells.Cell) ([]byte, error) {
 		}
 		return buf.Bytes(), nil
 	default:
-		c, err := cellpb.NewCell(cell)
+		c, err := cellpb.NewCell(c)
 		if err != nil {
 			return nil, err
 		}
@@ -59,21 +59,21 @@ func Encode(cell cells.Cell) ([]byte, error) {
 }
 
 // Decode - Decodes a cell.
-func Decode(data []byte) (_ cells.Cell, err error) {
-	cell := new(cellpb.Cell)
-	err = unmarshaler.Unmarshal(bytes.NewReader(data), cell)
+func Decode(data []byte) (_ cell.Cell, err error) {
+	c := new(cellpb.Cell)
+	err = unmarshaler.Unmarshal(bytes.NewReader(data), c)
 	if err != nil {
 		return
 	}
-	return cellpb.NewCellWrapper(cell), nil
+	return cellpb.NewCellWrapper(c), nil
 }
 
 // Encode - Encodes a cell.
-func (codec *Codec) Encode(cell cells.Cell) (_ []byte, err error) {
-	return Encode(cell)
+func (codec *Codec) Encode(c cell.Cell) (_ []byte, err error) {
+	return Encode(c)
 }
 
 // Decode - Decodes a cell.
-func (codec *Codec) Decode(data []byte) (_ cells.Cell, err error) {
+func (codec *Codec) Decode(data []byte) (_ cell.Cell, err error) {
 	return Decode(data)
 }

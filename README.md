@@ -8,7 +8,7 @@ Go implementation of IPFN cell JSON codec.
 
 ## See also
 
-* [go-ipfn-cell-multicodec](https://github.com/ipfn/go-ipfn-cell-multicodec)
+* [go-ipfn-cell-codecs](https://github.com/ipfn/go-ipfn-cell-codecs)
 
 ## License
 
