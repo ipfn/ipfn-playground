@@ -14,15 +14,40 @@
 
 package codecs
 
-var codecs = make(map[uint64]Codec)
+import cid "github.com/ipfs/go-cid"
 
-// Register - Registers codec by codec ID.
-func Register(id uint64, codec Codec) {
-	codecs[id] = codec
+// Codecs - Maps the prefix of a codec to a codec.
+var Codecs = map[uint64]Codec{}
+
+// CodecsByName - Maps the name of a codec to a codec.
+var CodecsByName = map[string]Codec{}
+
+// CodecsIDs - Maps the name of a codec to its type.
+var CodecsIDs = map[string]uint64{}
+
+// CodecToStr - Maps the numeric codec to its name.
+var CodecToStr = map[uint64]string{}
+
+// Register - Registers codec in cell codec registry and `go-cid` codec types.
+func Register(name string, id uint64, codec Codec) {
+	// Register codecs
+	Codecs[id] = codec
+	CodecsByName[name] = codec
+	CodecsIDs[name] = id
+	CodecToStr[id] = name
+	// Content ID package registration
+	cid.Codecs[name] = id
+	cid.CodecToStr[id] = name
 }
 
-// CodecByID - Returns codec by ID.
-func CodecByID(id uint64) (codec Codec, ok bool) {
-	codec, ok = codecs[id]
+// CodecByPrefix - Returns codec by ID prefix.
+func CodecByPrefix(id uint64) (codec Codec, ok bool) {
+	codec, ok = Codecs[id]
+	return
+}
+
+// CodecByName - Returns codec by name.
+func CodecByName(name string) (codec Codec, ok bool) {
+	codec, ok = CodecsByName[name]
 	return
 }
