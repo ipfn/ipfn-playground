@@ -8,12 +8,15 @@ Go IPFN Cell CID helpers package.
 
 ## See also
 
-* [go-ipfn-cell-pb](https://github.com/ipfn/go-ipfn-cell-pb)
-* [go-ipfn-cell-codecs](https://github.com/ipfn/go-ipfn-cell-codecs)
+* [go-ipfn-cell-pb](https://github.com/ipfn/go-ipfn-cell-pb) - IPFN Cell Protocol Buffers
+* [go-ipfn-cell-codecs](https://github.com/ipfn/go-ipfn-cell-codecs) - IPFN Cell Codecs
+* [js-ipfn-cell-cid](https://github.com/ipfn/js-ipfn-cell-cid) - JavaScript implementation
 
 ## References
 
-* [cid](https://github.com/ipld/cid)
+* [CID](https://github.com/ipld/cid) - Content ID Specification
+* [multicodec](https://github.com/multiformats/multicodec) - Multicodec Specification
+* [multihash](https://github.com/multiformats/multihash) - Multihash Specification
 
 ## License
 
