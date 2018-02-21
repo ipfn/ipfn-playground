@@ -15,9 +15,9 @@
 package keywallet
 
 import (
-	"crypto/sha512"
-
-	"golang.org/x/crypto/pbkdf2"
+	"fmt"
+	"strconv"
+	"strings"
 
 	"github.com/btcsuite/btcd/chaincfg"
 	"github.com/btcsuite/btcutil/hdkeychain"
@@ -53,9 +53,67 @@ func NewCustomSeed(mnemonic, salt []byte, iter, size int) []byte {
 }
 
 // NewMaster - Creates a new master key from seed.
-func NewMaster(seed []byte, net *chaincfg.Params) (*hdkeychain.ExtendedKey, error) {
+func NewMaster(seed []byte, net *chaincfg.Params) (*ExtendedKey, error) {
 	if net == nil {
 		net = &chaincfg.MainNetParams
 	}
-	return hdkeychain.NewMaster(seed, net)
+	key, err := hdkeychain.NewMaster(seed, net)
+	if err != nil {
+		return nil, err
+	}
+	return &ExtendedKey{ExtendedKey: key}, nil
+}
+
+// DerivePath - Derives string BIP32 path like `m/44/0/1/0/0`.
+// Occurrences of suffixes (`'`) in number elements are cleared.
+// It treats first three values by adding the derivation prefix.
+// Stupid simple derivation mechanism without need for validation.
+func DerivePath(key *ExtendedKey, path string) (res *ExtendedKey, err error) {
+	elems := strings.Split(path, "/")
+	if len(elems) > 0 && elems[0] == "" {
+		elems = elems[1:]
+	}
+	if len(elems) > 0 && elems[0] == "m" {
+		elems = elems[1:]
+	} else {
+		return nil, fmt.Errorf("invalid derivation path %q", path)
+	}
+	if len(elems) == 0 {
+		return nil, fmt.Errorf("empty derivation path %q", path)
+	}
+	res = key
+	for index, value := range elems {
+		v, err := strconv.Atoi(strings.TrimRight(value, "'"))
+		if err != nil {
+			return nil, fmt.Errorf("wrong derivation path element %q in %q", value, path)
+		}
+		if index < 3 {
+			res, err = res.Derive(uint32(v))
+		} else {
+			res, err = res.Child(uint32(v))
+		}
+		if err != nil {
+			return nil, err
+		}
+	}
+	return
+}
+
+// ExtendedKey - Hierarchical deterministic wallet key derivation.
+type ExtendedKey struct {
+	*hdkeychain.ExtendedKey
+}
+
+// Derive - Derives extended key child by adding 0x80000000 (2^31) to path.
+func (key *ExtendedKey) Derive(path uint32) (*ExtendedKey, error) {
+	return key.Child(hdkeychain.HardenedKeyStart + path)
+}
+
+// Child - Derives extended key child.
+func (key *ExtendedKey) Child(path uint32) (*ExtendedKey, error) {
+	k, err := key.ExtendedKey.Child(path)
+	if err != nil {
+		return nil, err
+	}
+	return &ExtendedKey{ExtendedKey: k}, nil
 }
