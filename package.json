@@ -1,6 +1,6 @@
 {
   "name": "@ipfn/cell-pb",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "IPFN Cell Protocol Buffers codec.",
   "keywords": [
     "ipfn"
