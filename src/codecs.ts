@@ -3,7 +3,7 @@
  * 
  * @license Apache-2.0
  */
-import varintTable from 'multicodec/src/varint-table';
+import * as varintTable from 'multicodec/src/varint-table';
 import { varintBufferEncode } from 'multicodec/src/util';
 import { Cell } from '@ipfn/cell';
 import { Codec } from './codec';
