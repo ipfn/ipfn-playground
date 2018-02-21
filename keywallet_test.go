@@ -56,14 +56,7 @@ func TestDerivePath(t *T) {
 	}
 
 	for index := uint32(0); index < 3; index++ {
-		path := fmt.Sprintf("m/44/0/123/123/%d", index)
-		acc, _ := DerivePath(masterPrivKey, path)
-		addr, _ := acc.Address(&chaincfg.MainNetParams)
-		assert.Equal(t, addr.String(), expected[index])
-	}
-
-	for index := uint32(0); index < 3; index++ {
-		path := fmt.Sprintf("/m/44'/0'/123'/123/%d", index)
+		path := fmt.Sprintf("m/44'/0'/123'/123/%d", index)
 		acc, _ := DerivePath(masterPrivKey, path)
 		addr, _ := acc.Address(&chaincfg.MainNetParams)
 		assert.Equal(t, addr.String(), expected[index])
@@ -89,28 +82,28 @@ func TestHDKeyChain(t *T) {
 	}
 
 	// Purpose = bip44
-	// /m/44
+	// /m/44'
 	fourtyFour, err := masterPrivKey.Derive(44)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	// Cointype = bitcoin
-	// /m/44/0
+	// /m/44'/0'
 	key, err := fourtyFour.Derive(0)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	// Account = 1
-	// /m/44/0/1
+	// /m/44'/0'/1'
 	account, err := key.Derive(1)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	// Change(0) = external
-	// /m/44/0/1/0
+	// /m/44'/0'/1'/0
 	external, err := account.Child(0)
 	if err != nil {
 		log.Fatal(err)
@@ -129,7 +122,7 @@ func TestHDKeyChain(t *T) {
 }
 
 func indexKey(key *ExtendedKey, index uint32) string {
-	// /m/44/0/1/0/{index}
+	// /m/44'/0'/1'/0/{index}
 	acc, err := key.Child(index)
 	if err != nil {
 		log.Fatal(err)

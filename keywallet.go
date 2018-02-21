@@ -64,10 +64,7 @@ func NewMaster(seed []byte, net *chaincfg.Params) (*ExtendedKey, error) {
 	return &ExtendedKey{ExtendedKey: key}, nil
 }
 
-// DerivePath - Derives string BIP32 path like `m/44/0/1/0/0`.
-// Occurrences of suffixes (`'`) in number elements are cleared.
-// It treats first three values by adding the derivation prefix.
-// Stupid simple derivation mechanism without need for validation.
+// DerivePath - Derives string BIP32 path like `m/44'/0'/1'/0/0`.
 func DerivePath(key *ExtendedKey, path string) (res *ExtendedKey, err error) {
 	elems := strings.Split(path, "/")
 	if len(elems) > 0 && elems[0] == "" {
@@ -82,12 +79,12 @@ func DerivePath(key *ExtendedKey, path string) (res *ExtendedKey, err error) {
 		return nil, fmt.Errorf("empty derivation path %q", path)
 	}
 	res = key
-	for index, value := range elems {
+	for _, value := range elems {
 		v, err := strconv.Atoi(strings.TrimRight(value, "'"))
 		if err != nil {
 			return nil, fmt.Errorf("wrong derivation path element %q in %q", value, path)
 		}
-		if index < 3 {
+		if strings.HasSuffix(value, "'") {
 			res, err = res.Derive(uint32(v))
 		} else {
 			res, err = res.Child(uint32(v))
