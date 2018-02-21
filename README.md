@@ -15,7 +15,7 @@ $ npm install --save @ipfn/cell-pb
 
 ## See also
 
-* [@ipfn/cell-multicodec](https://github.com/ipfn/js-ipfn-cell-multicodec)
+* [@ipfn/cell-codecs](https://github.com/ipfn/js-ipfn-cell-codecs)
 
 ## License
 
