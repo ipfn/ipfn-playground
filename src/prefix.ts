@@ -2,48 +2,44 @@
  * @license Apache-2.0
  */
 import * as multicodec from 'multicodec';
-import varintTable from 'multicodec/src/varint-table';
-import { varintBufferEncode, varintBufferDecode } from 'multicodec/src/util';
-
+import { varintBufferDecode } from 'multicodec/src/util';
 import { Cell } from '@ipfn/cell';
-import { protobuf } from './protobuf';
-import { BasicCell } from './types';
+import { Bytes, Codec } from './codec';
+import { codecByHex, codecByName } from './codecs';
 
 /**
- * 
+ * Prepends multicodec prefix to a message.
+ * It works only for cell codecs not others.
  */
-export function extractPrefix(body: string | Buffer) {
-  // Check if message is a JSON string
-  if (!(body instanceof Buffer) && body.length !== 0 && body[0] === '{') {
-    return JSON.parse(body);
+export function prepend(body: Buffer, name: string): Buffer {
+  const codec = codecByName(name);
+  if (!codec.hex) {
+    return body;
   }
-  // Converts string into a buffer always
-  const buff = body instanceof Buffer ? body : Buffer.from(body);
-  // Read multicodec prefix from message body
-  if (!prefix) {
-    prefix = varintBufferDecode(buff).toString('hex');
-  }
-  // Deserialize message depending on prefix
-  switch (prefix) {
-    case cellPbV1.hex:
-      return protobuf.Cell.decode(multicodec.rmPrefix(buff));
-    default:
-      throw new Error(`cell codec not recognized: "${prefix}"`);
-  }
+  return multicodec.addPrefix(name, body);
 }
 
-export function isString(body: string | Buffer) {
-  if (body instanceof Buffer) {
-    return false;
+/**
+ * Extracts multicodec prefix from message.
+ * Returns codec name and message buffer.
+ * Throws if codec prefix was not found.
+ */
+export function splitPrefix(body: Bytes): [Codec, Bytes] {
+  if (isJSONObject(body)) {
+    const codec = codecByName('cell-json-v1');
+    return [codec, body];
   }
-  if ( && body.length !== 0 && body[0] === '{') {
-    return JSON.parse(body);
-  }
+  const buffer = body instanceof Buffer ? body : Buffer.from(body);
+  const prefix = varintBufferDecode(buffer).toString('hex');
+  const codec = codecByHex(prefix);
+  return [codec, multicodec.rmPrefix(buffer)];
 }
 
-export function extractPrefix(body: string | Buffer) {
-  // Check if message is a JSON string
-  if (!(body instanceof Buffer) && body.length !== 0 && body[0] === '{') {
-    return JSON.parse(body);
-  }
+/**
+ * Checks if string or a buffer is a JSON object.
+ */
+function isJSONObject(body: Buffer | string): boolean {
+  body = body.toString();
+  const length = body.length;
+  return length >= 2 && body[0] === '{' && body[length - 1] === '}';
 }

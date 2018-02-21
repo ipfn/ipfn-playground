@@ -3,14 +3,15 @@
  */
 import 'jest';
 import * as multicodec from 'multicodec';
-import { encodeCell, decodeCell } from '../src/codecs';
+import { encode, decode } from '../src';
+import { Cell } from '@ipfn/cell';
 
 
 describe('codecs', () => {
   it('should encode and decode cell', async () => {
     const cell = { name: 'test' };
-    const test = (enc: any) => expect(decodeCell(enc(cell))).toEqual(cell);
-    test(encodeCell);
+    const test = (enc: any) => expect(decode(enc(cell))).toEqual(cell);
+    test((body: Cell) => encode(body, 'cell-json-v1'));
     test(JSON.stringify);
   });
 
@@ -18,7 +19,7 @@ describe('codecs', () => {
     const cell = { name: 'test' };
     const buf = Buffer.from(JSON.stringify(cell));
     const enc = multicodec.addPrefix('cbor', buf);
-    expect(() => decodeCell(enc))
-      .toThrow('cell codec not recognized: "51"');
+    expect(() => decode(enc))
+      .toThrow('cell codec not found: "51"');
   });
 });
