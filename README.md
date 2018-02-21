@@ -13,6 +13,12 @@ In node.js project directory run:
 $ npm install --save @ipfn/cell-cid
 ```
 
+## See also
+
+* [js-ipfn-cell-pb](https://github.com/ipfn/js-ipfn-cell-pb) - IPFN Cell Protocol Buffers
+* [js-ipfn-cell-codecs](https://github.com/ipfn/js-ipfn-cell-codecs) - IPFN Cell Codecs
+* [go-ipfn-cell-cid](https://github.com/ipfn/go-ipfn-cell-cid) - Go implementation
+
 ## References
 
 * [CID](https://github.com/ipld/cid) - Content ID Specification
