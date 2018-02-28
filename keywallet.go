@@ -15,6 +15,7 @@
 package keywallet
 
 import (
+	"errors"
 	"fmt"
 	"strconv"
 	"strings"
@@ -29,17 +30,27 @@ var (
 	DefaultEntropyLength uint8 = hdkeychain.RecommendedSeedLen
 )
 
-// NewEntropy - Generates new entropy with default bit size if size is zero.
-func NewEntropy(size uint8) ([]byte, error) {
+// NewEntropy - Generates new entropy with default bit size.
+func NewEntropy() ([]byte, error) {
+	return hdkeychain.GenerateSeed(DefaultEntropyLength)
+}
+
+// NewCustomEntropy - Generates new entropy with custom bit size.
+func NewCustomEntropy(size uint8) ([]byte, error) {
 	if size == 0 {
 		size = DefaultEntropyLength
 	}
 	return hdkeychain.GenerateSeed(size)
 }
 
-// NewMnemonic - Creates a mnemonic phrase from bytes.
+// NewMnemonic - Converts a mnemonic phrase from bytes.
 func NewMnemonic(entropy []byte) (string, error) {
 	return bip39.NewMnemonic(entropy)
+}
+
+// IsMnemonicValid - Checks if a mnemonic phrase is valid.
+func IsMnemonicValid(mnemonic string) bool {
+	return bip39.IsMnemonicValid(mnemonic)
 }
 
 // NewSeed - Creates a new key generation seed from mnemonic and salt.
@@ -53,9 +64,14 @@ func NewCustomSeed(mnemonic, salt []byte, iter, size int) []byte {
 }
 
 // NewMaster - Creates a new master key from seed.
-func NewMaster(seed []byte, net *chaincfg.Params) (*ExtendedKey, error) {
+func NewMaster(seed []byte) (*ExtendedKey, error) {
+	return NewCustomMaster(seed, &chaincfg.MainNetParams)
+}
+
+// NewCustomMaster - Creates a new master key from seed.
+func NewCustomMaster(seed []byte, net *chaincfg.Params) (*ExtendedKey, error) {
 	if net == nil {
-		net = &chaincfg.MainNetParams
+		return nil, errors.New("cannot generate with empty chain params")
 	}
 	key, err := hdkeychain.NewMaster(seed, net)
 	if err != nil {

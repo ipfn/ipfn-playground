@@ -20,6 +20,7 @@ import (
 	. "testing"
 
 	"github.com/btcsuite/btcd/chaincfg"
+	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -31,7 +32,7 @@ var (
 func TestMnemonicRecover(t *T) {
 	seed := NewSeed(testMnemonic, testPass)
 
-	masterKey, _ := NewMaster(seed, nil)
+	masterKey, _ := NewMaster(seed)
 	publicKey, _ := masterKey.Neuter()
 
 	assert.Equal(t, masterKey.String(), "xprv9s21ZrQH143K2YqBuuVyuXHbpUu9Y89VHL6KY67mYJDLMqVqjDkY6BAPUDbVCY16UCs67Goco9cPpBgTXaAQSfhnjJtryzNomPhJevqKwCR")
@@ -44,7 +45,7 @@ func TestDerivePath(t *T) {
 	// Start by getting an extended key instance for the master node.
 	// This gives the path:
 	//   m
-	masterPrivKey, err := NewMaster(seed, nil)
+	masterPrivKey, err := NewMaster(seed)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -76,7 +77,7 @@ func TestHDKeyChain(t *T) {
 	// Start by getting an extended key instance for the master node.
 	// This gives the path:
 	//   m
-	masterPrivKey, err := NewMaster(seed, nil)
+	masterPrivKey, err := NewMaster(seed)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -116,18 +117,39 @@ func TestHDKeyChain(t *T) {
 	}
 
 	for index := uint32(0); index < 3; index++ {
-		addr := indexKey(external, index)
-		assert.Equal(t, addr, expected[index])
+		// /m/44'/0'/1'/0/{index}
+		acc, err := external.Child(index)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		addr, _ := acc.Address(&chaincfg.MainNetParams)
+		assert.Equal(t, expected[index], addr.String())
 	}
 }
 
-func indexKey(key *ExtendedKey, index uint32) string {
-	// /m/44'/0'/1'/0/{index}
-	acc, err := key.Child(index)
+func TestDeriveEth(t *T) {
+	seed := NewSeed(testMnemonic, testPass)
+
+	// Start by getting an extended key instance for the master node.
+	// This gives the path:
+	//   m
+	masterPrivKey, err := NewMaster(seed)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	addr, _ := acc.Address(&chaincfg.MainNetParams)
-	return addr.String()
+	expected := []string{
+		"0x72D6EC7a17C58693E6d098d714b77F94CC20C2Ba",
+		"0xE92c4BaD8C6d52b9E2759e3824f08E624a7c64dA",
+		"0x3A734aEb1E149618c7B7e230D9f78862F1dDEfAC",
+	}
+
+	for index := uint32(0); index < 3; index++ {
+		path := fmt.Sprintf("m/44'/60'/7'/1/%d", index)
+		acc, _ := DerivePath(masterPrivKey, path)
+		pub, _ := acc.ECPubKey()
+		addr := crypto.PubkeyToAddress(*pub.ToECDSA()).String()
+		assert.Equal(t, addr, expected[index])
+	}
 }
