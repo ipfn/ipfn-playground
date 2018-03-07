@@ -38,9 +38,5 @@ func NewEncryptedKey(body, password string) (key *EncryptedKey, err error) {
 
 // Decrypt - Decrypts cryptographic key using password encryption key.
 func (key *EncryptedKey) Decrypt(password []byte) ([]byte, error) {
-	enckey, err := crypto.DeriveEncKey(password, key.Salt)
-	if err != nil {
-		return
-	}
-	return crypto.Decrypt(key.Ciphertext, key.Nonce)
+	return crypto.Decrypt(key.Ciphertext, key.Nonce, password, key.Salt)
 }
