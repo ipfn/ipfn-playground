@@ -14,7 +14,11 @@
 
 package keystore
 
-import crypto "github.com/ipfn/go-ipfn-crypto"
+import (
+	"errors"
+
+	crypto "github.com/ipfn/go-ipfn-crypto"
+)
 
 // EncryptedKey - Encrypted cryptographic key.
 type EncryptedKey struct {
@@ -38,5 +42,8 @@ func NewEncryptedKey(body, password string) (key *EncryptedKey, err error) {
 
 // Decrypt - Decrypts cryptographic key using password encryption key.
 func (key *EncryptedKey) Decrypt(password []byte) ([]byte, error) {
+	if len(key.Ciphertext) == 0 {
+		return nil, errors.New("encrypted key cannot be empty")
+	}
 	return crypto.Decrypt(key.Ciphertext, key.Nonce, password, key.Salt)
 }
