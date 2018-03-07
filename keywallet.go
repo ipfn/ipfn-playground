@@ -22,25 +22,19 @@ import (
 
 	"github.com/btcsuite/btcd/chaincfg"
 	"github.com/btcsuite/btcutil/hdkeychain"
+
 	bip39 "github.com/ipfn/go-bip39"
+	crypto "github.com/ipfn/go-ipfn-crypto"
 )
 
 var (
 	// DefaultEntropyLength - Default entropy bit length.
-	DefaultEntropyLength uint8 = hdkeychain.RecommendedSeedLen
+	DefaultEntropyLength = 32
 )
 
 // NewEntropy - Generates new entropy with default bit size.
 func NewEntropy() ([]byte, error) {
-	return hdkeychain.GenerateSeed(DefaultEntropyLength)
-}
-
-// NewCustomEntropy - Generates new entropy with custom bit size.
-func NewCustomEntropy(size uint8) ([]byte, error) {
-	if size == 0 {
-		size = DefaultEntropyLength
-	}
-	return hdkeychain.GenerateSeed(size)
+	return crypto.NewEntropy(DefaultEntropyLength)
 }
 
 // NewMnemonic - Converts a mnemonic phrase from bytes.
