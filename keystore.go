@@ -34,6 +34,15 @@ func (store *Store) CreateKey(name, mnemonic, password string) (err error) {
 	return store.Put(name, key)
 }
 
+// Decrypt - Gets master key by name and decrypts using given password.
+func (store *Store) Decrypt(name string, password []byte) (_ []byte, err error) {
+	key, err := store.Get(name)
+	if err != nil {
+		return
+	}
+	return key.Decrypt(password)
+}
+
 // Has - Naively checks if error occurs on read, returns false if yes.
 func (store *Store) Has(name string) bool {
 	key, err := store.Get(name)
