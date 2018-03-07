@@ -20,7 +20,7 @@ import (
 
 	crypto "github.com/ipfn/go-ipfn-crypto"
 )
-r
+
 // JSONStorage - JSON key-store wrapper.
 type JSONStorage struct {
 	RawStorage
