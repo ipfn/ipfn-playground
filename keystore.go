@@ -15,6 +15,8 @@
 // Package keystore implements cryptographic key store.
 package keystore
 
+import "errors"
+
 // Store - Cryptographic key store.
 type Store struct {
 	Storage
@@ -27,6 +29,9 @@ func New(storage Storage) (store *Store) {
 
 // CreateKey - Creates new master key in storage and encrypts with password.
 func (store *Store) CreateKey(name, mnemonic, password string) (err error) {
+	if name == "" {
+		return errors.New("key name cannot be empty")
+	}
 	key, err := NewEncryptedKey(mnemonic, password)
 	if err != nil {
 		return
