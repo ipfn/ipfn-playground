@@ -114,6 +114,24 @@ type ExtendedKey struct {
 	*hdkeychain.ExtendedKey
 }
 
+// B32PKHash - Returns bitcoin style pubkeyhash for network ID.
+func (key *ExtendedKey) B32PKHash(netID byte) (_ []byte, err error) {
+	pub, err := key.ECPubKey()
+	if err != nil {
+		return
+	}
+	return pubkeyhash.Base32PKHash(pub, netID)
+}
+
+// B32PKHashString - Returns bitcoin style pubkeyhash for network ID.
+func (key *ExtendedKey) B32PKHashString(netID byte) (_ string, err error) {
+	pub, err := key.ECPubKey()
+	if err != nil {
+		return
+	}
+	return pubkeyhash.Base32PKHashString(pub, netID)
+}
+
 // AddressEthereum - Returns ether style pubkeyhash.
 func (key *ExtendedKey) AddressEthereum() (_ common.Address, err error) {
 	pub, err := key.ECPubKey()
