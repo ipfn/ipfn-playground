@@ -21,10 +21,13 @@ import (
 	"strings"
 
 	"github.com/btcsuite/btcd/chaincfg"
+	"github.com/btcsuite/btcutil"
 	"github.com/btcsuite/btcutil/hdkeychain"
+	"github.com/ethereum/go-ethereum/common"
 
 	bip39 "github.com/ipfn/go-bip39"
 	crypto "github.com/ipfn/go-ipfn-crypto"
+	pubkeyhash "github.com/ipfn/go-ipfn-pubkey-hash"
 )
 
 var (
@@ -109,6 +112,24 @@ func DerivePath(key *ExtendedKey, path string) (res *ExtendedKey, err error) {
 // ExtendedKey - Hierarchical deterministic wallet key derivation.
 type ExtendedKey struct {
 	*hdkeychain.ExtendedKey
+}
+
+// AddressEthereum - Returns ether style pubkeyhash.
+func (key *ExtendedKey) AddressEthereum() (_ common.Address, err error) {
+	pub, err := key.ECPubKey()
+	if err != nil {
+		return
+	}
+	return pubkeyhash.AddressEthereum(*pub.ToECDSA()), nil
+}
+
+// PKHash - Returns bitcoin style pubkeyhash for network ID.
+func (key *ExtendedKey) PKHash(netID byte) (_ *btcutil.AddressPubKeyHash, err error) {
+	pub, err := key.ECPubKey()
+	if err != nil {
+		return
+	}
+	return pubkeyhash.PKHash(pub, netID)
 }
 
 // Derive - Derives extended key child by adding 0x80000000 (2^31) to path.

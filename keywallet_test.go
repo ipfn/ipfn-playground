@@ -20,7 +20,6 @@ import (
 	. "testing"
 
 	"github.com/btcsuite/btcd/chaincfg"
-	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -71,63 +70,6 @@ func TestDerivePath(t *T) {
 	}
 }
 
-func TestHDKeyChain(t *T) {
-	seed := NewSeed(testMnemonic, testPass)
-
-	// Start by getting an extended key instance for the master node.
-	// This gives the path:
-	//   m
-	masterPrivKey, err := NewMaster(seed)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// Purpose = bip44
-	// /m/44'
-	fourtyFour, err := masterPrivKey.Derive(44)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// Cointype = bitcoin
-	// /m/44'/0'
-	key, err := fourtyFour.Derive(0)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// Account = 1
-	// /m/44'/0'/1'
-	account, err := key.Derive(1)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// Change(0) = external
-	// /m/44'/0'/1'/0
-	external, err := account.Child(0)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	expected := []string{
-		"1CnMSLqtNdwHYpiFu7rjWjdZ1SsGDPtuZT",
-		"18VdTmf9c8qS19AyL7btb6s7sc5ZsJcuNb",
-		"1CCxdxNkEUEjc8Aa54oKkUDAFtiMHqhy1v",
-	}
-
-	for index := uint32(0); index < 3; index++ {
-		// /m/44'/0'/1'/0/{index}
-		acc, err := external.Child(index)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		addr, _ := acc.Address(&chaincfg.MainNetParams)
-		assert.Equal(t, expected[index], addr.String())
-	}
-}
-
 func TestDeriveEth(t *T) {
 	seed := NewSeed(testMnemonic, testPass)
 
@@ -148,8 +90,32 @@ func TestDeriveEth(t *T) {
 	for index := uint32(0); index < 3; index++ {
 		path := fmt.Sprintf("m/44'/60'/7'/1/%d", index)
 		acc, _ := DerivePath(masterPrivKey, path)
-		pub, _ := acc.ECPubKey()
-		addr := crypto.PubkeyToAddress(*pub.ToECDSA()).String()
-		assert.Equal(t, addr, expected[index])
+		addr, _ := acc.AddressEthereum()
+		assert.Equal(t, addr.String(), expected[index])
+	}
+}
+
+func TestPKHash(t *T) {
+	seed := NewSeed(testMnemonic, testPass)
+
+	// Start by getting an extended key instance for the master node.
+	// This gives the path:
+	//   m
+	masterPrivKey, err := NewMaster(seed)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	expected := []string{
+		"xHRa3RzLLaq4UKy8ZrDKNX9KuvePy5np8U",
+		"xE9xoRVkuPZ9ry9W52P5pfDckm5PkTs7Bi",
+		"xES96MKuK3GPFaW2LyWgqd4Enk6BkhUsY8",
+	}
+
+	for index := uint32(0); index < 3; index++ {
+		path := fmt.Sprintf("m/44'/2'/7'/1/%d", index)
+		acc, _ := DerivePath(masterPrivKey, path)
+		addr, _ := acc.PKHash(0x89)
+		assert.Equal(t, expected[index], addr.String())
 	}
 }
