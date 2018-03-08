@@ -18,13 +18,13 @@ import (
 	codecs "github.com/ipfn/go-ipfn-cell-codecs"
 )
 
-// CodecName - Name of Protocol Buffers cell codec.
-const CodecName = "cell-pb-v1"
+// HeaderPath - Name of Protocol Buffers cell codec.
+const HeaderPath = "/cell-pb"
 
-// CodecID - Multicodec ID of Protocol Buffers Cell Version 1. (28860)
+// CodecID - Multicodec header ID of Protocol Buffers Cell Version 1.
 // Definition: /ipfs/QmeX5H9x2qNdGC1R5uhyX2HuG5izxR2SGi71jSWyEQjV6Q
-const CodecID = 0x70bc
+const CodecID = 0x70bc // (28860)
 
 func init() {
-	codecs.Register(CodecName, CodecID, new(Codec))
+	codecs.Register(HeaderPath, CodecID, new(Codec))
 }
