@@ -22,6 +22,7 @@ import (
 	"github.com/btcsuite/btcutil"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
+	base32check "github.com/ipfn/go-base32check"
 )
 
 // PKHash - Creates bitcoin address style pubkey hash.
@@ -29,6 +30,24 @@ func PKHash(pub *btcec.PublicKey, netID byte) (*btcutil.AddressPubKeyHash, error
 	params := chaincfg.Params{PubKeyHashAddrID: netID}
 	pkHash := btcutil.Hash160(pub.SerializeCompressed())
 	return btcutil.NewAddressPubKeyHash(pkHash, &params)
+}
+
+// Base32PKHash - Creates base32 encoded pubkey hash.
+func Base32PKHash(pub *btcec.PublicKey, netID byte) (_ []byte, err error) {
+	addr, err := PKHash(pub, netID)
+	if err != nil {
+		return
+	}
+	return base32check.CheckEncode(addr.ScriptAddress(), 0xe8), nil
+}
+
+// Base32PKHashString - Creates base32 encoded pubkey hash.
+func Base32PKHashString(pub *btcec.PublicKey, netID byte) (_ string, err error) {
+	addr, err := PKHash(pub, netID)
+	if err != nil {
+		return
+	}
+	return base32check.CheckEncodeToString(addr.ScriptAddress(), 0xe8), nil
 }
 
 // AddressEthereum - Creates new CID for ECDSA Public Key and codec prefix.
