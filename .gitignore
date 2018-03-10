@@ -77,6 +77,3 @@ yarn.lock
 
 .nyc_output
 .DS_Store
-
-*.pb.cc
-*.pb.h
