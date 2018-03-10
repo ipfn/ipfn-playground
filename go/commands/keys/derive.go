@@ -25,7 +25,7 @@ import (
 
 	cmdutil "github.com/ipfn/go-ipfn-cmd-util"
 	"github.com/ipfn/go-ipfn-cmd-util/logger"
-	pubkeyhash "github.com/ipfn/go-ipfn-pubkey-hash"
+	pubkeyhash "github.com/ipfn/ipfn/go/pubkey-hash"
 )
 
 var (

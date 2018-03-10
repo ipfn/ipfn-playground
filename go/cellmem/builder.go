@@ -15,7 +15,7 @@
 package cellmem
 
 // TODO: bonds
-import "github.com/ipfn/go-ipfn-cell"
+import "github.com/ipfn/ipfn/go/cell"
 
 // Builder - In-memory cell builder.
 type Builder struct {

@@ -24,8 +24,8 @@ import (
 	homedir "github.com/mitchellh/go-homedir"
 
 	"github.com/ipfn/go-ipfn-cmd-util/logger"
-	"github.com/ipfn/go-ipfn-commands/keys"
-	"github.com/ipfn/go-ipfn-commands/seeds"
+	"github.com/ipfn/ipfn/go/commands/keys"
+	"github.com/ipfn/ipfn/go/commands/seeds"
 )
 
 func init() {
@@ -39,7 +39,7 @@ var cfgFile string
 // RootCmd represents the base command when called without any subcommands
 var RootCmd = &cobra.Command{
 	Use:   "go-ipfn commands",
-	Short: "https://github.com/ipfn/go-ipfn-commands",
+	Short: "https://github.com/ipfn/ipfn/go/commands",
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.

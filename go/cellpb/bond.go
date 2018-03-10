@@ -14,7 +14,7 @@
 
 package cellpb
 
-import cell "github.com/ipfn/go-ipfn-cell"
+import cell "github.com/ipfn/ipfn/go/cell"
 
 // NewBond - Creates new protocol buffers bond.
 func NewBond(bond cell.Bond) (res *Bond) {

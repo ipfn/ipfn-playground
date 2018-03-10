@@ -1,15 +1,14 @@
 # IPFN Cell CID in Go
 
 [![IPFN project](https://img.shields.io/badge/project-IPFN-blue.svg?style=flat-square)](http://github.com/ipfn)
-[![GoDoc](https://godoc.org/github.com/ipfn/go-ipfn-cell-cid?status.svg)](https://godoc.org/github.com/ipfn/go-ipfn-cell-cid)
-[![Circle CI](https://img.shields.io/circleci/project/ipfn/go-ipfn-cell-cid.svg)](https://circleci.com/gh/ipfn/ipfn)
+[![GoDoc](https://godoc.org/github.com/ipfn/ipfn/go/cellcid?status.svg)](https://godoc.org/github.com/ipfn/ipfn/go/cellcid)
 
 Go IPFN Cell CID helpers package.
 
 ## See also
 
-* [go-ipfn-cell-pb](https://github.com/ipfn/go-ipfn-cell-pb) - IPFN Cell Protocol Buffers
-* [go-ipfn-cell-codecs](https://github.com/ipfn/go-ipfn-cell-codecs) - IPFN Cell Codecs
+* [go-ipfn-cell-pb](https://github.com/ipfn/ipfn/go/cellpb) - IPFN Cell Protocol Buffers
+* [go-ipfn-cell-codecs](https://github.com/ipfn/ipfn/go/codecs) - IPFN Cell Codecs
 * [js-ipfn-cell-cid](https://github.com/ipfn/js-ipfn-cell-cid) - JavaScript implementation
 
 ## References

@@ -1,14 +1,13 @@
 # IPFN cell JSON codec in Go
 
 [![IPFN project](https://img.shields.io/badge/project-IPFN-blue.svg?style=flat-square)](http://github.com/ipfn)
-[![GoDoc](https://godoc.org/github.com/ipfn/go-ipfn-cell-json?status.svg)](https://godoc.org/github.com/ipfn/go-ipfn-cell-json)
-[![Circle CI](https://img.shields.io/circleci/project/ipfn/go-ipfn-cell-json.svg)](https://circleci.com/gh/ipfn/ipfn)
+[![GoDoc](https://godoc.org/github.com/ipfn/ipfn/go/celljson?status.svg)](https://godoc.org/github.com/ipfn/ipfn/go/celljson)
 
 Go implementation of IPFN cell JSON codec.
 
 ## See also
 
-* [go-ipfn-cell-codecs](https://github.com/ipfn/go-ipfn-cell-codecs)
+* [go-ipfn-cell-codecs](https://github.com/ipfn/ipfn/go/codecs)
 
 ## License
 

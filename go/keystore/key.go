@@ -17,7 +17,7 @@ package keystore
 import (
 	"errors"
 
-	crypto "github.com/ipfn/go-ipfn-crypto"
+	crypto "github.com/ipfn/ipfn/go/crypto"
 )
 
 // EncryptedKey - Encrypted cryptographic key.

@@ -15,7 +15,7 @@
 package synaptic
 
 import (
-	cellmem "github.com/ipfn/go-ipfn-cell-mem"
+	cellmem "github.com/ipfn/ipfn/go/cellmem"
 )
 
 // NewCell - Creates a new Synaptic cell.

@@ -15,7 +15,7 @@
 package cellpb
 
 import (
-	codecs "github.com/ipfn/go-ipfn-cell-codecs"
+	codecs "github.com/ipfn/ipfn/go/codecs"
 )
 
 // HeaderPath - Name of Protocol Buffers cell codec.

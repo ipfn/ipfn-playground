@@ -19,7 +19,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	cell "github.com/ipfn/go-ipfn-cell"
+	cell "github.com/ipfn/ipfn/go/cell"
 )
 
 func TestInterface(t *T) {

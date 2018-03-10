@@ -19,10 +19,10 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	cellcid "github.com/ipfn/go-ipfn-cell-cid"
+	cellcid "github.com/ipfn/ipfn/go/cellcid"
 
 	// Register `cell-pb-v1` codec
-	_ "github.com/ipfn/go-ipfn-cell-pb"
+	_ "github.com/ipfn/ipfn/go/cellpb"
 )
 
 func TestCellCID(t *T) {

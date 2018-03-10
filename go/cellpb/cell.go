@@ -15,8 +15,8 @@
 package cellpb
 
 import (
-	cell "github.com/ipfn/go-ipfn-cell"
-	cellcid "github.com/ipfn/go-ipfn-cell-cid"
+	cell "github.com/ipfn/ipfn/go/cell"
+	cellcid "github.com/ipfn/ipfn/go/cellcid"
 	cid "github.com/ipfs/go-cid"
 )
 

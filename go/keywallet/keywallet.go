@@ -24,7 +24,7 @@ import (
 	"github.com/btcsuite/btcutil/hdkeychain"
 
 	bip39 "github.com/ipfn/go-bip39"
-	keystore "github.com/ipfn/go-ipfn-key-store"
+	keystore "github.com/ipfn/ipfn/go/keystore"
 )
 
 // Wallet - Storage based key wallet.

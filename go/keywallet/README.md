@@ -1,8 +1,7 @@
 # IPFN HD key chain wallet in Go
 
 [![IPFN project](https://img.shields.io/badge/project-IPFN-blue.svg?style=flat-square)](http://github.com/ipfn)
-[![GoDoc](https://godoc.org/github.com/ipfn/go-ipfn-key-wallet?status.svg)](https://godoc.org/github.com/ipfn/go-ipfn-key-wallet)
-[![Circle CI](https://img.shields.io/circleci/project/ipfn/go-ipfn-key-wallet.svg)](https://circleci.com/gh/ipfn/ipfn)
+[![GoDoc](https://godoc.org/github.com/ipfn/ipfn/go/keywallet?status.svg)](https://godoc.org/github.com/ipfn/ipfn/go/keywallet)
 
 IPFN HD key chain wallet derivation helpers.
 

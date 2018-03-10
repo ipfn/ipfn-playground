@@ -14,7 +14,7 @@
 
 package codecs
 
-import "github.com/ipfn/go-ipfn-cell"
+import "github.com/ipfn/ipfn/go/cell"
 
 // Codec - Cell codec.
 type Codec interface {

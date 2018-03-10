@@ -1,8 +1,7 @@
 # IPFN cryptographic utilities in Go
 
 [![IPFN project](https://img.shields.io/badge/project-IPFN-blue.svg?style=flat-square)](http://github.com/ipfn)
-[![GoDoc](https://godoc.org/github.com/ipfn/go-ipfn-crypto?status.svg)](https://godoc.org/github.com/ipfn/go-ipfn-crypto)
-[![Circle CI](https://img.shields.io/circleci/project/ipfn/go-ipfn-crypto.svg)](https://circleci.com/gh/ipfn/ipfn)
+[![GoDoc](https://godoc.org/github.com/ipfn/ipfn/go/crypto?status.svg)](https://godoc.org/github.com/ipfn/ipfn/go/crypto)
 
 IPFN cryptographic utilities for Go programming language.
 

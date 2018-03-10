@@ -1,8 +1,7 @@
 # IPFN Synaptic Cells in Go
 
 [![IPFN project](https://img.shields.io/badge/project-IPFN-blue.svg?style=flat-square)](http://github.com/ipfn)
-[![GoDoc](https://godoc.org/github.com/ipfn/go-ipfn-synaptic?status.svg)](https://godoc.org/github.com/ipfn/go-ipfn-synaptic)
-[![Circle CI](https://img.shields.io/circleci/project/ipfn/go-ipfn-synaptic.svg)](https://circleci.com/gh/ipfn/ipfn)
+[![GoDoc](https://godoc.org/github.com/ipfn/ipfn/go/synaptic?status.svg)](https://godoc.org/github.com/ipfn/ipfn/go/synaptic)
 
 IPFN Synaptic cells implementation and helpers.
 

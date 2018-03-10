@@ -25,7 +25,7 @@ import (
 
 	"github.com/crackcomm/viperkeys"
 
-	keywallet "github.com/ipfn/go-ipfn-key-wallet"
+	keywallet "github.com/ipfn/ipfn/go/keywallet"
 )
 
 // RootCmd - Root key RootCmd.

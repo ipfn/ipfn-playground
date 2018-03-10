@@ -23,7 +23,7 @@ import (
 	bip39 "github.com/ipfn/go-bip39"
 	cmdutil "github.com/ipfn/go-ipfn-cmd-util"
 	"github.com/ipfn/go-ipfn-cmd-util/logger"
-	crypto "github.com/ipfn/go-ipfn-crypto"
+	crypto "github.com/ipfn/ipfn/go/crypto"
 
 	"github.com/crackcomm/viperkeys"
 )

@@ -18,7 +18,7 @@ package keystore
 import (
 	"encoding/json"
 
-	crypto "github.com/ipfn/go-ipfn-crypto"
+	crypto "github.com/ipfn/ipfn/go/crypto"
 )
 
 // JSONStorage - JSON key-store wrapper.
