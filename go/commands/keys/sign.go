@@ -39,7 +39,6 @@ func init() {
 	SignCmd.PersistentFlags().BoolVarP(&customSeedPwd, "custom", "u", false, "Custom seed password")
 	SignCmd.PersistentFlags().BoolVarP(&keyAlphabet, "encoding", "e", false, "Custom encoding alphabet")
 	SignCmd.PersistentFlags().IntVarP(&keySignSize, "size", "s", 32, "Signature hash size")
-	SignCmd.PersistentFlags().StringVarP(&keyAddrID, "addr", "a", "0x00", "Custom address pubkey-hash address ID")
 }
 
 // SignCmd - Key sign command.

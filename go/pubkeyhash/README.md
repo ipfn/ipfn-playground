@@ -1,9 +1,9 @@
-# IPFN pub-key hash utilities in Go
+# Go public key hash utilities
 
 [![IPFN project](https://img.shields.io/badge/project-IPFN-blue.svg?style=flat-square)](http://github.com/ipfn)
-[![GoDoc](https://godoc.org/github.com/ipfn/ipfn/go/pubkey-hash?status.svg)](https://godoc.org/github.com/ipfn/ipfn/go/pubkey-hash)
+[![GoDoc](https://godoc.org/github.com/ipfn/ipfn/go/pubkeyhash?status.svg)](https://godoc.org/github.com/ipfn/ipfn/go/pubkeyhash)
 
-Public-key hash utilities in Go for various crypto-currencies supporting ETH or BTC standard.
+Cryptographic public key hash utilities in Go supporting various crypto-currencies standards such as [Bitcoin](https://github.com/bitcoin/bips/blob/master/bip-0013.mediawiki), [Ethereum](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-55.md) and [TODO]() standards.
 
 ## References
 

@@ -24,7 +24,7 @@ import (
 	"github.com/btcsuite/btcd/chaincfg"
 
 	bip39 "github.com/ipfn/go-bip39"
-	pubkeyhash "github.com/ipfn/ipfn/go/pubkey-hash"
+	"github.com/ipfn/ipfn/go/pubkeyhash"
 )
 
 var (

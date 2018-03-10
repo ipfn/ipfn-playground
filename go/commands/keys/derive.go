@@ -25,7 +25,7 @@ import (
 
 	cmdutil "github.com/ipfn/go-ipfn-cmd-util"
 	"github.com/ipfn/go-ipfn-cmd-util/logger"
-	pubkeyhash "github.com/ipfn/ipfn/go/pubkey-hash"
+	"github.com/ipfn/ipfn/go/pubkeyhash"
 )
 
 var (
@@ -37,8 +37,8 @@ var (
 func init() {
 	RootCmd.AddCommand(DeriveCmd)
 	DeriveCmd.PersistentFlags().BoolVarP(&forcePath, "force", "f", false, "Force derivation path")
-	DeriveCmd.PersistentFlags().BoolVarP(&customSeedPwd, "custom", "u", false, "Custom seed password")
-	DeriveCmd.PersistentFlags().StringVarP(&keyAddrID, "addr", "a", "0x0", "Custom address pubkey-hash address ID")
+	DeriveCmd.PersistentFlags().BoolVarP(&customSeedPwd, "custom", "u", false, "Use ustom seed derivation password")
+	DeriveCmd.PersistentFlags().StringVarP(&keyAddrID, "addr", "a", "0x0", "Custom pubkeyhash address network ID")
 }
 
 // DeriveCmd - Key derive command.
