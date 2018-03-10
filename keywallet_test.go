@@ -19,8 +19,12 @@ import (
 	"log"
 	. "testing"
 
-	"github.com/btcsuite/btcd/chaincfg"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/btcsuite/btcd/chaincfg"
+
+	bip39 "github.com/ipfn/go-bip39"
+	pubkeyhash "github.com/ipfn/go-ipfn-pubkey-hash"
 )
 
 var (
@@ -29,7 +33,7 @@ var (
 )
 
 func TestMnemonicRecover(t *T) {
-	seed := NewSeed(testMnemonic, testPass)
+	seed := bip39.NewSeed(testMnemonic, testPass)
 
 	masterKey, _ := NewMaster(seed)
 	publicKey, _ := masterKey.Neuter()
@@ -39,7 +43,7 @@ func TestMnemonicRecover(t *T) {
 }
 
 func TestDerivePath(t *T) {
-	seed := NewSeed(testMnemonic, testPass)
+	seed := bip39.NewSeed(testMnemonic, testPass)
 
 	// Start by getting an extended key instance for the master node.
 	// This gives the path:
@@ -71,7 +75,7 @@ func TestDerivePath(t *T) {
 }
 
 func TestDeriveEth(t *T) {
-	seed := NewSeed(testMnemonic, testPass)
+	seed := bip39.NewSeed(testMnemonic, testPass)
 
 	// Start by getting an extended key instance for the master node.
 	// This gives the path:
@@ -90,13 +94,14 @@ func TestDeriveEth(t *T) {
 	for index := uint32(0); index < 3; index++ {
 		path := fmt.Sprintf("m/44'/60'/7'/1/%d", index)
 		acc, _ := DerivePath(masterPrivKey, path)
-		addr, _ := acc.AddressEthereum()
+		pub, _ := acc.ECPubKey()
+		addr := pubkeyhash.AddressEthereum(*pub.ToECDSA())
 		assert.Equal(t, addr.String(), expected[index])
 	}
 }
 
 func TestPKHash(t *T) {
-	seed := NewSeed(testMnemonic, testPass)
+	seed := bip39.NewSeed(testMnemonic, testPass)
 
 	// Start by getting an extended key instance for the master node.
 	// This gives the path:
@@ -115,7 +120,8 @@ func TestPKHash(t *T) {
 	for index := uint32(0); index < 3; index++ {
 		path := fmt.Sprintf("m/44'/2'/7'/1/%d", index)
 		acc, _ := DerivePath(masterPrivKey, path)
-		addr, _ := acc.PKHash(0x89)
+		pub, _ := acc.ECPubKey()
+		addr, _ := pubkeyhash.PKHash(pub, 0x89)
 		assert.Equal(t, expected[index], addr.String())
 	}
 }

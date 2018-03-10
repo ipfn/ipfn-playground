@@ -21,43 +21,34 @@ import (
 	"strings"
 
 	"github.com/btcsuite/btcd/chaincfg"
-	"github.com/btcsuite/btcutil"
 	"github.com/btcsuite/btcutil/hdkeychain"
-	"github.com/ethereum/go-ethereum/common"
 
 	bip39 "github.com/ipfn/go-bip39"
-	crypto "github.com/ipfn/go-ipfn-crypto"
-	pubkeyhash "github.com/ipfn/go-ipfn-pubkey-hash"
+	keystore "github.com/ipfn/go-ipfn-key-store"
 )
 
-var (
-	// DefaultEntropyLength - Default entropy bit length.
-	DefaultEntropyLength = 32
-)
-
-// NewEntropy - Generates new entropy with default bit size.
-func NewEntropy() ([]byte, error) {
-	return crypto.NewEntropy(DefaultEntropyLength)
+// Wallet - Storage based key wallet.
+type Wallet struct {
+	*keystore.Store
 }
 
-// NewMnemonic - Converts a mnemonic phrase from bytes.
-func NewMnemonic(entropy []byte) (string, error) {
-	return bip39.NewMnemonic(entropy)
+// New - Creates new key wallet using storage.
+func New(store *keystore.Store) *Wallet {
+	return &Wallet{Store: store}
 }
 
-// IsMnemonicValid - Checks if a mnemonic phrase is valid.
-func IsMnemonicValid(mnemonic string) bool {
-	return bip39.IsMnemonicValid(mnemonic)
-}
-
-// NewSeed - Creates a new key generation seed from mnemonic and salt.
-func NewSeed(mnemonic, salt []byte) []byte {
-	return bip39.NewSeed(mnemonic, salt)
-}
-
-// NewCustomSeed - Creates a new key generation seed from mnemonic and salt.
-func NewCustomSeed(mnemonic, salt []byte, iter, size int) []byte {
-	return bip39.NewCustomSeed(mnemonic, salt, iter, size)
+// Derive - Finds master key by name, decrypts using password and derives path.
+// Path should be BIP32 compatible otherwise operation will fail.
+func (wallet *Wallet) Derive(name, path string, password []byte) (_ *ExtendedKey, err error) {
+	key, err := wallet.Decrypt(name, password)
+	if err != nil {
+		return
+	}
+	master, err := NewMaster(bip39.NewSeed(key, []byte(password)))
+	if err != nil {
+		return
+	}
+	return DerivePath(master, path)
 }
 
 // NewMaster - Creates a new master key from seed.
@@ -112,42 +103,6 @@ func DerivePath(key *ExtendedKey, path string) (res *ExtendedKey, err error) {
 // ExtendedKey - Hierarchical deterministic wallet key derivation.
 type ExtendedKey struct {
 	*hdkeychain.ExtendedKey
-}
-
-// B32PKHash - Returns bitcoin style pubkeyhash for network ID.
-func (key *ExtendedKey) B32PKHash(netID byte) (_ []byte, err error) {
-	pub, err := key.ECPubKey()
-	if err != nil {
-		return
-	}
-	return pubkeyhash.Base32PKHash(pub, netID)
-}
-
-// B32PKHashString - Returns bitcoin style pubkeyhash for network ID.
-func (key *ExtendedKey) B32PKHashString(netID byte) (_ string, err error) {
-	pub, err := key.ECPubKey()
-	if err != nil {
-		return
-	}
-	return pubkeyhash.Base32PKHashString(pub, netID)
-}
-
-// AddressEthereum - Returns ether style pubkeyhash.
-func (key *ExtendedKey) AddressEthereum() (_ common.Address, err error) {
-	pub, err := key.ECPubKey()
-	if err != nil {
-		return
-	}
-	return pubkeyhash.AddressEthereum(*pub.ToECDSA()), nil
-}
-
-// PKHash - Returns bitcoin style pubkeyhash for network ID.
-func (key *ExtendedKey) PKHash(netID byte) (_ *btcutil.AddressPubKeyHash, err error) {
-	pub, err := key.ECPubKey()
-	if err != nil {
-		return
-	}
-	return pubkeyhash.PKHash(pub, netID)
 }
 
 // Derive - Derives extended key child by adding 0x80000000 (2^31) to path.
