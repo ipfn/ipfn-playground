@@ -32,7 +32,7 @@ const MhType = multihash.SHA3_256
 // Definition: /ipfs/QmeX5H9x2qNdGC1R5uhyX2HuG5izxR2SGi71jSWyEQjV6Q
 // Requires registered codec, current implementation:
 // https://github.com/ipfn/ipfn/go/cellpb
-const stdCodec = "cell-pb-v1"
+const stdCodec = "/cell-pb"
 
 // CID - Creates CID from cell using standard codec.
 func CID(c cell.Cell) (*cid.Cid, error) {
