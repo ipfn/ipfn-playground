@@ -21,8 +21,8 @@ import (
 	prompt "github.com/segmentio/go-prompt"
 	"github.com/spf13/cobra"
 
+	bip39 "github.com/ipfn/go-bip39"
 	cmdutil "github.com/ipfn/go-ipfn-cmd-util"
-	"github.com/ipfn/go-ipfn-key-wallet"
 
 	"github.com/crackcomm/viperkeys"
 )
@@ -47,7 +47,7 @@ var ImportCmd = &cobra.Command{
 
 // HandleImportCmd - Handles seed import command.
 func HandleImportCmd(cmd *cobra.Command, args []string) (err error) {
-	mnemonic := cmdutil.PromptConfirmed("mnemonic seed", keywallet.IsMnemonicValid)
+	mnemonic := cmdutil.PromptConfirmed("mnemonic seed", bip39.IsMnemonicValid)
 	password := prompt.PasswordMasked("Seed password")
 	if password == "" {
 		return errors.New("failed to get password")

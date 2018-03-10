@@ -20,10 +20,10 @@ import (
 	prompt "github.com/segmentio/go-prompt"
 	"github.com/spf13/cobra"
 
+	bip39 "github.com/ipfn/go-bip39"
 	cmdutil "github.com/ipfn/go-ipfn-cmd-util"
 	"github.com/ipfn/go-ipfn-cmd-util/logger"
 	crypto "github.com/ipfn/go-ipfn-crypto"
-	keywallet "github.com/ipfn/go-ipfn-key-wallet"
 
 	"github.com/crackcomm/viperkeys"
 )
@@ -57,7 +57,7 @@ func HandleCreateCmd(cmd *cobra.Command, args []string) (err error) {
 		return fmt.Errorf("failed to generate entropy: %v", err)
 	}
 	// convert entropy to mnemonic
-	mnemonic, err := keywallet.NewMnemonic(entropy)
+	mnemonic, err := bip39.NewMnemonic(entropy)
 	if err != nil {
 		return fmt.Errorf("failed to create mnemonic: %v", err)
 	}

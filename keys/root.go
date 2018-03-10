@@ -37,7 +37,7 @@ var RootCmd = &cobra.Command{
 
 // uses global `forcePath` variable
 func deriveKey(name, path string) (_ *keywallet.ExtendedKey, err error) {
-	wallet := keywallet.NewWallet(viperkeys.Default)
+	wallet := keywallet.New(viperkeys.Default)
 	password := prompt.PasswordMasked("Decryption password")
 	if password == "" {
 		return nil, errors.New("failed to get decryption password")
