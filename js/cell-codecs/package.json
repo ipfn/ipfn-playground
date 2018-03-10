@@ -13,10 +13,10 @@
   "contributors": [
     "Łukasz Kurowski <crackcomm@gmail.com>"
   ],
-  "website": "https://github.com/ipfn/js-ipfn-cells",
+  "website": "https://github.com/ipfn/ipfn/tree/master/js/cell-codecs",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ipfn/js-ipfn-cells"
+    "url": "https://github.com/ipfn/ipfn/tree/master/js/cell-codecs"
   },
   "dependencies": {
     "@ipfn/cell": "0.0.2",

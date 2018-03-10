@@ -9,10 +9,10 @@
   ],
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
-  "website": "https://github.com/ipfn/js-synaptic-types",
+  "website": "https://github.com/ipfn/ipfn/tree/master/js/synaptic-types",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ipfn/js-synaptic-types"
+    "url": "https://github.com/ipfn/ipfn/tree/master/js/synaptic-types"
   },
   "engines": {
     "node": ">=6.0.0"

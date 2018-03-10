@@ -71,7 +71,7 @@ export function decode(body: Buffer): Cell {
 
 /**
  * Codec information.
- * Usage: https://github.com/ipfn/js-ipfn-cell-codecs
+ * Usage: https://github.com/ipfn/ipfn/tree/master/js/cell-codecs
  */
 export const codec = {
   name: 'cell-pb-v1',

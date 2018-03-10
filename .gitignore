@@ -1,3 +1,49 @@
+# Compiled Object files, Static and Dynamic libs (Shared Objects)
+*.o
+*.a
+*.so
+
+# Folders
+_obj
+_test
+
+# Architecture specific extensions/prefixes
+*.[568vq]
+[568vq].out
+
+*.cgo1.go
+*.cgo2.c
+_cgo_defun.c
+_cgo_gotypes.go
+_cgo_export.*
+
+_testmain.go
+
+*.exe
+*.test
+*.prof
+
+*.pyc
+
+*.csv
+
+**/target
+*.rs.bk
+Cargo.lock
+
+config.toml
+
+data/
+
+.ipynb_checkpoints
+
+*.svg
+
+**/.vscode
+
+*.rs_
+
+*.log
 
 .vscode/
 .idea/
@@ -8,7 +54,17 @@ target/
 
 *.rs.fmt
 
-Cargo.lock
+main
+
+*.key
+*.pem
+*.crt
+
+**/_vendor*
+
+*.gz
+
+genesis.json
 
 dist/
 compiled/
@@ -22,18 +78,5 @@ yarn.lock
 .nyc_output
 .DS_Store
 
-*.log
-*.test
-
-main
-
-*.key
-*.pem
-*.crt
-
-**/_vendor*
-
 *.pb.cc
 *.pb.h
-
-*.gz

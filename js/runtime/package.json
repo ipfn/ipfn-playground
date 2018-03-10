@@ -13,10 +13,10 @@
   "contributors": [
     "Łukasz Kurowski <crackcomm@gmail.com>"
   ],
-  "website": "https://github.com/ipfn/ipfn/tree/dev/js/runtime",
+  "website": "https://github.com/ipfn/ipfn/tree/master/js/runtime",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ipfn/ipfn/tree/dev/js/runtime"
+    "url": "https://github.com/ipfn/ipfn/tree/master/js/runtime"
   },
   "dependencies": {},
   "license": "Apache-2.0",

@@ -11,9 +11,10 @@
     "dist"
   ],
   "author": "Łukasz Kurowski <crackcomm@gmail.com>",
+  "website": "https://github.com/ipfn/ipfn/tree/master/js/util",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ipfn/ipfn"
+    "url": "https://github.com/ipfn/ipfn/tree/master/js/util"
   },
   "license": "Apache-2.0",
   "engines": {
