@@ -24,11 +24,14 @@ import (
 	homedir "github.com/mitchellh/go-homedir"
 
 	"github.com/ipfn/go-ipfn-cmd-util/logger"
+
+	"github.com/ipfn/ipfn/go/commands/config"
 	"github.com/ipfn/ipfn/go/commands/keys"
 	"github.com/ipfn/ipfn/go/commands/seeds"
 )
 
 func init() {
+	RootCmd.AddCommand(config.RootCmd)
 	RootCmd.AddCommand(keys.RootCmd)
 	RootCmd.AddCommand(seeds.RootCmd)
 	RootCmd.PersistentFlags().BoolVarP(&logger.Verbose, "verbose", "v", false, "verbose logs output (stdout/stderr)")
