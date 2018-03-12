@@ -33,8 +33,8 @@ class cell {
 class basic_cell : public cell {
  public:
   explicit basic_cell(std::string name, std::string soul);
-  explicit basic_cell(const std::string& name, const cell_path& soul);
-  
+  explicit basic_cell(const std::string &name, const cell_path &soul);
+
   virtual const std::optional<cell_path> &
   name() const {
     return name_;
@@ -51,17 +51,17 @@ class basic_cell : public cell {
 };
 
 basic_cell::basic_cell(std::string name, std::string soul)
-  : name_(std::move(name)), soul_(std::move(soul)) {};
+  : name_(std::move(name)), soul_(std::move(soul)){};
 
-basic_cell::basic_cell(const std::string& name, const cell_path& soul)
-  : name_(name), soul_(soul) {};
+basic_cell::basic_cell(const std::string &name, const cell_path &soul)
+  : name_(name), soul_(soul){};
 
 inline std::ostream &
 operator<<(std::ostream &o, const cell &c) noexcept {
   o << "[ ";
-  const auto& name = c.name();
+  const auto &name = c.name();
   if (name) o << "name=" << *name << " ";
-  const auto& soul = c.soul();
+  const auto &soul = c.soul();
   if (soul) o << "soul=" << *soul;
   o << " ]";
   return o;

@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#include <string>
 #include <list>
+#include <string>
 
 #include <boost/algorithm/string.hpp>
 
@@ -27,7 +27,7 @@ namespace ipfn {
 class cell_path {
  public:
   using list = std::list<boost::iterator_range<std::string::iterator>>;
- 
+
   // NOTE: expensive split (TODO?)
   cell_path(std::string);
   cell_path(std::string, list);
@@ -35,32 +35,25 @@ class cell_path {
   /// \brief splits path into vector of elements and constructs path
   inline static cell_path split(std::string path) noexcept;
 
-  inline
-  const std::string &
+  inline const std::string &
   as_str() const {
     return path_;
   }
 
-  inline
-  const list &
+  inline const list &
   elements() const {
     return elements_;
   }
 
-  inline
-  const std::size_t
+  inline const std::size_t
   size() const {
     return elements_.size();
   }
 
-  inline
-  const list &
-  operator*() const {
-    return elements_;
-  }
+  inline const list &operator*() const { return elements_; }
 
  private:
-  const std::string              path_;
+  const std::string path_;
   const list elements_;
 };
 
@@ -78,7 +71,7 @@ cell_path::split(std::string path) noexcept {
 }
 
 cell_path::cell_path(std::string path)
-  : path_(path), elements_(split_path(path)) {};
+  : path_(path), elements_(split_path(path)){};
 
 cell_path::cell_path(std::string path, list elements)
   : path_(std::move(path)), elements_(std::move(elements)){};
