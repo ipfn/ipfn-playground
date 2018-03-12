@@ -16,15 +16,13 @@ package keys
 
 import (
 	"errors"
-	"hash/crc32"
-	"strconv"
-	"strings"
 
 	prompt "github.com/segmentio/go-prompt"
 	"github.com/spf13/cobra"
 
 	"github.com/crackcomm/viperkeys"
 
+	"github.com/ipfn/go-ipfn-cmd-util/logger"
 	keywallet "github.com/ipfn/ipfn/go/keywallet"
 )
 
@@ -43,18 +41,8 @@ func deriveKey(name, path string) (_ *keywallet.ExtendedKey, err error) {
 		return nil, errors.New("failed to get decryption password")
 	}
 	if forcePath {
-		path = customDerivationPath(path)
+		path = keywallet.HashPath(path)
+		logger.Printf("Derive path: /%s", path)
 	}
 	return wallet.Derive(name, path, []byte(password))
-}
-
-func customDerivationPath(path string) string {
-	h := crc32.NewIEEE()
-	h.Write([]byte(path))
-	s := h.Sum(nil)
-	r := []string{"m", "112"}
-	for _, v := range s {
-		r = append(r, strconv.Itoa(int(v)))
-	}
-	return strings.Join(r, "/")
 }
