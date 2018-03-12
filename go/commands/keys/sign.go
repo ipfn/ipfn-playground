@@ -24,21 +24,24 @@ import (
 	base58 "github.com/jbenet/go-base58"
 	prompt "github.com/segmentio/go-prompt"
 
+	"github.com/ethereum/go-ethereum/crypto/sha3"
+
 	cmdutil "github.com/ipfn/go-ipfn-cmd-util"
 	"github.com/ipfn/go-ipfn-cmd-util/logger"
 )
 
 var (
-	keySignSize int
-	keyAlphabet bool
+	sigHashSize      int
+	passwordAlphabet bool
 )
 
 func init() {
 	RootCmd.AddCommand(SignCmd)
 	SignCmd.PersistentFlags().BoolVarP(&forcePath, "force", "f", false, "Force derivation path")
 	SignCmd.PersistentFlags().BoolVarP(&customSeedPwd, "custom", "u", false, "Custom seed password")
-	SignCmd.PersistentFlags().BoolVarP(&keyAlphabet, "encoding", "e", false, "Custom encoding alphabet")
-	SignCmd.PersistentFlags().IntVarP(&keySignSize, "size", "s", 32, "Signature hash size")
+	SignCmd.PersistentFlags().BoolVar(&btcAddr, "btc", false, "BTC address format")
+	SignCmd.PersistentFlags().IntVarP(&sigHashSize, "size", "s", 32, "Signature hash size")
+	SignCmd.PersistentFlags().BoolVarP(&passwordAlphabet, "password", "p", false, "Password encoding alphabet")
 }
 
 // SignCmd - Key sign command.
@@ -91,13 +94,22 @@ func HandleSignCmd(cmd *cobra.Command, args []string) (err error) {
 	if !signature.Verify(content, pub) {
 		return errors.New("Cannot verify signature")
 	}
-	logger.Print(encodeB58(signature.Serialize())[:keySignSize])
+	if printKey {
+		if err := printAccount(acc); err != nil {
+			return err
+		}
+	}
+	sigBytes := signature.Serialize()
+	logger.Debugf("Hex encoded signature: %x", sigBytes)
+	sighash := sha3.Sum512(sigBytes)
+	if passwordAlphabet {
+		logger.Printf("Signature hash: %s", encodePass(sighash[:sigHashSize]))
+	} else {
+		logger.Printf("Signature hash: %x", sighash[:sigHashSize])
+	}
 	return
 }
 
-func encodeB58(b []byte) string {
-	if keyAlphabet {
-		return base58.EncodeAlphabet(b, "12=45-789_BCDEFGHJKLMNPQRSTUV#XYZabcdefghijkmnop?rstuvwxyz")
-	}
-	return base58.Encode(b)
+func encodePass(b []byte) string {
+	return base58.EncodeAlphabet(b, "12=45-789_BCDEFGHJKLMNPQRSTUV#XYZabcdefghijkmnop?rstuvwxyz")
 }

@@ -25,10 +25,13 @@ import (
 
 	cmdutil "github.com/ipfn/go-ipfn-cmd-util"
 	"github.com/ipfn/go-ipfn-cmd-util/logger"
+	keywallet "github.com/ipfn/ipfn/go/keywallet"
 	"github.com/ipfn/ipfn/go/pubkeyhash"
 )
 
 var (
+	btcAddr       bool
+	printKey      bool
 	forcePath     bool
 	customSeedPwd bool
 	keyAddrID     string
@@ -39,6 +42,8 @@ func init() {
 	DeriveCmd.PersistentFlags().BoolVarP(&forcePath, "force", "f", false, "Force derivation path")
 	DeriveCmd.PersistentFlags().BoolVarP(&customSeedPwd, "custom", "u", false, "Use ustom seed derivation password")
 	DeriveCmd.PersistentFlags().StringVarP(&keyAddrID, "addr", "a", "0x0", "Custom pubkeyhash address network ID")
+	DeriveCmd.PersistentFlags().BoolVar(&btcAddr, "btc", false, "BTC address format")
+	DeriveCmd.PersistentFlags().BoolVarP(&printKey, "print-key", "p", false, "Prints private and public key")
 }
 
 // DeriveCmd - Key derive command.
@@ -67,6 +72,10 @@ func HandleDeriveCmd(cmd *cobra.Command, args []string) (err error) {
 	if err != nil {
 		return
 	}
+	return printAccount(acc)
+}
+
+func printAccount(acc *keywallet.ExtendedKey) (err error) {
 	pubkey, err := acc.ECPubKey()
 	if err != nil {
 		return
@@ -75,11 +84,24 @@ func HandleDeriveCmd(cmd *cobra.Command, args []string) (err error) {
 	if err != nil {
 		return
 	}
-	addr, err := pubkeyhash.PKHash(pubkey, id)
-	if err != nil {
-		return
+	var addr interface{}
+	if btcAddr {
+		addr, err = pubkeyhash.PKHash(pubkey, id)
+		if err != nil {
+			return
+		}
+	} else {
+		addr, err = pubkeyhash.Base32PKHashString(pubkey, id)
+		if err != nil {
+			return
+		}
 	}
-	logger.Print(addr.String())
+	if printKey {
+		neuter, _ := acc.Neuter()
+		logger.Printf("Public key: %s", neuter)
+		logger.Printf("Private key: %s", acc)
+	}
+	logger.Printf("Address: %s", addr)
 	return
 }
 
