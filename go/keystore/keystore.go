@@ -49,7 +49,10 @@ func (store *Store) Decrypt(name string, password []byte) (_ []byte, err error) 
 }
 
 // Has - Naively checks if error occurs on read, returns false if yes.
-func (store *Store) Has(name string) bool {
+func (store *Store) Has(name string) (_ bool, err error) {
 	key, err := store.Get(name)
-	return key != nil && err == nil
+	if err != nil {
+		return
+	}
+	return key != nil, nil
 }
