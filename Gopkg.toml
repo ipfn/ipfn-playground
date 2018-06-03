@@ -1,0 +1,112 @@
+# Gopkg.toml example
+#
+# Refer to https://golang.github.io/dep/docs/Gopkg.toml.html
+# for detailed Gopkg.toml documentation.
+#
+# required = ["github.com/user/thing/cmd/thing"]
+# ignored = ["github.com/user/project/pkgX", "bitbucket.org/user/project/pkgA/pkgY"]
+#
+# [[constraint]]
+#   name = "github.com/user/project"
+#   version = "1.0.0"
+#
+# [[constraint]]
+#   name = "github.com/user/project2"
+#   branch = "dev"
+#   source = "github.com/myfork/project2"
+#
+# [[override]]
+#   name = "github.com/x/y"
+#   version = "2.4.0"
+#
+# [prune]
+#   non-go = false
+#   go-tests = true
+#   unused-packages = true
+
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/btcsuite/btcd"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/btcsuite/btcutil"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/crackcomm/viperkeys"
+
+[[constraint]]
+  name = "github.com/ethereum/go-ethereum"
+  version = "1.8.10"
+
+[[constraint]]
+  name = "github.com/gogo/protobuf"
+  version = "1.0.0"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/ipfn/go-base32check"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/ipfn/go-bip39"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/ipfn/go-ipfn-cmd-util"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/ipfs/go-cid"
+
+[[constraint]]
+  name = "github.com/jbenet/go-base58"
+  version = "1.0.0"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/libp2p/go-libp2p-crypto"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/libp2p/go-libp2p-peer"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/mitchellh/go-homedir"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/multiformats/go-multihash"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/segmentio/go-prompt"
+
+[[constraint]]
+  name = "github.com/spf13/cobra"
+  version = "0.0.3"
+
+[[constraint]]
+  name = "github.com/spf13/viper"
+  version = "1.0.2"
+
+[[constraint]]
+  name = "github.com/stretchr/testify"
+  version = "1.2.1"
+
+[[constraint]]
+  branch = "master"
+  name = "golang.org/x/crypto"
+
+[[prune.project]]
+    name = "github.com/ethereum/go-ethereum"
+    non-go = false
+    unused-packages = false
+
+[prune]
+  non-go = true
+  go-tests = true
+  unused-packages = true
