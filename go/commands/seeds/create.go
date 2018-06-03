@@ -41,10 +41,16 @@ func init() {
 
 // CreateCmd - Seed create command.
 var CreateCmd = &cobra.Command{
-	Use:         "create",
+	Use:         "create [name]",
 	Short:       "Generates random seed",
 	Annotations: map[string]string{"category": "seed"},
-	Run:         cmdutil.WrapCommand(HandleCreateCmd),
+	Args: func(cmd *cobra.Command, args []string) error {
+		if createName == "" && len(args) == 1 {
+			createName = args[0]
+		}
+		return nil
+	},
+	Run: cmdutil.WrapCommand(HandleCreateCmd),
 }
 
 // HandleCreateCmd - Handles seed create command.
@@ -68,9 +74,17 @@ func HandleCreateCmd(cmd *cobra.Command, args []string) (err error) {
 		return
 	}
 	// Ask for *unique* name
-	if viperkeys.Default.Has(createName) {
+	var has bool
+	if createName != "" {
+		has, err = viperkeys.Default.Has(createName)
+		if err != nil {
+			return fmt.Errorf("failed to read keystore: %v", err)
+		}
+	}
+	if createName == "" || has {
 		createName = cmdutil.PromptConfirmed("seed name", func(name string) bool {
-			return !viperkeys.Default.Has(name)
+			has, _ := viperkeys.Default.Has(name)
+			return !has
 		})
 	}
 	return viperkeys.Default.CreateKey(createName, mnemonic, password)

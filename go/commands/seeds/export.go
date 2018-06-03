@@ -40,7 +40,11 @@ var ExportCmd = &cobra.Command{
 		if len(args) < 1 {
 			return errors.New("name argument is required")
 		}
-		if !viperkeys.Default.Has(args[0]) {
+		has, err := viperkeys.Default.Has(args[0])
+		if err != nil {
+			return fmt.Errorf("failed to read keystore: %v", err)
+		}
+		if !has {
 			return fmt.Errorf("seed %q was not found", args[0])
 		}
 		return nil

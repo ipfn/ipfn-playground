@@ -85,7 +85,7 @@ func printAccount(acc *keywallet.ExtendedKey) (err error) {
 		return
 	}
 	var addr interface{}
-	if btcAddr {
+	if id != 0 || btcAddr {
 		addr, err = pubkeyhash.PKHash(pubkey, id)
 		if err != nil {
 			return

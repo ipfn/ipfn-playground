@@ -37,7 +37,14 @@ var ImportCmd = &cobra.Command{
 	Short:       "Imports existing seed",
 	Annotations: map[string]string{"category": "seed"},
 	Args: func(cmd *cobra.Command, args []string) error {
-		if len(args) >= 1 && viperkeys.Default.Has(args[0]) {
+		if len(args) == 0 {
+			return errors.New("name argument is required")
+		}
+		has, err := viperkeys.Default.Has(args[0])
+		if err != nil {
+			return fmt.Errorf("failed to read keystore: %v", err)
+		}
+		if has {
 			return fmt.Errorf("seed %q already exists", args[0])
 		}
 		return nil
@@ -54,9 +61,14 @@ func HandleImportCmd(cmd *cobra.Command, args []string) (err error) {
 	}
 	// Ask for *unique* name
 	name := args[0]
-	if viperkeys.Default.Has(name) || name == "" {
+	has, err := viperkeys.Default.Has(name)
+	if err != nil {
+		return fmt.Errorf("failed to read keystore: %v", err)
+	}
+	if has || name == "" {
 		name = cmdutil.PromptConfirmed("seed name", func(name string) bool {
-			return !viperkeys.Default.Has(name)
+			has, _ := viperkeys.Default.Has(name)
+			return !has
 		})
 	}
 	return viperkeys.Default.CreateKey(name, mnemonic, password)
