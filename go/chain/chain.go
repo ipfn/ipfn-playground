@@ -12,13 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// IPFN command line application.
-package main
+// Package chain implements IPFN rootchain.
+package chain
 
-import (
-	"github.com/ipfn/ipfn/go/cmd"
-)
-
-func main() {
-	cmd.Execute()
+// Chain - Chain structure.
+type Chain struct {
 }

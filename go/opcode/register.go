@@ -12,13 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// IPFN command line application.
-package main
+package opcode
 
-import (
-	"github.com/ipfn/ipfn/go/cmd"
-)
+var registry = make(map[ID]string)
 
-func main() {
-	cmd.Execute()
+// Register - Registers op code.
+// Panics if code is not unique.
+func Register(code ID, name string) ID {
+	registry[code] = name
+	return code
 }

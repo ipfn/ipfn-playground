@@ -12,13 +12,32 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// IPFN command line application.
-package main
+package account
 
 import (
-	"github.com/ipfn/ipfn/go/cmd"
+	"github.com/cespare/xxhash"
+	"github.com/spf13/cobra"
+
+	cmdutil "github.com/ipfn/go-ipfn-cmd-util"
+	"github.com/ipfn/go-ipfn-cmd-util/logger"
 )
 
-func main() {
-	cmd.Execute()
+func init() {
+	// RootCmd.AddCommand(GetCmd)
+}
+
+// GetCmd - Account get command.
+var GetCmd = &cobra.Command{
+	Use:         "get [key]",
+	Short:       "Gets account value",
+	Annotations: map[string]string{"category": "account"},
+	Run:         cmdutil.WrapCommand(HandleGetCmd),
+}
+
+// HandleGetCmd - Handles account get command.
+func HandleGetCmd(cmd *cobra.Command, args []string) (err error) {
+
+	logger.Printf("0x%x", xxhash.Sum64([]byte(args[0])))
+
+	return
 }

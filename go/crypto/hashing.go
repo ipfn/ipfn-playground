@@ -12,13 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// IPFN command line application.
-package main
+package crypto
 
 import (
-	"github.com/ipfn/ipfn/go/cmd"
+	keccak "github.com/gxed/hashland/keccakpg"
 )
 
-func main() {
-	cmd.Execute()
+// SumKeccak256 - Sums Keccak256 secure hash.
+func SumKeccak256(data []byte) []byte {
+	h := keccak.New256()
+	h.Write(data)
+	return h.Sum(nil)
 }

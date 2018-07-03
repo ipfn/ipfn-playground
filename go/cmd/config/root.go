@@ -12,13 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// IPFN command line application.
-package main
+package config
 
 import (
-	"github.com/ipfn/ipfn/go/cmd"
+	"github.com/spf13/cobra"
 )
 
-func main() {
-	cmd.Execute()
+// RootCmd - Root config RootCmd.
+var RootCmd = &cobra.Command{
+	Use:         "config",
+	Short:       "General configuration",
+	Annotations: map[string]string{"category": "config"},
 }

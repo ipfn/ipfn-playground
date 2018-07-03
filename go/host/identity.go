@@ -12,13 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// IPFN command line application.
-package main
+package host
 
 import (
-	"github.com/ipfn/ipfn/go/cmd"
+	"github.com/btcsuite/btcd/btcec"
+	"github.com/ipfn/ipfn/go/keypair"
+	libp2p "github.com/libp2p/go-libp2p"
+	crypto "github.com/libp2p/go-libp2p-crypto"
 )
 
-func main() {
-	cmd.Execute()
+// Identity - Creates new identity from private key.
+func Identity(privkey *btcec.PrivateKey) libp2p.Option {
+	return libp2p.Identity((*crypto.Secp256k1PrivateKey)(privkey))
+}
+
+// KeyPair - Creates new identity from keypair.
+// Panics if given keypair is not private key.
+func KeyPair(keys *keypair.KeyPair) libp2p.Option {
+	privkey, err := keys.ECPrivKey()
+	if err != nil {
+		panic(err)
+	}
+	return Identity(privkey)
 }

@@ -12,13 +12,31 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// IPFN command line application.
-package main
+package opcode
 
 import (
-	"github.com/ipfn/ipfn/go/cmd"
+	. "testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
-func main() {
-	cmd.Execute()
+func TestComputeID(t *T) {
+	id, err := cidCell.Checksum()
+	assert.Equal(t, nil, err)
+	assert.Equal(t, ID(0x13fb93194e573bd2), id)
+}
+
+func TestParseID(t *T) {
+	var (
+		nID = ID(216547582402989)
+		src = "b4hp7dnrwncce5"
+		num = "216547582402989"
+	)
+
+	assert.Equal(t, num, nID.String())
+	assert.Equal(t, src, nID.Encode())
+
+	id, err := ParseID(src)
+	assert.Equal(t, nil, err)
+	assert.Equal(t, nID, id)
 }

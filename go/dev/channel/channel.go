@@ -12,13 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// IPFN command line application.
-package main
+package channel
 
 import (
-	"github.com/ipfn/ipfn/go/cmd"
+	"github.com/ipfn/ipfn/go/opcode"
 )
 
-func main() {
-	cmd.Execute()
+// Channel - Chain channel inteface.
+type Channel interface {
+	// Recv - Receives operation from channel.
+	Recv() (*opcode.BinaryCell, error)
+
+	// SendSigned - Signs and sends operation.
+	// Returns index of the message in chain.
+	SendSigned(*opcode.BinaryCell) (opcode.ID, error)
 }

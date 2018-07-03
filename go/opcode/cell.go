@@ -12,13 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// IPFN command line application.
-package main
+package opcode
 
-import (
-	"github.com/ipfn/ipfn/go/cmd"
-)
+// Cell - Operation cell interface.
+type Cell interface {
+	// ID - Operation ID.
+	ID() ID
 
-func main() {
-	cmd.Execute()
+	// Memory - Operation memory.
+	Memory() []byte
+
+	// Children - Amount of children.
+	Children() int
+
+	// Child - Child cell by index.
+	Child(int) Cell
 }

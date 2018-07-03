@@ -12,88 +12,124 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// Package keypair implements cryptographic keypair utils.
 package keypair
 
 import (
-	"encoding/json"
 	"fmt"
+	"strconv"
+	"strings"
 
-	crypto "github.com/libp2p/go-libp2p-crypto"
-	peer "github.com/libp2p/go-libp2p-peer"
+	"github.com/btcsuite/btcd/chaincfg"
+	"github.com/btcsuite/btcutil/hdkeychain"
+	"github.com/ipfn/ipfn/go/opcode"
 )
 
-// KeyPair - Cryptographic key pair, public and private.
+// KeyPair - Hierarchical deterministic derived key chain.
 type KeyPair struct {
-	peer.ID
-	crypto.PrivKey
+	*hdkeychain.ExtendedKey
 }
 
-// New - Generates a random identity with given size.
-func New(typ KeyType) (_ *KeyPair, err error) {
-	switch typ {
-	case RSA:
-		return NewCustom(typ, 2048)
-	default:
-		return NewCustom(typ, -1)
-	}
-}
-
-// NewCustom - Generates a random identity with given size.
-func NewCustom(typ KeyType, size int) (_ *KeyPair, err error) {
-	priv, pub, err := crypto.GenerateKeyPair(int(typ), size)
+// CID - Returns public key as cid.
+func (key *KeyPair) CID() (_ *opcode.CID, err error) {
+	pub, err := key.ECPubKey()
 	if err != nil {
 		return
 	}
-	id, err := peer.IDFromPublicKey(pub)
-	if err != nil {
-		return
-	}
-	return &KeyPair{
-		ID:      id,
-		PrivKey: priv,
-	}, nil
+	return CID(pub), nil
 }
 
-// UnmarshalJSON - Marshals keypair to JSON.
-func (keys *KeyPair) UnmarshalJSON(body []byte) (err error) {
-	msg := struct {
-		ID      string `json:"id,omitempty"`
-		PrivKey []byte `json:"private_key,omitempty"`
-	}{}
-	err = json.Unmarshal(body, &msg)
+// DerivePath - Derives extended path.
+func (key *KeyPair) DerivePath(path string) (*KeyPair, error) {
+	return derivePath(key, path)
+}
+
+// ExtendedChild - Derives extended key child by adding 0x80000000 (2^31) to path.
+func (key *KeyPair) ExtendedChild(path uint32) (*KeyPair, error) {
+	return key.Child(hdkeychain.HardenedKeyStart + path)
+}
+
+// Child - Derives extended key child.
+func (key *KeyPair) Child(path uint32) (*KeyPair, error) {
+	k, err := key.ExtendedKey.Child(path)
 	if err != nil {
-		return
+		return nil, err
 	}
-	if len(msg.PrivKey) != 0 {
-		keys.PrivKey, err = crypto.UnmarshalPrivateKey(msg.PrivKey)
+	return &KeyPair{ExtendedKey: k}, nil
+}
+
+// Serialize - Returns serialized public key bytes.
+func (key *KeyPair) Serialize() []byte {
+	pubkey, _ := key.ECPubKey()
+	return pubkey.SerializeCompressed()
+}
+
+// Bytes - Returns public key bytes.
+func (key *KeyPair) Bytes() []byte {
+	pubkey, _ := key.ECPubKey()
+	return PubkeyBytes(pubkey)
+}
+
+// String - Returns public key string.
+func (key *KeyPair) String() (_ string) {
+	if key.ExtendedKey.IsPrivate() {
+		neuter, err := key.Neuter()
 		if err != nil {
 			return
 		}
+		return neuter.String()
 	}
-	if len(msg.ID) != 0 && keys.PrivKey != nil {
-		keys.ID, err = peer.IDFromPublicKey(keys.PrivKey.GetPublic())
+	return key.ExtendedKey.String()
+}
+
+// PrivateString - Returns private key string.
+func (key *KeyPair) PrivateString() (_ string) {
+	if key.ExtendedKey.IsPrivate() {
+		return key.ExtendedKey.String()
+	}
+	return "<not-private-key>"
+}
+
+// derivePath - Derives string BIP44 path like `m/44'/0'/1'/0/0`.
+func derivePath(key *KeyPair, path string) (res *KeyPair, err error) {
+	if tr := strings.TrimPrefix(path, "x/"); tr != path {
+		path = HashPath(tr)
+	}
+	elems := strings.Split(path, "/")
+	if len(elems) > 0 && elems[0] == "" {
+		elems = elems[1:]
+	}
+	if len(elems) > 0 && elems[0] == "m" {
+		elems = elems[1:]
+	} else {
+		return nil, fmt.Errorf("invalid derivation path %q", path)
+	}
+	if len(elems) == 0 {
+		return nil, fmt.Errorf("empty derivation path %q", path)
+	}
+	res = key
+	for _, value := range elems {
+		v, err := strconv.Atoi(strings.TrimRight(value, "'"))
 		if err != nil {
-			return
+			return nil, fmt.Errorf("wrong derivation path element %q in %q", value, path)
 		}
-		if len(msg.ID) != 0 && msg.ID != keys.ID.Pretty() {
-			return fmt.Errorf("invalid keypair ID %q", msg.ID)
+		if strings.HasSuffix(value, "'") {
+			res, err = res.ExtendedChild(uint32(v))
+		} else {
+			res, err = res.Child(uint32(v))
+		}
+		if err != nil {
+			return nil, err
 		}
 	}
 	return
 }
 
-// MarshalJSON - Marshals keypair to JSON.
-func (keys *KeyPair) MarshalJSON() (_ []byte, err error) {
-	privKey, err := keys.PrivKey.Bytes()
-	if err != nil {
-		return
-	}
-	return json.MarshalIndent(struct {
-		ID      string `json:"id,omitempty"`
-		PrivKey []byte `json:"private_key,omitempty"`
-	}{
-		ID:      keys.ID.Pretty(),
-		PrivKey: privKey,
-	}, "", "  ")
+var keyParams = &chaincfg.Params{
+	HDPrivateKeyID: [4]byte{0xb6, 0xb8, 0xd5, 0xfb},
+	HDPublicKeyID:  [4]byte{0xb6, 0xb8, 0xda, 0x34},
+	HDCoinType:     43153,
+}
+
+func init() {
+	chaincfg.Register(keyParams)
 }

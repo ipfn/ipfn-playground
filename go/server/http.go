@@ -12,13 +12,5 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// IPFN command line application.
-package main
-
-import (
-	"github.com/ipfn/ipfn/go/cmd"
-)
-
-func main() {
-	cmd.Execute()
-}
+// Package server implements HTTP API server.
+package server

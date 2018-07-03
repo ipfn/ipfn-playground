@@ -12,13 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// IPFN command line application.
-package main
+package accounts
 
-import (
-	"github.com/ipfn/ipfn/go/cmd"
-)
+import "github.com/ipfn/ipfn/go/dev/address"
 
-func main() {
-	cmd.Execute()
+// Account - Account registered on chain.
+type Account struct {
+	// Address - Account ID.
+	Address *address.Address `json:"address,omitempty"`
+
+	// Owner - Owner identity.
+	Owner *Identity `json:"owner,omitempty"`
+
+	// Permissions - Account permissions.
+	Permissions []*Permissions `json:"permissions,omitempty"`
 }

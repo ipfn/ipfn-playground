@@ -12,13 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// IPFN command line application.
-package main
+package chain
 
 import (
-	"github.com/ipfn/ipfn/go/cmd"
+	"github.com/spf13/cobra"
 )
 
-func main() {
-	cmd.Execute()
+// RootCmd - Root chain RootCmd.
+var RootCmd = &cobra.Command{
+	Use:         "chain",
+	Short:       "Chains commands",
+	Annotations: map[string]string{"category": "chain"},
 }

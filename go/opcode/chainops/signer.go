@@ -12,13 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// IPFN command line application.
-package main
+package chainops
 
-import (
-	"github.com/ipfn/ipfn/go/cmd"
-)
+import "github.com/btcsuite/btcd/btcec"
 
-func main() {
-	cmd.Execute()
+// Signer - Signer interface.
+type Signer interface {
+	Sign([]byte) (*btcec.Signature, error)
 }

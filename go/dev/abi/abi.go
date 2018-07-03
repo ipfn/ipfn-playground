@@ -12,13 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// IPFN command line application.
-package main
+package abi
 
-import (
-	"github.com/ipfn/ipfn/go/cmd"
-)
+// Abi - ABI structure.
+type Abi struct {
+	Version string   `json:"version,omitempty"`
+	Actions []Action `json:"actions,omitempty"`
+	Types   []Type   `json:"types,omitempty"`
+}
 
-func main() {
-	cmd.Execute()
+// Action - ABI alias.
+type Action struct {
+	Name            string `json:"name,omitempty"`
+	ExternalAddress string `json:"external_address,omitempty"`
+}
+
+// Type - ABI type.
+type Type struct {
+	Name  string `json:"name,omitempty"`
+	Alias string `json:"alias,omitempty"`
 }

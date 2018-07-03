@@ -15,29 +15,66 @@
 package keypair
 
 import (
-	"encoding/json"
-	"io/ioutil"
+	"errors"
+	"fmt"
+	"hash/crc32"
+	"strconv"
+	"strings"
+
+	"github.com/btcsuite/btcd/chaincfg"
+	"github.com/btcsuite/btcutil/hdkeychain"
 )
 
-// NewCustomUnsafe - Same as New but panics on error.
-func NewCustomUnsafe(typ KeyType, size int) *KeyPair {
-	id, err := NewCustom(typ, size)
+// New - Creates a new master key.
+func New() (_ *KeyPair, err error) {
+	seed, err := NewSeed()
 	if err != nil {
-		panic(err)
+		return
 	}
-	return id
+	return NewMaster(seed)
 }
 
-// ReadFromFile - Reads keypair from file.
-func ReadFromFile(filename string) (_ *KeyPair, err error) {
-	body, err := ioutil.ReadFile(filename)
+// NewMaster - Creates a new master key from seed.
+func NewMaster(seed []byte) (*KeyPair, error) {
+	return NewCustomMaster(seed, keyParams)
+}
+
+// NewKeyFromString - Creates a new master key from string.
+func NewKeyFromString(v string) (*KeyPair, error) {
+	key, err := hdkeychain.NewKeyFromString(v)
 	if err != nil {
-		return
+		return nil, err
 	}
-	id := new(KeyPair)
-	err = json.Unmarshal(body, id)
+	return &KeyPair{ExtendedKey: key}, nil
+}
+
+// NewCustomMaster - Creates a new master key from seed.
+func NewCustomMaster(seed []byte, net *chaincfg.Params) (*KeyPair, error) {
+	if net == nil {
+		return nil, errors.New("cannot generate with empty chain params")
+	}
+	key, err := hdkeychain.NewMaster(seed, net)
 	if err != nil {
-		return
+		return nil, err
 	}
-	return id, nil
+	return &KeyPair{ExtendedKey: key}, nil
+}
+
+// HashPath - Creates custom derivation path from bytes of crc32 hash.
+func HashPath(path string) string {
+	// crc32 checksum of path
+	h := crc32.NewIEEE()
+	h.Write([]byte(path))
+	s := h.Sum(nil)
+	// create derivation path string
+	r := []string{"m", "44'", "43153'", "120'", "0"}
+	// iterate over crc32 bytes
+	for n, v := range s {
+		if n < 2 {
+			r = append(r, fmt.Sprintf("%d'", v))
+		} else {
+			r = append(r, strconv.Itoa(int(v)))
+		}
+	}
+	return strings.Join(r, "/")
 }

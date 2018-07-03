@@ -12,13 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// IPFN command line application.
-package main
+package accounts
 
 import (
-	"github.com/ipfn/ipfn/go/cmd"
+	"github.com/ipfn/ipfn/go/opcode"
 )
 
-func main() {
-	cmd.Execute()
+// accountStore - Account store interface.
+type accountStore interface {
+	// // Claim - Returns account claim.
+	// Claim(account opcode.ID) (claim *identity.AccountClaim, err error)
+
+	// BalanceOf - Gets balance of an account.
+	BalanceOf(account opcode.ID) (balance uint64, err error)
 }
