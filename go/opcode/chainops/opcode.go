@@ -63,6 +63,9 @@ const (
 
 	// OpTransfer - Transfer of an asset.
 	OpTransfer
+
+	// OpNonce - Nonce op (noop).
+	OpNonce
 )
 
 func init() {
@@ -80,4 +83,5 @@ func init() {
 	opcode.Register(OpCID, "cid")
 	opcode.Register(OpClaim, "claim")
 	opcode.Register(OpTransfer, "transfer")
+	opcode.Register(OpNonce, "nonce")
 }

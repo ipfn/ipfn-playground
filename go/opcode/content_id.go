@@ -39,6 +39,15 @@ func WrapCID(c *cid.Cid) *CID {
 	return &CID{Cid: c}
 }
 
+// DecodeCID - Parses CID.
+func DecodeCID(v string) (_ *CID, err error) {
+	c, err := cid.Decode(v)
+	if err != nil {
+		return
+	}
+	return &CID{Cid: c}, nil
+}
+
 // UnmarshalJSON - Parses the JSON string representation of a cid.
 func (c *CID) UnmarshalJSON(b []byte) (err error) {
 	if len(b) < 2 {

@@ -117,8 +117,8 @@ func Pubkey(pubkey *btcec.PublicKey) (c *opcode.BinaryCell) {
 }
 
 // PubkeyBytes - Creates public key cell.
-func PubkeyBytes(bytes []byte) (c *opcode.BinaryCell) {
-	return opcode.New(OpPubkey, bytes)
+func PubkeyBytes(pubkey []byte) (c *opcode.BinaryCell) {
+	return opcode.New(OpPubkey, pubkey)
 }
 
 // Genesis - Creates genesis operation.
@@ -129,9 +129,30 @@ func Genesis() (c *opcode.BinaryCell) {
 // AssignPower - Creates assign power operation.
 func AssignPower(nonce opcode.ID, quantity uint64, pubkey []byte) (c *opcode.BinaryCell) {
 	return opcode.Op(OpAssignPower,
-		ID(nonce),
+		// opcode.New(OpNonce, nonce.Bytes()),
 		synaptic.Uint64(quantity),
 		PubkeyBytes(pubkey))
+}
+
+// AssignPowerAddr - Creates assign power operation.
+func AssignPowerAddr(nonce opcode.ID, quantity uint64, addr *opcode.CID) (c *opcode.BinaryCell) {
+	return opcode.Op(OpAssignPower,
+		// opcode.New(OpNonce, nonce.Bytes()),
+		synaptic.Uint64(quantity),
+		CID(addr))
+}
+
+// DelegatePower - Creates delegate power operation.
+func DelegatePower(nonce opcode.ID, quantity uint64, pubkeys ...[]byte) (c *opcode.BinaryCell) {
+	c = opcode.Op(OpAssignPower,
+		// opcode.New(OpNonce, nonce.Bytes()),
+		synaptic.Uint64(quantity))
+	if len(pubkeys) > 0 {
+		for _, pubkey := range pubkeys {
+			c.Add(PubkeyBytes(pubkey))
+		}
+	}
+	return
 }
 
 // PubkeyToAddr - Creates public key hash cell from public key.

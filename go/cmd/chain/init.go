@@ -27,18 +27,18 @@ import (
 	"github.com/ipfn/ipfn/go/chain"
 	"github.com/ipfn/ipfn/go/opcode"
 	"github.com/ipfn/ipfn/go/opcode/chainops"
-	"github.com/ipfn/ipfn/go/opcode/synaptic"
 	"github.com/ipfn/ipfn/go/wallet"
 )
 
 var (
-	keyPaths []string
+	keyPaths   []string
+	addrPowers []string
 )
 
 func init() {
 	RootCmd.AddCommand(InitCmd)
-	InitCmd.PersistentFlags().StringSliceVarP(&keyPaths, "key", "k", nil, "key path and power in key:power format")
-	InitCmd.PersistentFlags().StringSliceVarP(&keyPaths, "pub", "p", nil, "pubkeyhash and power in addr:power format")
+	InitCmd.PersistentFlags().StringSliceVarP(&keyPaths, "key", "k", nil, "key path and power in key:power:delegated format")
+	InitCmd.PersistentFlags().StringSliceVarP(&addrPowers, "addr", "a", nil, "address and power in addr:power format")
 }
 
 // InitCmd - Config get command.
@@ -47,10 +47,8 @@ var InitCmd = &cobra.Command{
 	Short: "Initializes a chain",
 	Long: `Initializes a new chain.
 
-Path is defined as: "/<purpose>'/<coin_type>'/<account>'/<change>/<address_index>".
-
-Mnemonic can be used for path by using --hash or -x flag.`,
-	Example: `  $ ipfn chain init -n mychain -k wallet:1e6 -k default/x/test:1e6
+See wallet usage for more information on key derivation path.`,
+	Example: `  $ ipfn chain init -n mychain -k wallet:1e6:1e6 -k default/x/test:1e6:0
   $ ipfn chain init -p zFNScYMGz4wQocWbvHVqS1HcbzNzJB5JK3eAkzF9krbSLZiV8cNr:1`,
 	Annotations: map[string]string{"category": "chain"},
 	Run:         cmdutil.WrapCommand(HandleInitCmd),
@@ -69,20 +67,25 @@ func HandleInitCmd(cmd *cobra.Command, args []string) (err error) {
 
 	passwords := make(map[string][]byte)
 
+	var nonce opcode.ID
 	for _, keyPath := range keyPaths {
+
 		split := strings.Split(keyPath, ":")
-		if len(split) != 2 || split[1] == "" {
-			return fmt.Errorf("invalid key:power format: %q", keyPath)
+		if len(split) != 3 {
+			return fmt.Errorf("invalid key:power:delegated format: %q", keyPath)
 		}
 		power, err := strconv.ParseFloat(split[1], 64)
 		if err != nil {
 			return err
 		}
-		path, err := wallet.ParseKeyPath(keyPath)
+		dpower, err := strconv.ParseFloat(split[2], 64)
 		if err != nil {
 			return err
 		}
-		// ownerKeyPath := path.Extend(fmt.Sprintf("master/%d", index))
+		path, err := wallet.ParseKeyPath(split[0])
+		if err != nil {
+			return err
+		}
 		password, ok := passwords[path.SeedName]
 		if !ok {
 			password, err = wallet.PromptWalletPassword(path.SeedName)
@@ -102,14 +105,42 @@ func HandleInitCmd(cmd *cobra.Command, args []string) (err error) {
 			return err
 		}
 
-		delegateOp, err := chainops.Sign(opcode.Op(chainops.OpDelegatePower, synaptic.Uint64(uint64(power))), privkey)
+		if dpower == -1 {
+			dpower = power
+		}
+
+		if dpower != 0 {
+			op := chainops.DelegatePower(nonce, uint64(dpower))
+			delegateOp, err := chainops.Sign(op, privkey)
+			if err != nil {
+				return err
+			}
+			privKeys = append(privKeys, privkey)
+			delegateOps = append(delegateOps, delegateOp)
+		}
+
+		assignOps = append(assignOps, chainops.AssignPower(nonce, uint64(power), key.Serialize()))
+
+		// TODO(crackcomm):
+		nonce++
+	}
+
+	for _, addrPower := range addrPowers {
+		split := strings.Split(addrPower, ":")
+		if len(split) != 2 {
+			return fmt.Errorf("invalid addr:power format: %q", addrPower)
+		}
+		power, err := strconv.ParseFloat(split[1], 64)
 		if err != nil {
 			return err
 		}
-
-		privKeys = append(privKeys, privkey)
-		assignOps = append(assignOps, chainops.AssignPower(0, uint64(power), key.Serialize()))
-		delegateOps = append(delegateOps, delegateOp)
+		c, err := opcode.DecodeCID(split[0])
+		if err != nil {
+			return err
+		}
+		assignOps = append(assignOps, chainops.AssignPowerAddr(nonce, uint64(power), c))
+		// TODO(crackcomm):
+		nonce++
 	}
 
 	ops := []*opcode.BinaryCell{chainops.Genesis()}

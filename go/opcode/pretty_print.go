@@ -35,7 +35,7 @@ func writeStringScript(cell *BinaryCell, buff *bytes.Buffer) {
 	buff.WriteString(strings.ToUpper(fmt.Sprintf("OP_%s", cell.OpCode)))
 	if len(cell.Memory) > 0 {
 		buff.WriteByte(' ')
-		if cell.OpCode == 31 || cell.OpCode == 62 { // uint64 or id
+		if cell.OpCode == 31 || cell.OpCode == 62 || cell.OpCode == 75 { // uint64 or id or nonce
 			i, _ := proto.DecodeVarint(cell.Memory)
 			buff.WriteString(fmt.Sprintf("%d", i))
 		} else if cell.OpCode == 63 || cell.OpCode == 70 { // cid or pubkey addr
