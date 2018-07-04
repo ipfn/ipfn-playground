@@ -19,57 +19,61 @@ import (
 )
 
 const (
-	// ChainOpOffset - Offset of chain operation code.
-	ChainOpOffset opcode.ID = iota + 0x3c
+	// OpOffset - Offset of chain operation code.
+	OpOffset opcode.ID = iota + 0x3c
 
 	// OpMultihash - Multihash native operation code.
-	OpMultihash
+	OpMultihash = OpOffset + 1
 
 	// OpID - ID operation.
-	OpID
+	OpID = OpOffset + 2
 
 	// OpCID - Contentn ID native operation code.
-	OpCID
+	OpCID = OpOffset + 3
 
 	// OpHeader - Header operation.
-	OpHeader
+	OpHeader = OpOffset + 4
 
 	// OpGenesis - Genesis operation.
-	OpGenesis
+	OpGenesis = OpOffset + 5
 
 	// OpClaim - Address claim operation.
-	OpClaim
+	OpClaim = OpOffset + 6
 
 	// OpAssignPower - Allocation of power operation.
-	OpAssignPower
+	OpAssignPower = OpOffset + 7
 
 	// OpDelegatePower - Investment of power operation.
-	OpDelegatePower
+	OpDelegatePower = OpOffset + 8
 
 	// OpPubkey - Public key operation.
-	OpPubkey
+	OpPubkey = OpOffset + 9
 
 	// OpPubkeyAddr - Public key hash operation.
-	OpPubkeyAddr
+	OpPubkeyAddr = OpOffset + 10
 
 	// OpSignature - Signature operation.
-	OpSignature
+	OpSignature = OpOffset + 11
 
 	// OpSigned - Signed operation.
-	OpSigned
+	OpSigned = OpOffset + 12
 
 	// OpAddress - Address native operation code.
-	OpAddress
+	OpAddress = OpOffset + 13
 
 	// OpTransfer - Transfer of an asset.
-	OpTransfer
+	OpTransfer = OpOffset + 14
 
 	// OpNonce - Nonce op (noop).
-	OpNonce
+	OpNonce = OpOffset + 15
+
+	// OpRoot - Offset of chain operation code.
+	OpRoot opcode.ID = 0
 )
 
 func init() {
 	opcode.Register(OpID, "id")
+	opcode.Register(OpRoot, "root")
 	opcode.Register(OpHeader, "header")
 	opcode.Register(OpGenesis, "genesis")
 	opcode.Register(OpAssignPower, "assign_power")
