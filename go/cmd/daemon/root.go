@@ -12,15 +12,37 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package account
+package daemon
 
 import (
+	"log"
+	"net/http"
+	"time"
+
 	"github.com/spf13/cobra"
+
+	cmdutil "github.com/ipfn/go-ipfn-cmd-util"
 )
 
-// RootCmd - Root account RootCmd.
+// RootCmd - Root exp RootCmd.
 var RootCmd = &cobra.Command{
-	Use:         "account",
-	Short:       "Account commands",
-	Annotations: map[string]string{"category": "account"},
+	Use:         "daemon",
+	Short:       "Starts daemon",
+	Long:        "Starts IPFN daemon server listener.",
+	Annotations: map[string]string{"category": "daemon"},
+	Run:         cmdutil.WrapCommand(HandleCmd),
+}
+
+// HandleCmd - Handles daemon get command.
+func HandleCmd(cmd *cobra.Command, args []string) (err error) {
+	s := &http.Server{
+		Addr: "localhost:8888",
+		// Handler:        new(coreapi.Handler),
+		ReadTimeout:    10 * time.Second,
+		WriteTimeout:   10 * time.Second,
+		MaxHeaderBytes: 1 << 20,
+	}
+	log.Fatal(s.ListenAndServe())
+
+	return
 }

@@ -25,21 +25,17 @@ import (
 
 	"github.com/ipfn/go-ipfn-cmd-util/logger"
 
-	"github.com/ipfn/ipfn/go/cmd/account"
-	"github.com/ipfn/ipfn/go/cmd/chain"
 	"github.com/ipfn/ipfn/go/cmd/config"
 	"github.com/ipfn/ipfn/go/cmd/core"
+	"github.com/ipfn/ipfn/go/cmd/daemon"
 	"github.com/ipfn/ipfn/go/cmd/exp"
-	"github.com/ipfn/ipfn/go/cmd/wallet"
 )
 
 func init() {
 	RootCmd.AddCommand(exp.RootCmd)
 	core.RegisterCommands(RootCmd)
-	RootCmd.AddCommand(chain.RootCmd)
-	RootCmd.AddCommand(account.RootCmd)
-	RootCmd.AddCommand(wallet.RootCmd)
 	RootCmd.AddCommand(config.RootCmd)
+	RootCmd.AddCommand(daemon.RootCmd)
 	RootCmd.PersistentFlags().BoolVarP(&logger.Verbose, "verbose", "v", false, "verbose logs output (stdout/stderr)")
 }
 
