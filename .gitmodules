@@ -1,3 +1,0 @@
-[submodule "specs/rootchain"]
-	path = specs/rootchain
-	url = git@github.com:rootchain/rootchain.git
