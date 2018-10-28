@@ -1,0 +1,83 @@
+{
+  "name": "@ipfn/cell-pb",
+  "version": "0.0.2",
+  "description": "IPFN Cell Protocol Buffers codec.",
+  "keywords": [
+    "ipfn"
+  ],
+  "main": "dist/src/index.js",
+  "typings": "dist/src/index.d.ts",
+  "files": [
+    "dist/src"
+  ],
+  "contributors": [
+    "Łukasz Kurowski <crackcomm@gmail.com>"
+  ],
+  "website": "https://github.com/ipfn/ipfn/tree/master/src/js/cell-pb",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ipfn/ipfn/tree/master/src/js/cell-pb"
+  },
+  "dependencies": {
+    "@ipfn/cell": "0.0.2",
+    "@ipfn/protons": "^1.1.0"
+  },
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "scripts": {
+    "lint": "tslint -t codeFrame 'src/**/*.ts' 'test/**/*.ts'",
+    "prebuild": "npm run lint && rimraf dist",
+    "build": "tsc && typedoc --out dist/docs --target es6 --theme minimal src",
+    "start": "tsc -w",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:prod": "npm run build && npm run test -- --coverage --no-cache",
+    "report-coverage": "cat ./coverage/lcov.info | coveralls"
+  },
+  "jest": {
+    "transform": {
+      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/test/"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 35,
+        "functions": 50,
+        "lines": 50,
+        "statements": 50
+      }
+    },
+    "collectCoverage": true,
+    "mapCoverage": true
+  },
+  "devDependencies": {
+    "@types/jest": "^21.1.0",
+    "@types/node": "^8.0.51",
+    "colors": "^1.1.2",
+    "coveralls": "^3.0.0",
+    "cross-env": "^5.1.1",
+    "jest": "^21.2.1",
+    "lodash.camelcase": "^4.3.0",
+    "prettier": "^1.8.2",
+    "replace-in-file": "^3.0.0",
+    "rimraf": "^2.6.1",
+    "ts-jest": "^21.2.1",
+    "ts-node": "^3.0.6",
+    "tslint": "^5.8.0",
+    "tslint-config-prettier": "^1.6.0",
+    "tslint-config-standard": "^7.0.0",
+    "typedoc": "^0.10.0",
+    "typescript": "^2.6.1"
+  }
+}

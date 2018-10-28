@@ -1,0 +1,9 @@
+
+find_package(Doxygen)
+
+if(DOXYGEN_FOUND AND BUILD_DEPS_DOCS)
+  # RTTR
+  set(BUILD_DOCUMENTATION ON)
+else()
+  set(BUILD_DOCUMENTATION OFF)
+endif()

@@ -1,0 +1,13 @@
+[package]
+name = "ipfn"
+version = "0.1.0"
+authors = ["IPFN Developers <developers@ipfn.io>"]
+build = "build.rs"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+
+[build-dependencies]
+cbindgen =  "*"
