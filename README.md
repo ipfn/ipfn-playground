@@ -4,7 +4,7 @@
 [![IPFN Documentation](https://img.shields.io/badge/documentation-IPFN-blue.svg?style=flat-square)](//ipfn.github.io/documentation/)
 [![Travis CI](https://travis-ci.org/ipfn/ipfn.svg?branch=master)](https://travis-ci.org/ipfn/ipfn)
 
-IPFN – Interplanetary Functions Project.
+IPFN – Interplanetary Functions Project Development Environment
 
 ## License
 
