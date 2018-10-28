@@ -16,7 +16,7 @@ package host
 
 import (
 	"github.com/btcsuite/btcd/btcec"
-	"github.com/ipfn/ipfn/go/keypair"
+	"github.com/ipfn/ipfn/src/go/keypair"
 	libp2p "github.com/libp2p/go-libp2p"
 	crypto "github.com/libp2p/go-libp2p-crypto"
 )

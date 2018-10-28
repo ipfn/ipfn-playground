@@ -17,7 +17,7 @@ package core
 import (
 	cmdutil "github.com/ipfn/go-ipfn-cmd-util"
 	"github.com/ipfn/go-ipfn-cmd-util/logger"
-	"github.com/ipfn/ipfn/go/cmd/wallet"
+	"github.com/ipfn/ipfn/src/go/cmd/wallet"
 	"github.com/spf13/cobra"
 )
 

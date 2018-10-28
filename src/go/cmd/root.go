@@ -25,10 +25,10 @@ import (
 
 	"github.com/ipfn/go-ipfn-cmd-util/logger"
 
-	"github.com/ipfn/ipfn/go/cmd/config"
-	"github.com/ipfn/ipfn/go/cmd/core"
-	"github.com/ipfn/ipfn/go/cmd/daemon"
-	"github.com/ipfn/ipfn/go/cmd/exp"
+	"github.com/ipfn/ipfn/src/go/cmd/config"
+	"github.com/ipfn/ipfn/src/go/cmd/core"
+	"github.com/ipfn/ipfn/src/go/cmd/daemon"
+	"github.com/ipfn/ipfn/src/go/cmd/exp"
 )
 
 func init() {
