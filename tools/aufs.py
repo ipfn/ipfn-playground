@@ -32,16 +32,19 @@ For more information on AUFS, see http://aufs.sourceforge.net
 
 import os
 import re
-import sys
 import subprocess
 
 from functools import reduce
 
 
-def exec_sh(cmd, debug=False):
+def cleanpath(path):
+    return os.path.normpath(os.path.abspath(path))
+
+
+def exec_sh(cmd, debug=True):
     """ Executes shell command """
     if debug:
-        sys.stderr.write("# " + " ".join(cmd) + "\n")
+        print("# " + " ".join(cmd) + "\n")
     return subprocess.Popen(cmd, stdout=subprocess.PIPE).communicate()[0].decode("utf-8")
 
 
@@ -101,11 +104,7 @@ class AUFS:
     """
 
     def __init__(self, mountpoint):
-        self.mountpoint = self.cleanpath(mountpoint)
-
-    @staticmethod
-    def cleanpath(path):
-        return os.path.normpath(os.path.abspath(path))
+        self.mountpoint = cleanpath(mountpoint)
 
     def get_layers(self):
         mtab_entry = mtab().get(self.mountpoint)
@@ -118,7 +117,7 @@ class AUFS:
             raise ValueError(
                 "Can't retrieve aufs branches for %s" % self.mountpoint)
         return [
-            (self.cleanpath(path), access)
+            (cleanpath(path), access)
             for (path, access) in [
                 br.split("=", 1)
                 for br in aufs_branches
@@ -126,7 +125,7 @@ class AUFS:
         ]
 
     def set_layers(self, layers):
-        layers = [(self.cleanpath(path), access) for (path, access) in layers]
+        layers = [(cleanpath(path), access) for (path, access) in layers]
         if layers == self.layers:
             return
         if self.layers:
