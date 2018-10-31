@@ -38,6 +38,20 @@ Source: https://github.com/hyperledger/fabric
 Copyright: 2017-2018, IBM Corp.
 License: Apache-2.0
 
+Files: tools/install_deps.sh
+       src/third_party/CMakeLists.txt
+Source: https://github.com/senior7515/smf/
+Copyright: 2017, Alexander Gallego
+           2018, SMF Authors
+           2018, IPFN Developers
+License: Apache-2.0
+
+Files: tools/aufs.py
+Source: https://github.com/senior7515/smf/
+Copyright: 2009-2018, Solomon Hykes <solomon.hykes@dotcloud.com>
+           2018, Łukasz Kurowski <crackcomm@gmail.com>
+License: Apache-2.0
+
 Files: src/third_party/libbitcoin/*
 Source: https://github.com/libbitcoin/libbitcoin/
 Copyright: 2011-2017 libbitcoin developers
@@ -58,12 +72,6 @@ License: MIT
 Files: src/third_party/smf/*
 Source: https://github.com/senior7515/smf/
 Copyright: 2016, Alexander Gallego
-License: Apache-2.0
-
-Files: src/third_party/CMakeLists.txt
-Source: https://github.com/senior7515/smf/
-Copyright: 2017, Alexander Gallego
-           2018, IPFN Developers
 License: Apache-2.0
 
 Files: src/third_party/tvm/*
