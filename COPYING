@@ -1,0 +1,72 @@
+Format-Specification: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Name: ipfn
+Source: http://ipfn.io/
+Maintainer: Łukasz Kurowski <crackcomm@gmail.com>
+License: Apache-2.0
+
+
+Files: cmake/modules/LLVM.cmake
+       cmake/util/{FindLLVM,Util}.cmake
+Source: https://github.com/dmlc/tvm/
+Copyright: 2017, TVM Contributors
+License: Apache-2.0
+
+Files: cmake/rust/*
+Source: https://github.com/Devolutions/CMakeRust
+Copyright: None
+License: Apache-2.0 or MIT
+
+Files: cmake/ProjectSecp256k1.cmake
+       cmake/secp256k1/CMakeLists.txt
+Source: https://github.com/ethereum/aleth
+Copyright: None
+License: GPL-3.0
+
+Files: cmake/util/ccache.cmake
+Source: http://ceph.com/
+Copyright: 2004-2010, Sage Weil <sage@newdream.net>
+License: LGPL2.1
+
+Files: cmake/toolchain/Emscripten.cmake
+Source: https://github.com/kripken/emscripten
+Copyright: 2010-2014, Emscripten authors
+License: MIT or NCSA
+    https://github.com/kripken/emscripten/blob/master/LICENSE
+
+Files: tools/devenv
+Source: https://github.com/hyperledger/fabric
+Copyright: 2017-2018, IBM Corp.
+License: Apache-2.0
+
+Files: src/third_party/libbitcoin/*
+Source: https://github.com/libbitcoin/libbitcoin/
+Copyright: 2011-2017 libbitcoin developers
+License: GPL-3+
+    https://github.com/libbitcoin/libbitcoin/blob/master/COPYING
+
+Files: src/third_party/pybind11/*
+Source: https://github.com/pybind/pybind11/
+Copyright: 2016, Wenzel Jakob <wenzel.jakob@epfl.ch>
+License: BSD-style
+    https://github.com/pybind/pybind11/blob/master/LICENSE
+
+Files: src/third_party/secp256k1/*
+Source: https://github.com/bitcoin-core/secp256k1/
+Copyright: 2013, Pieter Wuille
+License: MIT
+
+Files: src/third_party/smf/*
+Source: https://github.com/senior7515/smf/
+Copyright: 2016, Alexander Gallego
+License: Apache-2.0
+
+Files: src/third_party/CMakeLists.txt
+Source: https://github.com/senior7515/smf/
+Copyright: 2017, Alexander Gallego
+           2018, IPFN Developers
+License: Apache-2.0
+
+Files: src/third_party/tvm/*
+Source: https://github.com/dmlc/tvm/
+Copyright: 2017, TVM Contributors <https://github.com/dmlc/tvm/blob/master/CONTRIBUTORS.md>
+License: Apache-2.0
