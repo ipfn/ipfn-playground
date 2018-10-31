@@ -1,3 +1,10 @@
+# Original source code: https://github.com/ethereum/aleth/blob/671bce349a4da8dc5a10817cfc63be5a61ddebb0/cmake/ProjectSecp256k1.cmake
+#
+# Copyright © 2018 The IPFN Developers. All Rights Reserved.
+# Copyright © 2017-2018 Paweł Bylica <@chfast>. All Rights Reserved.
+#
+# Licensed under GNU General Public License v3.0
+#
 include(ExternalProject)
 
 if (MSVC)
