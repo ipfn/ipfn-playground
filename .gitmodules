@@ -14,3 +14,6 @@
 	path = src/third_party/tvm
 	url = https://github.com/dmlc/tvm.git
 	branch = master
+[submodule "src/third_party/libbitcoin"]
+	path = src/third_party/libbitcoin
+	url = https://github.com/libbitcoin/libbitcoin.git
