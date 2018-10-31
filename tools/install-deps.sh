@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Copyright 2018 SMF Authors
+# Copyright 2018 IPFN Developers
 #
 
 set -e
