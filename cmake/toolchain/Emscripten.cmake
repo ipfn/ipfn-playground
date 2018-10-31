@@ -1,3 +1,11 @@
+# Source: https://github.com/kripken/emscripten/blob/feb5be841fb973f1ac8e29d853e22e04d1cdab26/cmake/Modules/Platform/Emscripten.cmake
+# License:
+#     Emscripten is available under 2 licenses, the MIT license and the
+#     University of Illinois/NCSA Open Source License.
+#
+# Copyright (c) 2018 IPFN Developers
+# Copyright (c) 2010-2018 Emscripten authors
+#
 # This file is a 'toolchain description file' for CMake.
 # It teaches CMake about the Emscripten compiler, so that CMake can generate makefiles
 # from CMakeLists.txt that invoke emcc.
