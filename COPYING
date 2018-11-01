@@ -45,6 +45,7 @@ Copyright: 2018, IBM Corp.
 License: Apache-2.0
 
 Files: tools/install_deps.sh
+       cmake/util/tests.cmake
        src/third_party/CMakeLists.txt
 Source: https://github.com/senior7515/smf/
 Copyright: 2017, Alexander Gallego
