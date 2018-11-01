@@ -9,6 +9,9 @@
 set -e
 set -x
 
+# Supposed to overcome sudo
+WHOAMI=$(who am i | awk '{print $1}')
+
 # ----------------------------------------------------------------
 # Install Golang
 # ----------------------------------------------------------------
@@ -27,5 +30,6 @@ export PATH=\$PATH:$GOROOT/bin:$GOPATH/bin
 EOF
 
 mkdir -p $GOROOT $GOPATH
+chown -R $WHOAMI:$WHOAMI $GOPATH
 
 curl -sL $GO_URL | (cd $GOROOT && tar --strip-components 1 -xz)

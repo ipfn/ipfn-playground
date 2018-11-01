@@ -6,30 +6,26 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
+set -e
+
 source /etc/os-release
 
 #
 # Installs `docker` and `docker-compose` on Debian based distros.
 #
+
 function debs() {
 	# remove old docker engine
 	apt-get remove -qy docker docker-engine docker.io
 	# update package manager
 	apt-get update -qq
 	# package management utils
-	apt-get install -qy \
-		apt-transport-https \
-		ca-certificates \
-		curl \
-		software-properties-common
+	apt-get install -qy curl apt-transport-https ca-certificates software-properties-common
 	# download and add PGP key
 	curl -fsSL https://download.docker.com/linux/$ID/gpg | sudo apt-key add -
 	# verify PGP public key fingerprint
 	apt-key fingerprint 0EBFCD88
-	add-apt-repository \
-		"deb [arch=amd64] https://download.docker.com/linux/$ID \
-        $(lsb_release -cs) \
-        stable"
+	add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/$ID $(lsb_release -cs) stable"
 	# download docker registry
 	apt-get update -qq
 	# install docker community edition

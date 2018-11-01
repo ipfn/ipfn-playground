@@ -79,8 +79,9 @@ Copyright: 2009-2018, Solomon Hykes <solomon.hykes@dotcloud.com>
            2018, Łukasz Kurowski <crackcomm@gmail.com>
 License: Apache-2.0
 
-Files: tools/devenv/{setup,install-{docker,go,nvm}}.sh
-       tools/devenv/failure-motd.txt
+Files: tools/devenv/{limits.conf,setup.sh}
+       tools/devenv/install-{go,nvm,docker}.sh
+       tools/devenv/motd-{failure,success}.txt
 Source: https://github.com/hyperledger/fabric
 Copyright: 2018, IBM Corp.
            2018, IPFN Developers

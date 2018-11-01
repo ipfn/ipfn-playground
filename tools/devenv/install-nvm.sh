@@ -9,6 +9,8 @@
 set -e
 set -x
 
+WHOAMI=$(who am i | awk '{print $1}')
+
 # ----------------------------------------------------------------
 # Install nvm to manage multiple NodeJS versions
 # ----------------------------------------------------------------
@@ -18,7 +20,7 @@ NODE_VER=8.4 # node.js version
 
 # Download and install nvm
 curl -o- $NVM_URL | bash
-export NVM_DIR="$HOME/.nvm"
+export NVM_DIR="/home/$WHOAMI/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
 
 # ----------------------------------------------------------------
@@ -26,3 +28,10 @@ export NVM_DIR="$HOME/.nvm"
 # ----------------------------------------------------------------
 nvm install v$NODE_VER
 nvm alias default v$NODE_VER #set default to v$NODE_VER
+
+chown -R $WHOAMI:$WHOAMI /home/$WHOAMI/.nvm
+
+cat <<EOF >/etc/profile.d/nvm.sh
+export NVM_DIR="\$HOME/.nvm"
+[ -s "\$NVM_DIR/nvm.sh" ] && . "\$NVM_DIR/nvm.sh" # This loads nvm
+EOF
