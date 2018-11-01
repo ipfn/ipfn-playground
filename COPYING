@@ -46,6 +46,13 @@ Copyright: 2017, Alexander Gallego
            2018, IPFN Developers
 License: Apache-2.0
 
+Files: src/go/bccsp/*
+       src/go/common/flogging/*
+       src/go/tests/bccsp/plugin/*
+Source: https://github.com/hyperledger/fabric
+Copyright: 2018, IBM Corp.
+License: Apache-2.0
+
 Files: src/third_party/libbitcoin/*
 Source: https://github.com/libbitcoin/libbitcoin/
 Copyright: 2011-2017 libbitcoin developers
