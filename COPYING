@@ -38,30 +38,12 @@ Copyright: 2010-2014, Emscripten authors
 License: MIT or NCSA
     https://github.com/kripken/emscripten/blob/master/LICENSE
 
-Files: tools/devenv/*
-Source: https://github.com/hyperledger/fabric
-Copyright: 2018, IBM Corp.
-           2018, IPFN Developers
-License: Apache-2.0
-
-Files: tools/install_deps.sh
-Copyright: 2015-2018, Cloudius Systems, Ltd.
-           2017-2018, SMF Authors
-           2018, IPFN Developers
-License: Apache-2.0
-
 Files: cmake/util/tests.cmake
        src/third_party/CMakeLists.txt
 Source: https://github.com/senior7515/smf/
 Copyright: 2017, Alexander Gallego
            2018, SMF Authors
            2018, IPFN Developers
-License: Apache-2.0
-
-Files: tools/aufs.py
-Source: https://github.com/senior7515/smf/
-Copyright: 2009-2018, Solomon Hykes <solomon.hykes@dotcloud.com>
-           2018, Łukasz Kurowski <crackcomm@gmail.com>
 License: Apache-2.0
 
 Files: src/third_party/libbitcoin/*
@@ -89,4 +71,23 @@ License: Apache-2.0
 Files: src/third_party/tvm/*
 Source: https://github.com/dmlc/tvm/
 Copyright: 2017, TVM Contributors <https://github.com/dmlc/tvm/blob/master/CONTRIBUTORS.md>
+License: Apache-2.0
+
+Files: tools/aufs.py
+Source: https://github.com/senior7515/smf/
+Copyright: 2009-2018, Solomon Hykes <solomon.hykes@dotcloud.com>
+           2018, Łukasz Kurowski <crackcomm@gmail.com>
+License: Apache-2.0
+
+Files: tools/devenv/{setup,install-{docker,go,nvm}}.sh
+       tools/devenv/failure-motd.txt
+Source: https://github.com/hyperledger/fabric
+Copyright: 2018, IBM Corp.
+           2018, IPFN Developers
+License: Apache-2.0
+
+Files: tools/devenv/install_deps.sh
+Copyright: 2015-2018, Cloudius Systems, Ltd.
+           2017-2018, SMF Authors
+           2018, IPFN Developers
 License: Apache-2.0
