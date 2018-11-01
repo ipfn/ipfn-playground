@@ -18,6 +18,18 @@ vagrant up
 
 Note: take in mind it's just a beginning.
 
+## Technologies
+
+IPFN brings many technologies together.
+
+* [ipfs](https://github.com/ipfs/go-ipfs/) - interplanetaru file system.
+* [docker](https://github.com/docker/docker-ce) - container build system.
+* [runc](https://github.com/opencontainers/runc) - linux containers
+* [runv](https://github.com/hyperhq/runv) - virtual machine containers
+* [kata-runtime](https://github.com/kata-containers/runtime) - virtual machine containers
+* [containerd](https://github.com/containerd/containerd) - container management system.
+* [qemu](https://www.qemu.org/) - full system emulator.
+
 ## License
 
 This software is licensed under the Apache License 2.0, see [COPYING](https://github.com/ipfn/ipfn/blob/master/COPYING) file for more details.
