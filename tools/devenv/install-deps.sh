@@ -41,6 +41,7 @@ function debs() {
 		extra=clang
 	fi
 	apt-get install -y \
+		curl \
 		ninja-build \
 		ragel \
 		libhwloc-dev \
@@ -101,6 +102,7 @@ function rpms() {
 		extra=clang
 	fi
 	${yumdnf} install -y \
+		curl \
 		cmake \
 		make \
 		gnutls-devel \
