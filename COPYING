@@ -27,6 +27,11 @@ Source: http://ceph.com/
 Copyright: 2004-2010, Sage Weil <sage@newdream.net>
 License: LGPL2.1
 
+Files: cmake/util/CodeCoverage.cmake
+Source: https://github.com/bilke/cmake-modules
+Copyright: 2012-2017, Lars Bilke
+License: BSD-3-clause
+
 Files: cmake/toolchain/Emscripten.cmake
 Source: https://github.com/kripken/emscripten
 Copyright: 2010-2014, Emscripten authors
