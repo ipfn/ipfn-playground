@@ -8,9 +8,7 @@ IPFN – Interplanetary Functions Project Development Environment
 
 ## License
 
-                                 Apache License
-                           Version 2.0, January 2004
-                        http://www.apache.org/licenses/
+This software is licensed under the Apache License 2.0, see [COPYING](https://github.com/ipfn/ipfn/blob/master/COPYING) file for more details.
 
 ## Project
 
