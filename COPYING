@@ -45,7 +45,12 @@ Copyright: 2018, IBM Corp.
 License: Apache-2.0
 
 Files: tools/install_deps.sh
-       cmake/util/tests.cmake
+Copyright: 2015-2018, Cloudius Systems, Ltd.
+           2017-2018, SMF Authors
+           2018, IPFN Developers
+License: Apache-2.0
+
+Files: cmake/util/tests.cmake
        src/third_party/CMakeLists.txt
 Source: https://github.com/senior7515/smf/
 Copyright: 2017, Alexander Gallego
