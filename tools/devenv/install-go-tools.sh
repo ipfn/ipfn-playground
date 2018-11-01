@@ -9,7 +9,10 @@ set -e
 set -x
 
 # ensure go environment variables
-source /etc/profile.d/goroot.sh
+# file can be not existent on Travis CI
+if [ -f /etc/profile.d/goroot.sh ]; then
+	source /etc/profile.d/goroot.sh
+fi
 
 # go dependencies management
 go get -u github.com/golang/dep/cmd/dep
