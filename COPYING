@@ -2,8 +2,11 @@ Format-Specification: https://www.debian.org/doc/packaging-manuals/copyright-for
 Name: ipfn
 Source: http://ipfn.io/
 Maintainer: Łukasz Kurowski <crackcomm@gmail.com>
-License: Apache-2.0
 
+
+Files: *
+Copyright: 2017-2018, The IPFN Developers
+License: Apache-2.0
 
 Files: cmake/modules/LLVM.cmake
        cmake/util/{FindLLVM,Util}.cmake
@@ -43,7 +46,7 @@ Files: cmake/util/tests.cmake
 Source: https://github.com/senior7515/smf/
 Copyright: 2017, Alexander Gallego
            2018, SMF Authors
-           2018, IPFN Developers
+           2018, The IPFN Developers
 License: Apache-2.0
 
 Files: src/go/bccsp/*
@@ -91,11 +94,11 @@ Files: tools/devenv/{limits.conf,setup.sh}
        tools/devenv/motd-{failure,success}.txt
 Source: https://github.com/hyperledger/fabric
 Copyright: 2018, IBM Corp.
-           2018, IPFN Developers
+           2018, The IPFN Developers
 License: Apache-2.0
 
 Files: tools/devenv/install_deps.sh
 Copyright: 2015-2018, Cloudius Systems, Ltd.
            2017-2018, SMF Authors
-           2018, IPFN Developers
+           2018, The IPFN Developers
 License: Apache-2.0
