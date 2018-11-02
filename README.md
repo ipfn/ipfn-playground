@@ -20,7 +20,7 @@ Note: take in mind it's just a beginning.
 
 ## Technologies
 
-IPFN borrows from many technologies and companies together, including:
+IPFN is made possible thanks to many technologies and companies together, including:
 
 ### General
 
