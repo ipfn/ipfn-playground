@@ -32,7 +32,7 @@ cd ipfn
 
 #### Vagrant
 
-In source directory run:
+To start development using [Vagrant][] run following commands in source directory:
 
 ```sh
 vagrant up
@@ -40,7 +40,7 @@ vagrant up
 
 #### Docker
 
-In source directory run:
+To start development using [Docker][] run following commands in source directory:
 
 ```sh
 docker pull ipfn/env:latest
@@ -168,3 +168,5 @@ This source code is part of [IPFN](https://github.com/ipfn) – interplanetary f
 [Python]: https://www.python.org/
 [CMake]: https://cmake.org/
 [gcc]: https://www.gnu.org/software/gcc/
+[Fedora]: https://getfedora.org/
+[Ubuntu]: https://www.ubuntu.com/
