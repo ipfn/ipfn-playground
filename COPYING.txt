@@ -56,12 +56,6 @@ Source: https://github.com/hyperledger/fabric
 Copyright: 2018, IBM Corp.
 License: Apache-2.0
 
-Files: src/third_party/libbitcoin/*
-Source: https://github.com/libbitcoin/libbitcoin/
-Copyright: 2011-2017 libbitcoin developers
-License: GPL-3+
-    https://github.com/libbitcoin/libbitcoin/blob/master/COPYING
-
 Files: src/third_party/pybind11/*
 Source: https://github.com/pybind/pybind11/
 Copyright: 2016, Wenzel Jakob <wenzel.jakob@epfl.ch>
