@@ -26,8 +26,7 @@ If you want to start IPFN core development you can give it a quick try with [Vag
 #### Clone
 
 ```sh
-git clone https://github.com/ipfn/ipfn.git
-cd ipfn
+git clone https://github.com/ipfn/ipfn.git && cd ipfn
 ```
 
 #### Vagrant
@@ -40,21 +39,28 @@ vagrant up
 
 #### Docker
 
-To start development using [Docker][] run following commands in source directory:
+To start development using [Docker][] you can download latest environment image:
 
 ```sh
 docker pull ipfn/env:latest
+```
+
+Start in IPFN source code directory or replace the `\`pwd\`` with it's location:
+
+```sh
 docker run -it -v `pwd`:/src ipfn/env:latest
 ```
+
+This is only required to work on IPFN and not to use it.
 
 ### Requirements
 
 * [Go][] >= 1.9.2
 * [CMake][] >= 3.5
+* [g++][gcc] >= 5.0 (for [seastar][] server)
 * [Python][] >= 3.0 (only for Python SDK)
 * [node.js][] >= 8.4 (only for node.js SDK)
-* [Rust][] >= 1.3 (only for Rust SDK)
-* [g++][gcc] >= 5.0 (for [seastar][] server)
+* [Rust][] nightly (only for Rust SDK)
 
 Lower versions could also work but are not targeted.
 
@@ -66,13 +72,11 @@ Interplanetary functions project development prioritizes [Linux][] platform over
 
 | Operating System | High-performance | Server    | Client   | CI                           |
 |:-----------------|:-----------------|:----------|:---------|:-----------------------------|
-| Fedora 29        | &#10003;         | &#10003;  | &#10003; | [![Travis CI][badge-ci]][ci] |
-| Fedora 28        | &#10003;         | &#10003;  | &#10003; | [![Travis CI][badge-ci]][ci] |
-| Ubuntu 18.10     | &#10003;         | &#10003;  | &#10003; | [![Travis CI][badge-ci]][ci] |
-| Ubuntu 18.04     | &#10003;         | &#10003;  | &#10003; | [![Travis CI][badge-ci]][ci] |
-| Ubuntu 16.04     | &#10003;         | &#10003;  | &#10003; | [![Travis CI][badge-ci]][ci] |
-| Windows 10       | &#10007;         | &#10003;* | &#10003; | &#8230;                      |
+| Debian 8+        | &#10003;         | &#10003;  | &#10003; | [![Travis CI][badge-ci]][ci] |
+| Fedora 21+       | &#10003;         | &#10003;  | &#10003; | [![Travis CI][badge-ci]][ci] |
+| Ubuntu 14.04+    | &#10003;         | &#10003;  | &#10003; | [![Travis CI][badge-ci]][ci] |
 | OSX              | &#10007;         | &#10003;* | &#10003; | &#8230;                      |
+| Windows          | &#10007;         | &#10003;* | &#10003; | &#8230;                      |
 
 * \* - supported using [Vagrant][] and [VirtualBox][]
 
@@ -103,6 +107,7 @@ IPFN builds on many technologies and open source work of many different companie
 
 * [tvm][] - deep learning compiler stack
 * [llvm][] - compiler infrastructure
+* [halide][] - language for portable computation
 * [tensorflow][] - computation graphs playground
 * [emscripten] - llvm to wasm and js compiler
 * [assemblysript][] - typescript to wasm compiler
@@ -149,6 +154,7 @@ This source code is part of [IPFN](https://github.com/ipfn) – interplanetary f
 [emscripten]: https://github.com/kripken/emscripten
 [tvm]: https://github.com/dmlc/tvm/
 [llvm]: https://llvm.org/
+[halide]: https://github.com/halide/Halide
 [tensorflow]: https://www.tensorflow.org/
 [runc]: https://github.com/opencontainers/runc
 [runv]: https://github.com/hyperhq/runv
