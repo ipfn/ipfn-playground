@@ -26,7 +26,7 @@ If you want to start IPFN core development you can give it a quick try with [Vag
 #### Clone
 
 ```sh
-git clone https://github.com/ipfn/ipfn.git && cd ipfn
+git clone --recursive https://github.com/ipfn/ipfn.git && cd ipfn
 ```
 
 #### Vagrant
@@ -94,6 +94,10 @@ IPFN builds on many technologies and open source work of many different companie
 * [smf][] - fastest rpc in the west
 * [seastar][] - high performance framework
 
+### Storage
+
+* [scylla][] - high perfomance data store
+
 ### Sandboxing
 
 * [runc][] - linux containers
@@ -146,7 +150,8 @@ This source code is part of [IPFN](https://github.com/ipfn) – interplanetary f
 [seastar]: https://github.com/scylladb/seastar
 [ipfs]: https://github.com/ipfs/go-ipfs/
 [smf]: https://senior7515.github.io/smf/
-[seastar]: https://github.com/scylladb/seastar/
+[seastar]: https://github.com/scylladb/seastar
+[scylla]: https://github.com/scylladb/scylla
 [npm]: https://www.npmjs.com/
 [wasmi]: https://github.com/paritytech/wasmi
 [wagon]: https://github.com/go-interpreter/wagon
