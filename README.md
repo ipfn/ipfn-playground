@@ -49,9 +49,9 @@ IPFN is made possible thanks to many technologies and companies together, includ
 ### Blockchains
 
 * [bitcoin](https://github.com/btcsuite) - cryptography toolchains
-* [ethereum](https://github.com/ethereum) - key management software
+* [ethereum](https://github.com/ethereum) - key management infrastructure
+* [fabric](https://github.com/hyperledger/fabric) - key management infrastructure
 * [parity](https://github.com/paritytech) - secure blockchain infrastructure
-* [fabric](https://github.com/hyperledger/fabric) - cryptography toolchains
 
 ## License
 
