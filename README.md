@@ -24,7 +24,7 @@ IPFN borrows from many technologies and companies together, including:
 
 ### General
 
-* [ipfs](https://github.com/ipfs/go-ipfs/) - interplanetary file system.
+* [ipfs](https://github.com/ipfs/go-ipfs/) - interplanetary file system
 
 ### Virtualization
 
