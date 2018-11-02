@@ -31,16 +31,16 @@ IPFN borrows from many technologies and companies together, including:
 * [runc](https://github.com/opencontainers/runc) - linux containers
 * [runv](https://github.com/hyperhq/runv) - virtual machine containers
 * [kata-runtime](https://github.com/kata-containers/runtime) - virtual machine containers
-* [docker](https://github.com/docker/docker-ce) - container build system.
-* [containerd](https://github.com/containerd/containerd) - container management system.
-* [qemu](https://www.qemu.org/) - full system emulator.
+* [docker](https://github.com/docker/docker-ce) - container build system
+* [containerd](https://github.com/containerd/containerd) - container management system
+* [qemu](https://www.qemu.org/) - full system emulator
 
 ### Blockchains
 
-* [bitcoin](https://github.com/btcsuite) - cryptography toolchains.
-* [ethereum](https://github.com/ethereum) - key management software.
-* [parity](https://github.com/paritytech) - secure blockchain infrastructure.
-* [fabric](https://github.com/hyperledger/fabric) - cryptography toolchains.
+* [bitcoin](https://github.com/btcsuite) - cryptography toolchains
+* [ethereum](https://github.com/ethereum) - key management software
+* [parity](https://github.com/paritytech) - secure blockchain infrastructure
+* [fabric](https://github.com/hyperledger/fabric) - cryptography toolchains
 
 ## License
 
