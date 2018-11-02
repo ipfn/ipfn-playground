@@ -29,6 +29,8 @@ DEVENV_REVISION=$( (
 SCRIPT_DIR="$(readlink -f "$(dirname "$0")")"
 cat $IPFN_PATH/tools/devenv/motd-failure.txt >/etc/motd
 
+sudo $IPFN_PATH/tools/devenv/install-deps.sh
+
 # ----------------------------------------------------------------
 # Install docker and docker-compose
 # ----------------------------------------------------------------
@@ -68,13 +70,13 @@ echo $DEVENV_REVISION >/var/ipfn/build-head-rev
 # NOTE: This must be done before the chown below
 cd $IPFN_PATH
 
-# # test ipfn go source code
-# source /etc/profile.d/goroot.sh
-# go test -v ./src/go/...
-# go test -v -covermode=count -coverprofile=coverage.out
-#
-# # generate code coverate report
-# goveralls -coverprofile=coverage.out -service=travis-ci -repotoken $COVERALLS_TOKEN
+# test ipfn go source code
+source /etc/profile.d/goroot.sh
+go test -v ./src/go/...
+go test -v -covermode=count -coverprofile=coverage.out
+
+# generate code coverate report
+goveralls -coverprofile=coverage.out -service=travis-ci -repotoken $COVERALLS_TOKEN
 
 # Update limits.conf to increase nofiles for LevelDB and network connections
 sudo cp $IPFN_PATH/tools/devenv/limits.conf /etc/security/limits.conf
