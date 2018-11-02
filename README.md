@@ -26,6 +26,17 @@ IPFN is made possible thanks to many technologies and companies together, includ
 
 * [ipfs](https://github.com/ipfs/go-ipfs/) - interplanetary file system
 
+### Networking
+
+* [smf](https://senior7515.github.io/smf/) - fastest rpc in the west
+* [seastar](https://github.com/scylladb/seastar/) - high performance framework
+
+### Compilation
+
+* [tvm](https://github.com/dmlc/tvm/) - deep learning compiler stack
+* [llvm](https://llvm.org/) - compiler infrastructure
+* [tensorflow](https://www.tensorflow.org/) - computation graphs playground
+
 ### Virtualization
 
 * [runc](https://github.com/opencontainers/runc) - linux containers
