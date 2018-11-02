@@ -49,7 +49,7 @@ Copyright: 2017, Alexander Gallego
            2018, The IPFN Developers
 License: Apache-2.0
 
-Files: src/go/bccsp/*
+Files: src/go/wallet/bccsp/*
        src/go/common/flogging/*
        src/go/tests/bccsp/plugin/*
 Source: https://github.com/hyperledger/fabric

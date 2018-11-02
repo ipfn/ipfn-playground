@@ -39,7 +39,7 @@ func buildPlugin(lib string, t *testing.T) {
 		if raceEnabled {
 			cmd.Args = append(cmd.Args, "-race")
 		}
-		cmd.Args = append(cmd.Args, "github.com/hyperledger/fabric/examples/plugins/bccsp")
+		cmd.Args = append(cmd.Args, "github.com/ipfn/ipfn/src/go/tests/bccsp/plugins")
 		err := cmd.Run()
 		if err != nil {
 			t.Fatalf("Could not build plugin: [%s]", err)
