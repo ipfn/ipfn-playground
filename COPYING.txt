@@ -8,8 +8,7 @@ Files: *
 Copyright: 2017-2018, The IPFN Developers
 License: Apache-2.0
 
-Files: cmake/modules/LLVM.cmake
-       cmake/util/{FindLLVM,Util}.cmake
+Files: cmake/util/{FindLLVM,Util}.cmake
 Source: https://github.com/dmlc/tvm/
 Copyright: 2017, TVM Contributors
 License: Apache-2.0
