@@ -1,5 +1,10 @@
 # Original Source: https://github.com/dmlc/tvm/blob/master/cmake/util/Util.cmake
-# Modified by IPFN Developers for IPFN Project <developers@ipfn.io>
+#
+# Copyright (c) 2018 TVM Contributors
+# Copyright (c) 2018 IPFN Developers
+#
+# Licensed under Apache-2.0 or MIT License.
+#
 
 macro(__ipfn_option variable description value)
   if(NOT DEFINED ${variable})

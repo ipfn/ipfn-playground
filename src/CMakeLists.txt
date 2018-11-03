@@ -10,14 +10,14 @@ endif()
 
 add_subdirectory(apps)
 
-if(BUILD_PYTHON)
+if(BUILD_PYTHON_SDK)
   add_subdirectory(python)
 endif()
 
-if(BUILD_RUST)
+if(BUILD_RUST_SDK)
   add_subdirectory(rust)
 endif()
 
-if(BUILD_WASM)
+if(BUILD_WASM_TARGET)
   add_subdirectory(wasm)
 endif()

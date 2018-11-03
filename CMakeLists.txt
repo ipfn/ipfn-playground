@@ -1,10 +1,23 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.9)
 
-project(ipfn LANGUAGES C CXX)
+project(ipfn VERSION "0.0.1" LANGUAGES C CXX)
 
 enable_language(CXX)
 
-set(CMAKE_VERBOSE_MAKEFILE on)
+# https://cmake.org/cmake/help/v3.4/policy/CMP0065.html
+cmake_policy(SET CMP0065 OLD)
+set(CMAKE_VERBOSE_MAKEFILE ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
+
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Release)
+endif()
+
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++14")
+else()
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
+endif()
 
 set(CMAKE_MODULE_PATH
     ${CMAKE_MODULE_PATH}
@@ -15,7 +28,6 @@ set(CMAKE_MODULE_PATH
     "${CMAKE_SOURCE_DIR}/cmake/util")
 
 include(ccache)
-include(generic)
 include(Util)
 
 # Configuration defaults
@@ -25,12 +37,7 @@ elseif(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/config.cmake)
   include(${CMAKE_CURRENT_SOURCE_DIR}/config.cmake)
 endif()
 
-if(USE_LLVM)
-  include(FindLLVM)
-  include(LLVM)
-endif()
-
-if(BUILD_RUST)
+if(BUILD_RUST_SDK)
   enable_language(Rust)
   include(CMakeCargo)
 endif()
