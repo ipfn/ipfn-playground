@@ -6,10 +6,13 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
+. $(dirname "$0")/functions.sh
+
 set -e
 set -x
 
-WHOAMI=$(who am i | awk '{print $1}')
+HOME_DIR=$(my_homedir)
+USERNAME=$(my_username)
 
 # ----------------------------------------------------------------
 # Install nvm to manage multiple NodeJS versions
@@ -20,8 +23,14 @@ NODE_VER=8.4 # node.js version
 
 # Download and install nvm
 curl -o- $NVM_URL | bash
-export NVM_DIR="/home/$WHOAMI/.nvm"
+
+if [[ "$HOME_DIR" != "$HOME" ]]; then
+	mv $HOME/.nvm $HOME_DIR/.nvm
+fi
+
+export NVM_DIR="$HOME_DIR/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
+source $HOME_DIR/.nvm
 
 # ----------------------------------------------------------------
 # Install NodeJS
@@ -29,9 +38,9 @@ export NVM_DIR="/home/$WHOAMI/.nvm"
 nvm install v$NODE_VER
 nvm alias default v$NODE_VER #set default to v$NODE_VER
 
-chown -R $WHOAMI:$WHOAMI /home/$WHOAMI/.nvm
+chown -R $USERNAME:$USERNAME $HOME_DIR/.nvm
 
 cat <<EOF >/etc/profile.d/nvm.sh
-export NVM_DIR="\$HOME/.nvm"
+export NVM_DIR="$HOME_DIR/.nvm"
 [ -s "\$NVM_DIR/nvm.sh" ] && . "\$NVM_DIR/nvm.sh" # This loads nvm
 EOF

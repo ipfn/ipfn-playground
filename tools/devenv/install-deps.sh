@@ -21,6 +21,14 @@
 # under the License.
 #
 
+#
+# We are using © ScyllaDB repository for gcc-7.3.
+#
+# https://www.scylladb.com/download/debian9/
+# https://github.com/scylladb/scylla/wiki/Building-.deb-package-for-Ubuntu-Debian
+# https://github.com/scylladb/scylla/blob/8210f4c982396aba127cfc2511998c502bed39b5/install-dependencies.sh
+#
+
 set -e
 
 function debs() {
@@ -30,18 +38,35 @@ function debs() {
 		fi
 		add-apt-repository -y ppa:ubuntu-toolchain-r/test
 	fi
-	apt-get -y update
+
+	apt-get update -qy
 	if [ "$ID" = "ubuntu" ]; then
 		apt-get install -y g++-5
 		echo "g++-5 is installed for Seastar. To build Seastar with g++-5, specify '--compiler=g++-5' on configure.py"
 	else # debian
-		apt-get install -y g++
+		apt-get install -qy apt-transport-https wget gnupg2 dirmngr
+
+		apt-key adv --fetch-keys https://download.opensuse.org/repositories/home:/scylladb:/scylla-3rdparty-stretch/Debian_9.0/Release.key
+		apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 17723034C56D4B19
+
+		echo "deb [arch=amd64] http://download.opensuse.org/repositories/home:/scylladb:/scylla-3rdparty-stretch/Debian_9.0/ ./" | sudo tee /etc/apt/sources.list.d/3rdparty.list
+		apt-get -y update
+		apt-get install -y scylla-gcc73-g++-7
+
+		update-alternatives --install /usr/bin/gcc gcc $(which gcc-7) 10
+		update-alternatives --install /usr/bin/g++ g++ $(which g++-7) 20
+		update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 30
+		update-alternatives --set cc /usr/bin/gcc
+		update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30
+		update-alternatives --set c++ /usr/bin/g++
+
 	fi
 	if [ -n "${USE_CLANG}" ]; then
 		extra=clang
 	fi
 	apt-get install -y \
 		curl \
+		ccache \
 		ninja-build \
 		ragel \
 		libhwloc-dev \
@@ -60,7 +85,6 @@ function debs() {
 		python3 \
 		systemtap-sdt-dev \
 		libtool \
-		cmake \
 		libyaml-cpp-dev \
 		pkg-config \
 		libboost-dev \

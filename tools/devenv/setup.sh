@@ -6,18 +6,19 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-#
-# Currently only targets Debian and Ubuntu.
-#
+. $(dirname "$0")/functions.sh
 
 set -e
 set -x
 
+# Install git after update
+apt-get update -qy
+apt-get install -qy git
+
 # Supposed to overcome sudo
-WHOAMI=$(who am i | awk '{print $1}')
-# IPFN source code path
+HOME_DIR=$(my_homedir)
+USERNAME=$(my_username)
 IPFN_PATH="/opt/gopath/src/github.com/ipfn/ipfn"
-# Development environment revision
 DEVENV_REVISION=$( (
 	cd /$IPFN_PATH/tools/devenv
 	git rev-parse --short HEAD
@@ -29,28 +30,49 @@ DEVENV_REVISION=$( (
 SCRIPT_DIR="$(readlink -f "$(dirname "$0")")"
 cat $IPFN_PATH/tools/devenv/motd-failure.txt >/etc/motd
 
-sudo $IPFN_PATH/tools/devenv/install-deps.sh
+$IPFN_PATH/tools/devenv/install-deps.sh
+
+# ----------------------------------------------------------------
+# Install nvm and Node.js
+# ----------------------------------------------------------------
+if [ ! -d $HOME_DIR/.nvm ]; then
+	$IPFN_PATH/tools/devenv/install-nvm.sh
+fi
 
 # ----------------------------------------------------------------
 # Install docker and docker-compose
 # ----------------------------------------------------------------
 if [ ! -f /usr/bin/docker ]; then
-	sudo $IPFN_PATH/tools/devenv/install-docker.sh
+	$IPFN_PATH/tools/devenv/install-docker.sh
 fi
 
 # ----------------------------------------------------------------
 # Install Go and test tools
 # ----------------------------------------------------------------
 if [ ! -f /opt/go/bin/go ]; then
-	sudo $IPFN_PATH/tools/devenv/install-go.sh
-	sudo $IPFN_PATH/tools/devenv/install-go-tools.sh
+	$IPFN_PATH/tools/devenv/install-go.sh
+	$IPFN_PATH/tools/devenv/install-go-tools.sh
 fi
 
 # ----------------------------------------------------------------
-# Install nvm and Node.js
+# Install Rust
 # ----------------------------------------------------------------
-if [ ! -f /usr/bin/nvm ]; then
-	sudo $IPFN_PATH/tools/devenv/install-nvm.sh
+if [ ! -d $HOME_DIR/.cargo ]; then
+	$IPFN_PATH/tools/devenv/install-rust.sh
+fi
+
+# ----------------------------------------------------------------
+# Install Emscripten
+# ----------------------------------------------------------------
+if [ ! -d /opt/fastcomp/build/bin ]; then
+	$IPFN_PATH/tools/devenv/install-emscripten.sh
+fi
+
+# ----------------------------------------------------------------
+# Install CMake
+# ----------------------------------------------------------------
+if [ ! -f /opt/cmake/bin/cmake ]; then
+	$IPFN_PATH/tools/devenv/install-cmake.sh
 fi
 
 # ----------------------------------------------------------------
@@ -58,8 +80,8 @@ fi
 # ----------------------------------------------------------------
 
 # Create directory for the DB
-sudo mkdir -p /var/ipfn
-sudo chown -R $WHOAMI:$WHOAMI /var/ipfn
+mkdir -p /var/ipfn
+chown -R $USERNAME:$USERNAME /var/ipfn
 
 # Write revision
 echo $DEVENV_REVISION >/var/ipfn/build-head-rev
@@ -70,16 +92,18 @@ echo $DEVENV_REVISION >/var/ipfn/build-head-rev
 # NOTE: This must be done before the chown below
 cd $IPFN_PATH
 
+# ----------------------------------------------------------------
+# Test Go code
+# ----------------------------------------------------------------
 # test ipfn go source code
 source /etc/profile.d/goroot.sh
 go test -v ./src/go/...
 go test -v -covermode=count -coverprofile=coverage.out
-
 # generate code coverate report
 goveralls -coverprofile=coverage.out -service=travis-ci -repotoken $COVERALLS_TOKEN
 
 # Update limits.conf to increase nofiles for LevelDB and network connections
-sudo cp $IPFN_PATH/tools/devenv/limits.conf /etc/security/limits.conf
+cp $IPFN_PATH/tools/devenv/limits.conf /etc/security/limits.conf
 
 # Configure vagrant specific environment
 cat <<EOF >/etc/profile.d/vagrant-devenv.sh
@@ -92,7 +116,7 @@ EOF
 
 # Set our shell prompt to something less ugly than the default from packer
 # Also make it so that it cd's the user to the fabric dir upon logging in
-cat <<EOF >/home/$WHOAMI/.bashrc
+cat <<EOF >$HOME_DIR/.bashrc
 DEVENV_REVISION=\$(cat /var/ipfn/build-head-rev)
 PS1="\u@ipfn:\$DEVENV_REVISION:\w$ "
 cd $IPFN_PATH

@@ -6,11 +6,14 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
+. $(dirname "$0")/functions.sh
+
 set -e
 set -x
 
 # Supposed to overcome sudo
-WHOAMI=$(who am i | awk '{print $1}')
+HOME_DIR=$(my_homedir)
+USERNAME=$(my_username)
 
 # ----------------------------------------------------------------
 # Install Golang
@@ -30,6 +33,6 @@ export PATH=\$PATH:$GOROOT/bin:$GOPATH/bin
 EOF
 
 mkdir -p $GOROOT $GOPATH
-chown -R $WHOAMI:$WHOAMI $GOPATH
+chown -R $USERNAME:$USERNAME $GOPATH
 
 curl -sL $GO_URL | (cd $GOROOT && tar --strip-components 1 -xz)

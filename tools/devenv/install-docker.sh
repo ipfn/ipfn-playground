@@ -15,8 +15,6 @@ source /etc/os-release
 #
 
 function debs() {
-	# remove old docker engine
-	apt-get remove -qy docker docker-engine docker.io
 	# update package manager
 	apt-get update -qq
 	# package management utils
@@ -40,16 +38,6 @@ function rpms() {
 	dnf install -qy docker-ce
 }
 
-# Install docker-compose
-curl -L https://github.com/docker/compose/releases/download/1.23.0/docker-compose-$(uname -s)-$(uname -m) >/usr/local/bin/docker-compose
-chmod +x /usr/local/bin/docker-compose
-
-# Add vagrant user to the docker group
-usermod -a -G docker vagrant
-
-# Test docker
-docker run --rm busybox echo All good
-
 case $ID in
 debian | ubuntu | linuxmint)
 	debs
@@ -64,3 +52,14 @@ centos | fedora)
 	exit 1
 	;;
 esac
+
+# Install docker-compose
+curl -L https://github.com/docker/compose/releases/download/1.23.0/docker-compose-$(uname -s)-$(uname -m) >/usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
+
+# Add vagrant user to the docker group
+# groupadd docker
+usermod -a -G docker vagrant
+
+# Test docker
+docker run --rm busybox echo All good
