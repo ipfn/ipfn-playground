@@ -45,10 +45,10 @@ To start development using [Docker][] you can download latest environment image:
 docker pull ipfn/env:latest
 ```
 
-Start in IPFN source code directory or replace the `\`pwd\`` with it's location:
+Start in IPFN source code directory or replace the `$(pwd)` with it's location:
 
 ```sh
-docker run -it -v `pwd`:/src ipfn/env:latest
+docker run -it -v $(pwd):/src ipfn/env:latest
 ```
 
 This is only required to work on IPFN and not to use it.
@@ -72,13 +72,15 @@ Interplanetary functions project development prioritizes [Linux][] platform over
 
 | Operating System | High-performance | Server    | Client   | CI                           |
 |:-----------------|:-----------------|:----------|:---------|:-----------------------------|
-| Debian 8+        | &#10003;         | &#10003;  | &#10003; | [![Travis CI][badge-ci]][ci] |
+| Debian 6+        | &#10003;         | &#10003;  | &#10003; | [![Travis CI][badge-ci]][ci] |
 | Fedora 21+       | &#10003;         | &#10003;  | &#10003; | [![Travis CI][badge-ci]][ci] |
 | Ubuntu 14.04+    | &#10003;         | &#10003;  | &#10003; | [![Travis CI][badge-ci]][ci] |
 | OSX              | &#10007;         | &#10003;* | &#10003; | &#8230;                      |
 | Windows          | &#10007;         | &#10003;* | &#10003; | &#8230;                      |
 
 * \* - supported using [Vagrant][] and [VirtualBox][]
+
+It should be possible to build on any other host using [Docker][].
 
 ## Technologies
 
@@ -112,6 +114,7 @@ IPFN builds on many technologies and open source work of many different companie
 * [tvm][] - deep learning compiler stack
 * [llvm][] - compiler infrastructure
 * [halide][] - language for portable computation
+* [onnx][] - interchangeable graph format
 * [tensorflow][] - computation graphs playground
 * [emscripten] - llvm to wasm and js compiler
 * [assemblysript][] - typescript to wasm compiler
@@ -161,6 +164,7 @@ This source code is part of [IPFN](https://github.com/ipfn) – interplanetary f
 [llvm]: https://llvm.org/
 [halide]: https://github.com/halide/Halide
 [tensorflow]: https://www.tensorflow.org/
+[onnx]: https://onnx.ai
 [runc]: https://github.com/opencontainers/runc
 [runv]: https://github.com/hyperhq/runv
 [kata-runtime]: https://github.com/kata-containers/runtime
