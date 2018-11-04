@@ -47,12 +47,32 @@ Copyright: 2018, SMF Authors
            2018, The IPFN Developers
 License: Apache-2.0
 
-Files: src/go/wallet/bccsp/*
-       src/go/common/flogging/*
-       src/go/tests/bccsp/plugin/*
+Files: src/go/crypto/bccsp/*
+       src/go/utils/flog/*
 Source: https://github.com/hyperledger/fabric
 Copyright: 2018, IBM Corp.
 License: Apache-2.0
+
+Files: src/go/crypto/sealbox/*
+       src/go/utils/fsutil/*
+       src/go/utils/mathutil/*
+       src/go/wallet/keystore/*
+Source: https://github.com/ethereum/go-ethereum
+Copyright: 2017, The go-ethereum Authors
+           2018, The IPFN Developers
+License: GPL-3.0+
+
+Files: src/go/utils/base32check/base32check*
+Source: https://github.com/btcsuite/btcutil/blob/master/base58/base58check.go
+Copyright: 2013-2014, The btcsuite developers
+License: ISC
+
+Files: src/go/store/{errors,interfaces}.go
+       src/go/store/fsdbstore/*.go
+Source: https://github.com/fishy/fsdb
+Copyright: 2017, Yuxuan 'fishy' Wang
+           2018, The IPFN Developers
+License: BSD-3-clause
 
 Files: src/third_party/pybind11/*
 Source: https://github.com/pybind/pybind11/
