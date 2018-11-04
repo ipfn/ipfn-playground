@@ -76,7 +76,7 @@ Copyright: 2017, TVM Contributors <https://github.com/dmlc/tvm/blob/master/CONTR
 License: Apache-2.0
 
 Files: tools/aufs.py
-Source: https://github.com/smfrpc/smf/
+Source: https://github.com/crackcomm/aufs.py
 Copyright: 2009-2018, Solomon Hykes <solomon.hykes@dotcloud.com>
            2018, Łukasz Kurowski <crackcomm@gmail.com>
 License: Apache-2.0
