@@ -42,9 +42,8 @@ License: MIT or NCSA
 
 Files: cmake/util/tests.cmake
        src/third_party/CMakeLists.txt
-Source: https://github.com/senior7515/smf/
-Copyright: 2017, Alexander Gallego
-           2018, SMF Authors
+Source: https://github.com/smfrpc/smf/
+Copyright: 2018, SMF Authors
            2018, The IPFN Developers
 License: Apache-2.0
 
@@ -67,8 +66,8 @@ Copyright: 2013, Pieter Wuille
 License: MIT
 
 Files: src/third_party/smf/*
-Source: https://github.com/senior7515/smf/
-Copyright: 2016, Alexander Gallego
+Source: https://github.com/smfrpc/smf/
+Copyright: 2016-2018, SMF Authors
 License: Apache-2.0
 
 Files: src/third_party/tvm/*
@@ -77,7 +76,7 @@ Copyright: 2017, TVM Contributors <https://github.com/dmlc/tvm/blob/master/CONTR
 License: Apache-2.0
 
 Files: tools/aufs.py
-Source: https://github.com/senior7515/smf/
+Source: https://github.com/smfrpc/smf/
 Copyright: 2009-2018, Solomon Hykes <solomon.hykes@dotcloud.com>
            2018, Łukasz Kurowski <crackcomm@gmail.com>
 License: Apache-2.0
