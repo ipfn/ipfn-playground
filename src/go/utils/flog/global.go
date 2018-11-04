@@ -4,7 +4,7 @@ Copyright IBM Corp. All Rights Reserved.
 SPDX-License-Identifier: Apache-2.0
 */
 
-package flogging
+package flog
 
 import (
 	"regexp"
@@ -29,7 +29,7 @@ func init() {
 	}
 
 	Global = logging
-	logger = Global.Logger("flogging")
+	logger = Global.Logger("flog")
 	grpcLogger := Global.ZapLogger("grpc")
 	grpclog.SetLogger(NewGRPCLogger(grpcLogger))
 }

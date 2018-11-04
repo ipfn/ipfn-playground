@@ -4,14 +4,14 @@ Copyright IBM Corp. All Rights Reserved.
 SPDX-License-Identifier: Apache-2.0
 */
 
-package flogging_test
+package flog_test
 
 import (
 	"bytes"
 	"errors"
 	"testing"
 
-	"github.com/ipfn/ipfn/src/go/common/flogging"
+	"github.com/ipfn/ipfn/src/go/utils/flog"
 	"github.com/stretchr/testify/assert"
 	"go.uber.org/zap"
 	"go.uber.org/zap/buffer"
@@ -19,18 +19,18 @@ import (
 )
 
 func TestCoreWith(t *testing.T) {
-	core := &flogging.Core{
-		Encoders: map[flogging.Encoding]zapcore.Encoder{},
+	core := &flog.Core{
+		Encoders: map[flog.Encoding]zapcore.Encoder{},
 	}
 	clone := core.With([]zapcore.Field{zap.String("key", "value")})
 	assert.Equal(t, core, clone)
 
 	jsonEncoder := zapcore.NewJSONEncoder(zapcore.EncoderConfig{})
 	consoleEncoder := zapcore.NewConsoleEncoder(zapcore.EncoderConfig{})
-	core = &flogging.Core{
-		Encoders: map[flogging.Encoding]zapcore.Encoder{
-			flogging.JSON:    jsonEncoder,
-			flogging.CONSOLE: consoleEncoder,
+	core = &flog.Core{
+		Encoders: map[flog.Encoding]zapcore.Encoder{
+			flog.JSON:    jsonEncoder,
+			flog.CONSOLE: consoleEncoder,
 		},
 	}
 	decorated := core.With([]zapcore.Field{zap.String("key", "value")})
@@ -46,7 +46,7 @@ func TestCoreWith(t *testing.T) {
 
 func TestCoreCheck(t *testing.T) {
 	var enabledArgs []zapcore.Level
-	core := &flogging.Core{
+	core := &flog.Core{
 		LevelEnabler: zap.LevelEnablerFunc(func(l zapcore.Level) bool {
 			enabledArgs = append(enabledArgs, l)
 			return l != zapcore.WarnLevel
@@ -85,8 +85,8 @@ func (s *sw) Write(b []byte) (int, error) {
 	return s.Buffer.Write(b)
 }
 
-func (s *sw) Encoding() flogging.Encoding {
-	return flogging.CONSOLE
+func (s *sw) Encoding() flog.Encoding {
+	return flog.CONSOLE
 }
 
 func TestCoreWrite(t *testing.T) {
@@ -94,9 +94,9 @@ func TestCoreWrite(t *testing.T) {
 	encoderConfig.EncodeTime = nil
 
 	output := &sw{}
-	core := &flogging.Core{
-		Encoders: map[flogging.Encoding]zapcore.Encoder{
-			flogging.CONSOLE: zapcore.NewConsoleEncoder(encoderConfig),
+	core := &flog.Core{
+		Encoders: map[flog.Encoding]zapcore.Encoder{
+			flog.CONSOLE: zapcore.NewConsoleEncoder(encoderConfig),
 		},
 		Selector: output,
 		Output:   output,
@@ -120,9 +120,9 @@ func TestCoreWriteSync(t *testing.T) {
 	encoderConfig.EncodeTime = nil
 
 	output := &sw{}
-	core := &flogging.Core{
-		Encoders: map[flogging.Encoding]zapcore.Encoder{
-			flogging.CONSOLE: zapcore.NewConsoleEncoder(encoderConfig),
+	core := &flog.Core{
+		Encoders: map[flog.Encoding]zapcore.Encoder{
+			flog.CONSOLE: zapcore.NewConsoleEncoder(encoderConfig),
 		},
 		Selector: output,
 		Output:   output,
@@ -153,9 +153,9 @@ func (b *brokenEncoder) EncodeEntry(zapcore.Entry, []zapcore.Field) (*buffer.Buf
 
 func TestCoreWriteEncodeFail(t *testing.T) {
 	output := &sw{}
-	core := &flogging.Core{
-		Encoders: map[flogging.Encoding]zapcore.Encoder{
-			flogging.CONSOLE: &brokenEncoder{},
+	core := &flog.Core{
+		Encoders: map[flog.Encoding]zapcore.Encoder{
+			flog.CONSOLE: &brokenEncoder{},
 		},
 		Selector: output,
 		Output:   output,
@@ -171,7 +171,7 @@ func TestCoreWriteEncodeFail(t *testing.T) {
 
 func TestCoreSync(t *testing.T) {
 	syncWriter := &sw{}
-	core := &flogging.Core{
+	core := &flog.Core{
 		Output: syncWriter,
 	}
 

@@ -10,7 +10,7 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/ipfn/ipfn/src/go/common/flogging/fabenc"
+	"github.com/ipfn/ipfn/src/go/utils/flog/fabenc"
 	"github.com/stretchr/testify/assert"
 	"go.uber.org/zap"
 	"go.uber.org/zap/buffer"

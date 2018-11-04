@@ -4,7 +4,7 @@ Copyright IBM Corp. All Rights Reserved.
 SPDX-License-Identifier: Apache-2.0
 */
 
-package flogging
+package flog
 
 import (
 	"fmt"
@@ -46,7 +46,7 @@ func DefaultLevel() string {
 }
 
 // InitFromSpec initializes the logging based on the supplied spec. It is
-// exposed externally so that consumers of the flogging package may parse their
+// exposed externally so that consumers of the flog package may parse their
 // own logging specification. The logging specification has the following form:
 //		[<module>[,<module>...]=]<level>[:[<module>[,<module>...]=]<level>...]
 func InitFromSpec(spec string) string {

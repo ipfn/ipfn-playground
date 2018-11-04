@@ -4,12 +4,12 @@ Copyright IBM Corp. All Rights Reserved.
 SPDX-License-Identifier: Apache-2.0
 */
 
-package flogging_test
+package flog_test
 
 import (
 	"testing"
 
-	"github.com/ipfn/ipfn/src/go/common/flogging"
+	"github.com/ipfn/ipfn/src/go/utils/flog"
 	"github.com/stretchr/testify/assert"
 	"go.uber.org/zap/zapcore"
 )
@@ -34,7 +34,7 @@ func TestNameToLevel(t *testing.T) {
 	for _, tc := range tests {
 		for _, name := range tc.names {
 			t.Run(name, func(t *testing.T) {
-				assert.Equal(t, tc.level, flogging.NameToLevel(name))
+				assert.Equal(t, tc.level, flog.NameToLevel(name))
 			})
 		}
 	}
@@ -55,7 +55,7 @@ func TestIsValidLevel(t *testing.T) {
 	}
 	for _, name := range validNames {
 		t.Run(name, func(t *testing.T) {
-			assert.True(t, flogging.IsValidLevel(name))
+			assert.True(t, flog.IsValidLevel(name))
 		})
 	}
 
@@ -65,7 +65,7 @@ func TestIsValidLevel(t *testing.T) {
 	}
 	for _, name := range invalidNames {
 		t.Run(name, func(t *testing.T) {
-			assert.False(t, flogging.IsValidLevel(name))
+			assert.False(t, flog.IsValidLevel(name))
 		})
 	}
 }

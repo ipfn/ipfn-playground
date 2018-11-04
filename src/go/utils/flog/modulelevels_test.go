@@ -4,20 +4,20 @@ Copyright IBM Corp. All Rights Reserved.
 SPDX-License-Identifier: Apache-2.0
 */
 
-package flogging_test
+package flog_test
 
 import (
 	"errors"
 	"regexp"
 	"testing"
 
-	"github.com/ipfn/ipfn/src/go/common/flogging"
+	"github.com/ipfn/ipfn/src/go/utils/flog"
 	"github.com/stretchr/testify/assert"
 	"go.uber.org/zap/zapcore"
 )
 
 func TestModuleLevelsSetLevel(t *testing.T) {
-	ml := &flogging.ModuleLevels{}
+	ml := &flog.ModuleLevels{}
 
 	lvl := ml.Level("module-name")
 	assert.Equal(t, zapcore.InfoLevel, lvl)
@@ -32,7 +32,7 @@ func TestModuleLevelsSetLevel(t *testing.T) {
 }
 
 func TestModuleLevelsDefaultLevel(t *testing.T) {
-	ml := &flogging.ModuleLevels{}
+	ml := &flog.ModuleLevels{}
 	assert.Equal(t, zapcore.InfoLevel, ml.DefaultLevel())
 
 	ml.SetDefaultLevel(zapcore.DebugLevel)
@@ -72,7 +72,7 @@ func TestModuleLevelsSetLevels(t *testing.T) {
 	}
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			ml := &flogging.ModuleLevels{}
+			ml := &flog.ModuleLevels{}
 			ml.SetLevel("module-one", zapcore.DebugLevel)
 			ml.SetLevel("module-two", zapcore.DebugLevel)
 
@@ -83,7 +83,7 @@ func TestModuleLevelsSetLevels(t *testing.T) {
 }
 
 func TestModuleLevelsRestoreLevels(t *testing.T) {
-	ml := &flogging.ModuleLevels{}
+	ml := &flog.ModuleLevels{}
 
 	levels := ml.Levels()
 	assert.NotNil(t, levels)
@@ -189,7 +189,7 @@ func TestModuleLevelsActivateSpec(t *testing.T) {
 
 	for _, tc := range tests {
 		t.Run(tc.spec, func(t *testing.T) {
-			ml := &flogging.ModuleLevels{}
+			ml := &flog.ModuleLevels{}
 			ml.RestoreLevels(tc.initialLevels)
 
 			err := ml.ActivateSpec(tc.spec)
@@ -206,7 +206,7 @@ func TestModuleLevelsActivateSpec(t *testing.T) {
 }
 
 func TestModuleLevelsEnabler(t *testing.T) {
-	ml := &flogging.ModuleLevels{}
+	ml := &flog.ModuleLevels{}
 	ml.SetLevel("module-name", zapcore.ErrorLevel)
 
 	enabler := ml.LevelEnabler("module-name")

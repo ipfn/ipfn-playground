@@ -4,14 +4,14 @@ Copyright IBM Corp. All Rights Reserved.
 SPDX-License-Identifier: Apache-2.0
 */
 
-package flogging
+package flog
 
 import (
 	"io"
 	"os"
 	"sync"
 
-	"github.com/ipfn/ipfn/src/go/common/flogging/fabenc"
+	"github.com/ipfn/ipfn/src/go/utils/flog/fabenc"
 	logging "github.com/op/go-logging"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"

@@ -4,7 +4,7 @@ Copyright IBM Corp. All Rights Reserved.
 SPDX-License-Identifier: Apache-2.0
 */
 
-package floggingtest
+package flogtest
 
 import (
 	"bytes"
@@ -13,8 +13,8 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/ipfn/ipfn/src/go/common/flogging"
-	"github.com/ipfn/ipfn/src/go/common/flogging/fabenc"
+	"github.com/ipfn/ipfn/src/go/utils/flog"
+	"github.com/ipfn/ipfn/src/go/utils/flog/fabenc"
 	"github.com/onsi/gomega/gbytes"
 	"go.uber.org/zap"
 	"go.uber.org/zap/buffer"
@@ -216,7 +216,7 @@ func AtLevel(level zapcore.Level) Option {
 	}
 }
 
-func NewTestLogger(tb testing.TB, options ...Option) (*flogging.FabricLogger, *Recorder) {
+func NewTestLogger(tb testing.TB, options ...Option) (*flog.FabricLogger, *Recorder) {
 	enabler := zap.LevelEnablerFunc(func(l zapcore.Level) bool {
 		return zapcore.DebugLevel.Enabled(l)
 	})
@@ -243,5 +243,5 @@ func NewTestLogger(tb testing.TB, options ...Option) (*flogging.FabricLogger, *R
 		zl = o(recordingCore, zl)
 	}
 
-	return flogging.NewFabricLogger(zl, zap.AddCaller()), recorder
+	return flog.NewFabricLogger(zl, zap.AddCaller()), recorder
 }
