@@ -119,6 +119,11 @@ IPFN builds on many technologies and open source work of many different companie
 * [emscripten] - llvm to wasm and js compiler
 * [assemblysript][] - typescript to wasm compiler
 
+### Protocols
+
+* [protobuf][] - serialization format
+* [flatbuffers][] - non-serialization format
+
 ### Web Runtime
 
 * [npm][] - javascript package manager
@@ -134,7 +139,8 @@ IPFN builds on many technologies and open source work of many different companie
 
 ## License
 
-This software is licensed under the Apache License 2.0, see [COPYING](./COPYING) file for more details.
+Contributors licensed under the Apache License 2.0.
+See [COPYING](./COPYING) file for licensing details.
 
 ## Project
 
@@ -152,7 +158,7 @@ This source code is part of [IPFN](https://github.com/ipfn) – interplanetary f
 [linux]: https://www.linuxfoundation.org/
 [seastar]: https://github.com/scylladb/seastar
 [ipfs]: https://github.com/ipfs/go-ipfs/
-[smf]: https://senior7515.github.io/smf/
+[smf]: https://github.com/smfrpc/smf
 [seastar]: https://github.com/scylladb/seastar
 [scylla]: https://github.com/scylladb/scylla
 [npm]: https://www.npmjs.com/
@@ -162,6 +168,8 @@ This source code is part of [IPFN](https://github.com/ipfn) – interplanetary f
 [emscripten]: https://github.com/kripken/emscripten
 [tvm]: https://github.com/dmlc/tvm/
 [llvm]: https://llvm.org/
+[protobuf]: https://github.com/protocolbuffers/protobuf
+[flatbuffers]: https://github.com/google/flatbuffers
 [halide]: https://github.com/halide/Halide
 [tensorflow]: https://www.tensorflow.org/
 [onnx]: https://onnx.ai
