@@ -32,7 +32,6 @@ Go implementation of IPFN core with command line tool and daemon.
 | Name                     | Description       | Spec            | Comment                  | Docs                    |
 |:-------------------------|:------------------|:----------------|:-------------------------|:------------------------|
 | [cmdutil][cmdutil]       | Console Utilities |                 |                          | [godoc][cmdutil-doc]    |
-| [cryptoutil][cryptoutil] | Crypto Utilities  |                 |                          | [godoc][cryptoutil-doc] |
 | [entropy][entropy]       | Entropy           |                 |                          | [godoc][entropy-doc]    |
 | [flog][flog]             | Logging Utilities |                 | Source: [Fabric][fabric] | [godoc][flog-doc]       |
 | [hashutil][hashutil]     | Hashing Utilities |                 |                          | [godoc][hashutil-doc]   |
