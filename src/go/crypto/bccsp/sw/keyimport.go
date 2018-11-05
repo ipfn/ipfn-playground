@@ -16,12 +16,11 @@
 package sw
 
 import (
-	"errors"
-	"fmt"
-
 	"crypto/ecdsa"
 	"crypto/rsa"
 	"crypto/x509"
+	"errors"
+	"fmt"
 	"reflect"
 
 	"github.com/ipfn/ipfn/src/go/crypto/bccsp"

@@ -18,9 +18,8 @@ package sw
 import (
 	"errors"
 
-	"crypto/sha256"
-
 	"github.com/ipfn/ipfn/src/go/crypto/bccsp"
+	"github.com/ipfn/ipfn/src/go/utils/hashutil"
 )
 
 type aesPrivateKey struct {
@@ -40,10 +39,7 @@ func (k *aesPrivateKey) Bytes() (raw []byte, err error) {
 
 // SKI returns the subject key identifier of this key.
 func (k *aesPrivateKey) SKI() (ski []byte) {
-	hash := sha256.New()
-	hash.Write([]byte{0x01})
-	hash.Write(k.privKey)
-	return hash.Sum(nil)
+	return hashutil.SumSha256([]byte{0x01}, k.privKey)
 }
 
 // Symmetric returns true if this key is a symmetric key,

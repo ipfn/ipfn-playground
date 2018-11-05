@@ -24,13 +24,13 @@ package sealbox
 
 import (
 	"bytes"
-	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
 	"errors"
 	"fmt"
 
 	"github.com/ipfn/ipfn/src/go/utils/hashutil"
+	"github.com/minio/sha256-simd"
 	"golang.org/x/crypto/pbkdf2"
 	"golang.org/x/crypto/scrypt"
 )

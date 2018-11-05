@@ -19,9 +19,10 @@ import (
 	"hash"
 	"reflect"
 
-	"github.com/ipfn/ipfn/src/go/utils/flog"
-	"github.com/ipfn/ipfn/src/go/crypto/bccsp"
 	"github.com/pkg/errors"
+
+	"github.com/ipfn/ipfn/src/go/crypto/bccsp"
+	"github.com/ipfn/ipfn/src/go/utils/flog"
 )
 
 var (

@@ -16,12 +16,12 @@
 package pkcs11
 
 import (
-	"crypto/sha256"
 	"crypto/sha512"
 	"encoding/asn1"
 	"fmt"
 	"hash"
 
+	"github.com/minio/sha256-simd"
 	"golang.org/x/crypto/sha3"
 )
 

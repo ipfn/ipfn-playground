@@ -18,16 +18,13 @@ package sw
 import (
 	"crypto/rsa"
 	"crypto/x509"
-	"fmt"
-
-	"crypto/sha256"
-
-	"errors"
-
 	"encoding/asn1"
+	"errors"
+	"fmt"
 	"math/big"
 
 	"github.com/ipfn/ipfn/src/go/crypto/bccsp"
+	"github.com/ipfn/ipfn/src/go/utils/hashutil"
 )
 
 // rsaPublicKey reflects the ASN.1 structure of a PKCS#1 public key.
@@ -59,9 +56,7 @@ func (k *rsaPrivateKey) SKI() []byte {
 	})
 
 	// Hash it
-	hash := sha256.New()
-	hash.Write(raw)
-	return hash.Sum(nil)
+	return hashutil.SumSha256(raw)
 }
 
 // Symmetric returns true if this key is a symmetric key,
@@ -112,9 +107,7 @@ func (k *rsaPublicKey) SKI() []byte {
 	})
 
 	// Hash it
-	hash := sha256.New()
-	hash.Write(raw)
-	return hash.Sum(nil)
+	return hashutil.SumSha256(raw)
 }
 
 // Symmetric returns true if this key is a symmetric key,

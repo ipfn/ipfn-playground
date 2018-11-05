@@ -18,12 +18,13 @@ package pkcs11
 import (
 	"crypto/ecdsa"
 	"crypto/elliptic"
-	"crypto/sha256"
 	"encoding/asn1"
 	"encoding/hex"
 	"fmt"
 	"math/big"
 	"sync"
+
+	"github.com/minio/sha256-simd"
 
 	"github.com/miekg/pkcs11"
 	"go.uber.org/zap/zapcore"

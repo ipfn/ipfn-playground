@@ -17,12 +17,10 @@ package sw
 
 import (
 	"crypto/ecdsa"
-	"fmt"
-
-	"errors"
-	"math/big"
-
 	"crypto/hmac"
+	"errors"
+	"fmt"
+	"math/big"
 
 	"github.com/ipfn/ipfn/src/go/crypto/bccsp"
 )

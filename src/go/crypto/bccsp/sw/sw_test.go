@@ -17,9 +17,8 @@ package sw
 
 import (
 	"errors"
-	"testing"
-
 	"reflect"
+	"testing"
 
 	"github.com/ipfn/ipfn/src/go/crypto/bccsp"
 	"github.com/ipfn/ipfn/src/go/crypto/bccsp/mocks"

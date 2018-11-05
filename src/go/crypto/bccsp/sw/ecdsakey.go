@@ -17,16 +17,13 @@ package sw
 
 import (
 	"crypto/ecdsa"
+	"crypto/elliptic"
 	"crypto/x509"
+	"errors"
 	"fmt"
 
-	"crypto/sha256"
-
-	"errors"
-
-	"crypto/elliptic"
-
 	"github.com/ipfn/ipfn/src/go/crypto/bccsp"
+	"github.com/ipfn/ipfn/src/go/utils/hashutil"
 )
 
 type ecdsaPrivateKey struct {
@@ -49,9 +46,7 @@ func (k *ecdsaPrivateKey) SKI() []byte {
 	raw := elliptic.Marshal(k.privKey.Curve, k.privKey.PublicKey.X, k.privKey.PublicKey.Y)
 
 	// Hash it
-	hash := sha256.New()
-	hash.Write(raw)
-	return hash.Sum(nil)
+	return hashutil.SumSha256(raw)
 }
 
 // Symmetric returns true if this key is a symmetric key,
@@ -96,9 +91,7 @@ func (k *ecdsaPublicKey) SKI() []byte {
 	raw := elliptic.Marshal(k.pubKey.Curve, k.pubKey.X, k.pubKey.Y)
 
 	// Hash it
-	hash := sha256.New()
-	hash.Write(raw)
-	return hash.Sum(nil)
+	return hashutil.SumSha256(raw)
 }
 
 // Symmetric returns true if this key is a symmetric key,

@@ -17,11 +17,11 @@ package sw
 
 import (
 	"crypto/elliptic"
-	"crypto/sha256"
 	"crypto/sha512"
 	"reflect"
 
 	"github.com/ipfn/ipfn/src/go/crypto/bccsp"
+	"github.com/minio/sha256-simd"
 	"github.com/pkg/errors"
 	"golang.org/x/crypto/sha3"
 )

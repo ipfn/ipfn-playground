@@ -18,8 +18,8 @@ package factory
 import (
 	"sync"
 
-	"github.com/ipfn/ipfn/src/go/utils/flog"
 	"github.com/ipfn/ipfn/src/go/crypto/bccsp"
+	"github.com/ipfn/ipfn/src/go/utils/flog"
 	"github.com/pkg/errors"
 )
 

@@ -17,11 +17,11 @@ package sw
 
 import (
 	"crypto/elliptic"
-	"crypto/sha256"
 	"crypto/sha512"
 	"fmt"
 	"hash"
 
+	"github.com/minio/sha256-simd"
 	"golang.org/x/crypto/sha3"
 )
 
