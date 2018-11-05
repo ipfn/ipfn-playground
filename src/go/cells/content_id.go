@@ -33,7 +33,7 @@ func NewCID(codecType uint64, mhash mh.Multihash) *CID {
 
 // NewCIDFromHash - Creates new wrapped content ID v1 for codec and hash.
 func NewCIDFromHash(codecType uint64, hash []byte, hashType uint64) *CID {
-	mhash, _ := mh.Encode(hash, mh.KECCAK_256)
+	mhash, _ := mh.Encode(hash, mh.SHA2_256)
 	return NewCID(cid.EthStateTrie, mhash)
 }
 

@@ -60,6 +60,6 @@ func UnmarshalBinary(body []byte) (c *BinaryCell, err error) {
 var CellPrefix = cid.Prefix{
 	Version:  1,
 	Codec:    0x70bc,
-	MhType:   multihash.KECCAK_256,
+	MhType:   multihash.SHA2_256,
 	MhLength: 32,
 }
