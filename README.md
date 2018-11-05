@@ -2,7 +2,8 @@
 
 [![IPFN project][badge-ipfn]][org-ipfn]
 [![IPFN Documentation][badge-docs]][docs]
-[![Apache-2.0 License][badge-license]][LICENSE]
+[![Apache-2.0 License][badge-copying]][COPYING]
+[![GoDoc][badge-godoc]][godoc-ipfn]
 [![Travis CI][badge-ci]][ci]
 
 IPFN – Interplanetary Functions Project Development Environment
@@ -149,12 +150,13 @@ This source code is part of [IPFN](https://github.com/ipfn) – interplanetary f
 [ci]: https://travis-ci.org/ipfn/ipfn
 [docs]: https://docs.ipfn.io/
 [badge-ci]: https://travis-ci.org/ipfn/ipfn.svg?branch=master
-[badge-license]: https://dmlc.github.io/img/apache2.svg
+[badge-copying]: https://img.shields.io/badge/license-see%20COPYING.txt-blue.svg?style=flat-square
 [badge-ipfn]: https://img.shields.io/badge/project-IPFN-blue.svg?style=flat-square
 [badge-docs]: https://img.shields.io/badge/documentation-IPFN-blue.svg?style=flat-square
+[badge-godoc]: https://godoc.org/github.com/ipfn/ipfn/go?status.svg
+[godoc-ipfn]: https://godoc.org/github.com/ipfn/ipfn/go
 [org-ipfn]: https://github.com/ipfn
 [COPYING]: https://github.com/ipfn/ipfn/blob/master/COPYING.txt
-[LICENSE]: https://github.com/ipfn/ipfn/blob/master/LICENSE.txt
 [linux]: https://www.linuxfoundation.org/
 [seastar]: https://github.com/scylladb/seastar
 [ipfs]: https://github.com/ipfs/go-ipfs/
