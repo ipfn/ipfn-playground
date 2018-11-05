@@ -33,15 +33,15 @@ import (
 var PrefixV1 = cid.Prefix{
 	Version:  1,
 	Codec:    codecs.PubkeyHashV1,
-	MhType:   mh.KECCAK_256,
+	MhType:   mh.SHA2_256,
 	MhLength: 32,
 }
 
 // CID - Creates CID from public key.
 //
 // Resulting CID has codec ID of `codecs.PubkeyHashV1`.
-func CID(curve elliptic.Curve, pub *ecdsa.PublicKey) (c *cells.CID) {
-	return BytesToCID(PubkeyBytes(curve, pub))
+func CID(pub *ecdsa.PublicKey) (c *cells.CID) {
+	return BytesToCID(PubkeyBytes(pub))
 }
 
 // BytesToCID - Creates CID from public key.
@@ -56,9 +56,9 @@ func BytesToCID(pubBytes []byte) (c *cells.CID) {
 }
 
 // PubkeyBytes - Marshals public key to bytes.
-func PubkeyBytes(curve elliptic.Curve, pub *ecdsa.PublicKey) []byte {
+func PubkeyBytes(pub *ecdsa.PublicKey) []byte {
 	if pub == nil || pub.X == nil || pub.Y == nil {
 		return nil
 	}
-	return elliptic.Marshal(curve, pub.X, pub.Y)
+	return elliptic.Marshal(pub.Curve, pub.X, pub.Y)
 }
