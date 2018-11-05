@@ -29,5 +29,5 @@ apt-get remove -qy cmake
 apt-get autoremove -qy
 
 cat <<EOF >/etc/profile.d/cmake.sh
-export PATH=\$PATH:/opt/cmake/bin
+export PATH=/opt/cmake/bin:\$PATH
 EOF

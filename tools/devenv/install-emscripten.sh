@@ -30,6 +30,10 @@ fi
 
 source /opt/emsdk/emsdk_env.sh
 
+if [ -f /etc/profile.d/cmake.sh ]; then
+	source /etc/profile.d/cmake.sh
+fi
+
 # ----------------------------------------------------------------
 # Install Fastcomp - Emscripten fork of LLVM
 # ----------------------------------------------------------------
