@@ -153,8 +153,8 @@ This source code is part of [IPFN](https://github.com/ipfn) – interplanetary f
 [badge-copying]: https://img.shields.io/badge/license-see%20COPYING.txt-blue.svg?style=flat-square
 [badge-ipfn]: https://img.shields.io/badge/project-IPFN-blue.svg?style=flat-square
 [badge-docs]: https://img.shields.io/badge/documentation-IPFN-blue.svg?style=flat-square
-[badge-godoc]: https://godoc.org/github.com/ipfn/ipfn/go?status.svg
-[godoc-ipfn]: https://godoc.org/github.com/ipfn/ipfn/go
+[badge-godoc]: https://godoc.org/github.com/ipfn/ipfn/src/go?status.svg
+[godoc-ipfn]: https://godoc.org/github.com/ipfn/ipfn/src/go
 [org-ipfn]: https://github.com/ipfn
 [COPYING]: https://github.com/ipfn/ipfn/blob/master/COPYING.txt
 [linux]: https://www.linuxfoundation.org/

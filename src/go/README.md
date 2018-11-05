@@ -46,7 +46,7 @@ This source code is part of [IPFN](https://github.com/ipfn) – interplanetary f
 [badge-ci]: https://travis-ci.org/ipfn/ipfn.svg?branch=master
 [badge-copying]: https://img.shields.io/badge/license-see%20COPYING.txt-blue.svg?style=flat-square
 [badge-docs]: https://img.shields.io/badge/documentation-IPFN-blue.svg?style=flat-square
-[badge-godoc]: https://godoc.org/github.com/ipfn/ipfn/go?status.svg
+[badge-godoc]: https://godoc.org/github.com/ipfn/ipfn/src/go?status.svg
 [badge-ipfn]: https://img.shields.io/badge/project-IPFN-blue.svg?style=flat-square
 [base32i-doc]: https://godoc.org/github.com/ipfn/ipfn/src/go/utils/base32i
 [base32i-spec]: https://github.com/ipfn/ipfn/blob/master/src/go/utils/base32i/base32i.go#L25
@@ -73,7 +73,7 @@ This source code is part of [IPFN](https://github.com/ipfn) – interplanetary f
 [fabric]: https://github.com/hyperledger/fabric
 [flog-doc]: https://godoc.org/github.com/ipfn/ipfn/src/go/utils/flog
 [flog]: https://godoc.org/github.com/ipfn/ipfn/src/go/utils/flog
-[godoc-ipfn]: https://godoc.org/github.com/ipfn/ipfn/go
+[godoc-ipfn]: https://godoc.org/github.com/ipfn/ipfn/src/go
 [hdkeychain-doc]: https://godoc.org/github.com/ipfn/ipfn/src/go/utils/hdkeychain
 [hdkeychain]: https://github.com/ipfn/ipfn/tree/master/src/go/utils/hdkeychain
 [hashutil-doc]: https://godoc.org/github.com/ipfn/ipfn/src/go/utils/hashutil
