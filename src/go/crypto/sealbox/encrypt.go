@@ -22,15 +22,25 @@ package sealbox
 import (
 	"crypto/aes"
 	"encoding/hex"
+	"encoding/json"
 
+	"github.com/ipfn/ipfn/src/go/utils/entropy"
+	"github.com/ipfn/ipfn/src/go/utils/hashutil"
 	"golang.org/x/crypto/scrypt"
-
-	"github.com/ipfn/ipfn/src/go/crypto"
 )
+
+// EncryptJSON - Encrypts a box to JSON using the specified scrypt parameters.
+func EncryptJSON(body, pwd []byte, scryptN, scryptP int) (_ []byte, err error) {
+	box, err := Encrypt(body, pwd, scryptN, scryptP)
+	if err != nil {
+		return
+	}
+	return json.Marshal(box)
+}
 
 // Encrypt - Encrypts a box using the specified scrypt parameters.
 func Encrypt(body, pwd []byte, scryptN, scryptP int) (_ SealedBox, err error) {
-	salt, err := crypto.NewEntropy(32)
+	salt, err := entropy.New(32)
 	if err != nil {
 		return
 	}
@@ -38,7 +48,7 @@ func Encrypt(body, pwd []byte, scryptN, scryptP int) (_ SealedBox, err error) {
 	if err != nil {
 		return
 	}
-	iv, err := crypto.NewEntropy(aes.BlockSize)
+	iv, err := entropy.New(aes.BlockSize)
 	if err != nil {
 		return
 	}
@@ -63,7 +73,7 @@ func Encrypt(body, pwd []byte, scryptN, scryptP int) (_ SealedBox, err error) {
 				DKLen: scryptDKLen,
 				Salt:  hex.EncodeToString(salt),
 			},
-			MAC: hex.EncodeToString(crypto.SumKeccak256(derivedKey[16:32], cipherText)),
+			MAC: hex.EncodeToString(hashutil.SumKeccak256(derivedKey[16:32], cipherText)),
 		},
 	}, nil
 }

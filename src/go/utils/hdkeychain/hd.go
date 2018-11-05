@@ -1,5 +1,8 @@
-// Copyright 2017 The go-ethereum Authors
-// This file is part of the go-ethereum library.
+// Copyright © 2017-2018 The IPFN Developers. All Rights Reserved.
+// Copyright © 2017-2018 The go-ethereum Authors. All Rights Reserved.
+//
+// This file is part of the IPFN Project.
+// This file was part of the go-ethereum library.
 //
 // The go-ethereum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
@@ -14,7 +17,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
-package accounts
+// Package hdkeychain implements utilities for human-readable path based key derivation.
+package hdkeychain
 
 import (
 	"errors"

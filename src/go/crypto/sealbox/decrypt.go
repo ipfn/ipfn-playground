@@ -30,10 +30,9 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/ipfn/ipfn/src/go/utils/hashutil"
 	"golang.org/x/crypto/pbkdf2"
 	"golang.org/x/crypto/scrypt"
-
-	"github.com/ipfn/ipfn/src/go/crypto"
 )
 
 // ErrDecrypt - Error returned on failed decryption attempt.
@@ -111,7 +110,7 @@ func decryptV3(box *Crypto, pwd string) (keyBytes []byte, err error) {
 		return nil, err
 	}
 
-	calculatedMAC := crypto.SumKeccak256(derivedKey[16:32], cipherText)
+	calculatedMAC := hashutil.SumKeccak256(derivedKey[16:32], cipherText)
 	if !bytes.Equal(calculatedMAC, mac) {
 		return nil, ErrDecrypt
 	}
@@ -144,12 +143,12 @@ func decryptV1(box *Crypto, pwd string) (keyBytes []byte, err error) {
 		return nil, err
 	}
 
-	calculatedMAC := crypto.SumKeccak256(derivedKey[16:32], cipherText)
+	calculatedMAC := hashutil.SumKeccak256(derivedKey[16:32], cipherText)
 	if !bytes.Equal(calculatedMAC, mac) {
 		return nil, ErrDecrypt
 	}
 
-	plainText, err := aesCBCDecrypt(crypto.SumKeccak256(derivedKey[:16])[:16], cipherText, iv)
+	plainText, err := aesCBCDecrypt(hashutil.SumKeccak256(derivedKey[:16])[:16], cipherText, iv)
 	if err != nil {
 		return nil, err
 	}
