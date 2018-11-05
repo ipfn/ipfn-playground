@@ -55,9 +55,8 @@ Copyright: 2018, IBM Corp.
 License: Apache-2.0
 
 Files: src/go/crypto/sealbox/*
-       src/go/utils/fsutil/*
+       src/go/utils/hdkeychain/*
        src/go/utils/mathutil/*
-       src/go/wallet/keystore/*
 Source: https://github.com/ethereum/go-ethereum
 Copyright: 2017, The go-ethereum Authors
            2018, The IPFN Developers
