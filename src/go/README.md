@@ -51,9 +51,8 @@ See Go [dep](https://golang.github.io/dep/) management tool.
 
 ## License
 
-                                 Apache License
-                           Version 2.0, January 2004
-                        http://www.apache.org/licenses/
+Contributors licensed under the Apache License 2.0.
+See [COPYING][COPYING] file for licensing details.
 
 ## Project
 
@@ -69,7 +68,7 @@ This source code is part of [IPFN](https://github.com/ipfn) – interplanetary f
 [base32i-spec]: https://github.com/ipfn/ipfn/blob/master/src/go/common/base32i/base32i.go#L25
 [base32i]: https://github.com/ipfn/ipfn/tree/master/src/go/common/base32i
 [codec-doc]: https://godoc.org/github.com/ipfn/ipfn/src/go/codec
-[codecs]: https://github.com/ipfn/ipfn/tree/master/src/go/common/codecs
+[codec]: https://github.com/ipfn/ipfn/tree/master/src/go/codec
 [codecs-doc]: https://godoc.org/github.com/ipfn/ipfn/src/go/common/codecs
 [codecs]: https://github.com/ipfn/ipfn/tree/master/src/go/common/codecs
 [bccsp-doc]: https://godoc.org/github.com/ipfn/ipfn/src/go/crypto/bccsp
