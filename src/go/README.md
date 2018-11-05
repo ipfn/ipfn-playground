@@ -10,23 +10,41 @@ Go implementation of IPFN core with command line tool and daemon.
 
 ## Packages
 
-| Name                         | Description        | Spec                               | Comment                  | Docs                      |
-|:-----------------------------|:-------------------|:-----------------------------------|:-------------------------|:--------------------------|
-| [base32i][base32i]           | Base32 Encoding    | [Spec][base32i-spec]               |                          | [godoc][base32i-doc]      |
-| [bccsp][bccsp]               | Crypto Service     | [BCCSP][bccsp-spec]                | Source: [Fabric][fabric] | [godoc][bccsp-doc]        |
-| [celldag][celldag]           | Cell IPFS DAG      | [IPFS DAG][ipfs-dag]               |                          | [godoc][celldag-doc]      |
-| [cells][cells]               | Cells & Codecs     | [IPFN Cells][cell-spec]            |                          | [godoc][cells-doc]        |
-| [cmdutil][cmdutil]           | Console Utilities  |                                    |                          | [godoc][cmdutil-doc]      |
-| [commands][commands]         | IPFN Commands      |                                    |                          | [godoc][commands-doc]     |
-| [cryptoutil][cryptoutil]     | Crypto Utilities   |                                    |                          | [godoc][cryptoutil-doc]   |
-| [entropy][entropy]           | Entropy            |                                    |                          | [godoc][entropy-doc]      |
-| [flog][flog]                 | Logging utilities  |                                    | Source: [Fabric][fabric] | [godoc][flog-doc]         |
-| [hashutil][hashutil]         | Hashing Utilities  |                                    |                          | [godoc][hashutil-doc]     |
-| [hdkeychain][hdkeychain]     | Hex Utilities      | [BIP-32][bip32]                    |                          | [godoc][hdkeychain-doc]   |
-| [hexutil][hexutil]           | Hex Utilities      |                                    |                          | [godoc][hexutil-doc]      |
-| [keypair][keypair]           | Key Pair Utilities |                                    |                          | [godoc][keypair-doc]      |
-| [sealbox][sealbox]           | Seal Box           | [Web3 Secrets][web3-secrets]       |                          | [godoc][sealbox-doc]      |
-| [shortaddress][shortaddress] | Short address      | [Short address][shortaddress-spec] | Prototype                | [godoc][shortaddress-doc] |
+| Name               | Description    | Spec                         | Comment                  | Docs                 |
+|:-------------------|:---------------|:-----------------------------|:-------------------------|:---------------------|
+| [bccsp][bccsp]     | Crypto Service | [BCCSP][bccsp-spec]          | Source: [Fabric][fabric] | [godoc][bccsp-doc]   |
+| [celldag][celldag] | Cell IPFS DAG  | [IPFS DAG][ipfs-dag]         |                          | [godoc][celldag-doc] |
+| [cells][cells]     | Cells & Codecs | [IPFN Cells][cell-spec]      |                          | [godoc][cells-doc]   |
+| [codec][codec]     | IPFN Codec     |                              |                          | [godoc][codec-doc]   |
+| [sealbox][sealbox] | Seal Box       | [Web3 Secrets][web3-secrets] |                          | [godoc][sealbox-doc] |
+
+## Common
+
+| Name                         | Description        | Spec                               | Comment   | Docs                      |
+|:-----------------------------|:-------------------|:-----------------------------------|:----------|:--------------------------|
+| [base32i][base32i]           | Base32 Encoding    | [Spec][base32i-spec]               |           | [godoc][base32i-doc]      |
+| [codecs][codecs]             | IPFN Codec IDs     |                                    |           | [godoc][codecs-doc]       |
+| [pkcid][pkcid]               | Public Key CID     |                                    |           | [godoc][pkcid-doc]        |
+| [shortaddress][shortaddress] | IPFN Short Address | [Short address][shortaddress-spec] | Prototype | [godoc][shortaddress-doc] |
+
+## Utilities
+
+| Name                     | Description       | Spec            | Comment                  | Docs                    |
+|:-------------------------|:------------------|:----------------|:-------------------------|:------------------------|
+| [cmdutil][cmdutil]       | Console Utilities |                 |                          | [godoc][cmdutil-doc]    |
+| [cryptoutil][cryptoutil] | Crypto Utilities  |                 |                          | [godoc][cryptoutil-doc] |
+| [entropy][entropy]       | Entropy           |                 |                          | [godoc][entropy-doc]    |
+| [flog][flog]             | Logging Utilities |                 | Source: [Fabric][fabric] | [godoc][flog-doc]       |
+| [hashutil][hashutil]     | Hashing Utilities |                 |                          | [godoc][hashutil-doc]   |
+| [hexutil][hexutil]       | Hex Utilities     |                 |                          | [godoc][hexutil-doc]    |
+| [hdkeychain][hdkeychain] | HD-Key Derivation | [BIP-32][bip32] |                          | [godoc][hdkeychain-doc] |
+
+## Application
+
+| Name                 | Description   | Spec | Comment | Docs                  |
+|:---------------------|:--------------|:-----|:--------|:----------------------|
+| [commands][commands] | IPFN Commands |      |         | [godoc][commands-doc] |
+
 
 ## Dependencies
 
@@ -48,9 +66,13 @@ This source code is part of [IPFN](https://github.com/ipfn) – interplanetary f
 [badge-docs]: https://img.shields.io/badge/documentation-IPFN-blue.svg?style=flat-square
 [badge-godoc]: https://godoc.org/github.com/ipfn/ipfn/src/go?status.svg
 [badge-ipfn]: https://img.shields.io/badge/project-IPFN-blue.svg?style=flat-square
-[base32i-doc]: https://godoc.org/github.com/ipfn/ipfn/src/go/utils/base32i
-[base32i-spec]: https://github.com/ipfn/ipfn/blob/master/src/go/utils/base32i/base32i.go#L25
-[base32i]: https://github.com/ipfn/ipfn/tree/master/src/go/utils/base32i
+[base32i-doc]: https://godoc.org/github.com/ipfn/ipfn/src/go/common/base32i
+[base32i-spec]: https://github.com/ipfn/ipfn/blob/master/src/go/common/base32i/base32i.go#L25
+[base32i]: https://github.com/ipfn/ipfn/tree/master/src/go/common/base32i
+[codec-doc]: https://godoc.org/github.com/ipfn/ipfn/src/go/codec
+[codecs]: https://github.com/ipfn/ipfn/tree/master/src/go/common/codecs
+[codecs-doc]: https://godoc.org/github.com/ipfn/ipfn/src/go/common/codecs
+[codecs]: https://github.com/ipfn/ipfn/tree/master/src/go/common/codecs
 [bccsp-doc]: https://godoc.org/github.com/ipfn/ipfn/src/go/crypto/bccsp
 [bccsp-spec]: https://jira.hyperledger.org/secure/attachment/10124/BCCSP.pdf
 [bccsp]: https://godoc.org/github.com/ipfn/ipfn/src/go/crypto/bccsp
@@ -81,13 +103,13 @@ This source code is part of [IPFN](https://github.com/ipfn) – interplanetary f
 [hexutil-doc]: https://godoc.org/github.com/ipfn/ipfn/src/go/utils/hexutil
 [hexutil]: https://github.com/ipfn/ipfn/tree/master/src/go/utils/hexutil
 [ipfs-dag]: https://github.com/ipfs/specs/tree/master/merkledag
-[keypair-doc]: https://godoc.org/github.com/ipfn/ipfn/src/go/keypair
-[keypair]: https://godoc.org/github.com/ipfn/ipfn/src/go/keypair
+[pkcid-doc]: https://godoc.org/github.com/ipfn/ipfn/src/go/common/pkcid
+[pkcid]: https://godoc.org/github.com/ipfn/ipfn/src/go/common/pkcid
 [org-ipfn]: https://github.com/ipfn
 [sealbox-doc]: https://godoc.org/github.com/ipfn/ipfn/src/go/crypto/sealbox
 [sealbox]: https://godoc.org/github.com/ipfn/ipfn/src/go/crypto/sealbox
-[shortaddress-doc]: https://godoc.org/github.com/ipfn/ipfn/src/go/utils/shortaddress
-[shortaddress-spec]: https://github.com/ipfn/ipfn/blob/master/src/go/utils/shortaddress/address.go#L15
-[shortaddress]: https://github.com/ipfn/ipfn/tree/master/src/go/utils/shortaddress
+[shortaddress-doc]: https://godoc.org/github.com/ipfn/ipfn/src/go/common/shortaddress
+[shortaddress-spec]: https://github.com/ipfn/ipfn/blob/master/src/go/common/shortaddress/address.go#L15
+[shortaddress]: https://github.com/ipfn/ipfn/tree/master/src/go/common/shortaddress
 [wallet-doc]: https://godoc.org/github.com/ipfn/ipfn/src/go/wallet
 [web3-secrets]: https://github.com/ethereum/wiki/wiki/Web3-Secret-Storage-Definition
