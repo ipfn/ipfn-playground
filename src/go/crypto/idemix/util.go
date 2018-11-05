@@ -17,10 +17,10 @@ package idemix
 
 import (
 	"crypto/rand"
-	"crypto/sha256"
 
 	"github.com/hyperledger/fabric-amcl/amcl"
 	"github.com/hyperledger/fabric-amcl/amcl/FP256BN"
+	"github.com/ipfn/ipfn/src/go/utils/hashutil"
 	"github.com/pkg/errors"
 )
 
@@ -54,7 +54,7 @@ func RandModOrder(rng *amcl.RAND) *FP256BN.BIG {
 
 // HashModOrder hashes data into 0, ..., GroupOrder-1
 func HashModOrder(data []byte) *FP256BN.BIG {
-	digest := sha256.Sum256(data)
+	digest := hashutil.SumSha256(data)
 	digestBig := FP256BN.FromBytes(digest[:])
 	digestBig.Mod(GroupOrder)
 	return digestBig
