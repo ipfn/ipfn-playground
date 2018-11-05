@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// Package shortaddress implements short IPFN address.
+// Package shortaddress implements short IPFN Short Address.
 //
 // TODO(crackcomm): spec
 //
@@ -34,7 +34,7 @@ import (
 
 	"github.com/gogo/protobuf/proto"
 	"github.com/ipfn/ipfn/src/go/cells"
-	"github.com/ipfn/ipfn/src/go/utils/base32i"
+	"github.com/ipfn/ipfn/src/go/common/base32i"
 )
 
 // Address - Short address with extra checksum.
