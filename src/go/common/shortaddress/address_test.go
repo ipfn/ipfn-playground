@@ -15,11 +15,13 @@
 package shortaddress
 
 import (
+	"crypto/x509"
 	"encoding/json"
 	"fmt"
 	. "testing"
 
-	"github.com/ipfn/ipfn/src/go/keypair"
+	"github.com/ipfn/ipfn/src/go/common/pkcid"
+	"github.com/ipfn/ipfn/src/go/utils/hexutil"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -29,7 +31,7 @@ var (
 
 	testKeyAddr = "bnx37fk4wmxur3j0puapwv"
 	testKeyCID  = "zFNScYMHCVTuggbomkvLDPpoLruXKwWEu6SV2S45P9QwuLwhfMeq"
-	testPrivKey = "fnprvqWuSwMXSGgZYML8TUkm7zJfMVnMVS7PpXUYDRUbfFnN6s29mRmW82FZcks64djUmYZ8t9CLaxc4dFAMvxxdiKGn9iqjp783LLv9c45Z9HpR"
+	testPrivKey = "3077020101042080deb3b165f87db1bbd2e5a5eaa33d001efecf37b8af18e1e99489bd7c09c41da00a06082a8648ce3d030107a1440342000470a2ab334e6ba0f9cae349f027f9edc76f89a916a2cfa47bc9dbf5b3582b69fe5d187328f0c862969deccfb282906adb71ade1908fca3da55494570c0a75f320"
 )
 
 func TestParseAddress(t *T) {
@@ -40,7 +42,6 @@ func TestParseAddress(t *T) {
 	assert.Equal(t, testAddr.String(), testSrc)
 	assert.Equal(t, testSrc, a.String())
 }
-
 func TestAddressJSON(t *T) {
 	b, _ := json.Marshal(testAddr)
 	assert.Equal(t, `"beqpdfdhq87dkncb"`, fmt.Sprintf("%s", b))
@@ -52,9 +53,9 @@ func TestAddressJSON(t *T) {
 }
 
 func TestAddressJSON_CID(t *T) {
-	key, err := keypair.NewKeyFromString(testPrivKey)
+	pk, err := x509.ParseECPrivateKey(hexutil.FromString(testPrivKey))
 	assert.Equal(t, nil, err)
-	cid, _ := key.CID()
+	cid := pkcid.CID(&pk.PublicKey)
 	assert.Equal(t, testKeyCID, cid.String())
 	a := FromCID(cid)
 	assert.Equal(t, testKeyAddr, a.String())
