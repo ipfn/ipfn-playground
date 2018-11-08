@@ -1,5 +1,8 @@
-// Copyright 2016 The go-ethereum Authors
-// This file is part of the go-ethereum library.
+// Copyright © 2018 The IPFN Developers. All Rights Reserved.
+// Copyright © 2016 The go-ethereum Authors. All Rights Reserved.
+//
+// This file is part of the IPFN project.
+// This file was part of the go-ethereum library.
 //
 // The go-ethereum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by

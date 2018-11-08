@@ -1,5 +1,5 @@
 // Copyright © 2017-2018 The IPFN Developers. All Rights Reserved.
-// Copyright © 2014-2018 The go-ethereum Authors. All Rights Reserved.
+// Copyright © 2014 The go-ethereum Authors. All Rights Reserved.
 //
 // This file is part of the IPFN project.
 // This file was part of the go-ethereum library.
