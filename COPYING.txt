@@ -18,12 +18,6 @@ Source: https://github.com/Devolutions/CMakeRust
 Copyright: None
 License: Apache-2.0 or MIT
 
-Files: cmake/ProjectSecp256k1.cmake
-       cmake/secp256k1/CMakeLists.txt
-Source: https://github.com/ethereum/aleth
-Copyright: None
-License: GPL-3.0
-
 Files: cmake/util/ccache.cmake
 Source: http://ceph.com/
 Copyright: 2004-2010, Sage Weil <sage@newdream.net>
@@ -80,11 +74,6 @@ Source: https://github.com/pybind/pybind11/
 Copyright: 2016, Wenzel Jakob <wenzel.jakob@epfl.ch>
 License: BSD-style
     https://github.com/pybind/pybind11/blob/master/LICENSE
-
-Files: src/third_party/secp256k1/*
-Source: https://github.com/bitcoin-core/secp256k1/
-Copyright: 2013, Pieter Wuille
-License: MIT
 
 Files: src/third_party/smf/*
 Source: https://github.com/smfrpc/smf/
