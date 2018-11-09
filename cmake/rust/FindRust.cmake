@@ -69,5 +69,13 @@ if(NOT RUST_FOUND AND USE_RUST)
 	message(FATAL_ERROR "Could not find Rust!")
 endif()
 
+if(WIN32)
+  set(RUST_DEPS_LIBS ws2_32 userenv)
+elseif(CMAKE_SYSTEM_NAME MATCHES "Darwin")
+  set(RUST_DEPS_LIBS resolv)
+else()
+  set(RUST_DEPS_LIBS pthread dl)
+endif()
+
 set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM ${_CMAKE_FIND_ROOT_PATH_MODE_PROGRAM})
 set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ${_CMAKE_FIND_ROOT_PATH_MODE_INCLUDE})
