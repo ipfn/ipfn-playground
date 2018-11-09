@@ -23,3 +23,11 @@ function my_homedir() {
 		echo /home/$WHOAMI
 	fi
 }
+
+function ask_yes_or_no() {
+	read -p "$1 ([y]es or [N]o): "
+	case $(echo $REPLY | tr '[A-Z]' '[a-z]') in
+	y | yes) echo "yes" ;;
+	*) echo "no" ;;
+	esac
+}

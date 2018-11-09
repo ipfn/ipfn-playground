@@ -30,7 +30,6 @@ fi
 
 export NVM_DIR="$HOME_DIR/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
-source $HOME_DIR/.nvm
 
 # ----------------------------------------------------------------
 # Install NodeJS
@@ -39,6 +38,7 @@ nvm install v$NODE_VER
 nvm alias default v$NODE_VER #set default to v$NODE_VER
 
 chown -R $USERNAME:$USERNAME $HOME_DIR/.nvm
+source $HOME_DIR/.nvm/nvm.sh
 
 cat <<EOF >/etc/profile.d/nvm.sh
 export NVM_DIR="$HOME_DIR/.nvm"
