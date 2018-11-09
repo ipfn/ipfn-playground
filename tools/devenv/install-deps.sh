@@ -49,9 +49,10 @@ function debs() {
 		apt-key adv --fetch-keys https://download.opensuse.org/repositories/home:/scylladb:/scylla-3rdparty-stretch/Debian_9.0/Release.key
 		apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 17723034C56D4B19
 
-		echo "deb [arch=amd64] http://download.opensuse.org/repositories/home:/scylladb:/scylla-3rdparty-stretch/Debian_9.0/ ./" | sudo tee /etc/apt/sources.list.d/3rdparty.list
+		echo "deb [arch=amd64] http://download.opensuse.org/repositories/home:/scylladb:/scylla-3rdparty-stretch/Debian_9.0/ ./" | tee /etc/apt/sources.list.d/3rdparty.list
 		apt-get -y update
 		apt-get install -y scylla-gcc73-g++-7
+		source /etc/profile.d/scylla.sh
 
 		update-alternatives --install /usr/bin/gcc gcc $(which gcc-7) 10
 		update-alternatives --install /usr/bin/g++ g++ $(which g++-7) 20

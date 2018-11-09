@@ -104,7 +104,7 @@ Vagrant.configure("2") do |config|
     vb.cpus = cpus
     vb.memory = assign_ram_mb
     vb.name = VM_NAME
-    vb.customize ["modifyvm", :id, "--nictype1", "Am79C973"]
+    vb.customize ["modifyvm", :id, "--nictype1", "virtio"]
 
     # enables symlinks for windows
     vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/#{IPFN_PATH}", "1"]
@@ -134,5 +134,5 @@ Vagrant.configure("2") do |config|
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
-  config.vm.provision "shell", inline: "sudo bash #{IPFN_PATH}/tools/devenv/setup.sh", keep_color: true
+  config.vm.provision "shell", inline: "sudo bash #{IPFN_PATH}/tools/devenv/setup.sh", keep_color: true, env: {"VAGRANT" => "1"}
 end

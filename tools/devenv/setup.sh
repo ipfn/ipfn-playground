@@ -19,60 +19,67 @@ apt-get install -qy git
 HOME_DIR=$(my_homedir)
 USERNAME=$(my_username)
 IPFN_PATH="/opt/gopath/src/github.com/ipfn/ipfn"
-DEVENV_REVISION=$( (
-	cd /$IPFN_PATH/tools/devenv
-	git rev-parse --short HEAD
-))
+DEVENV_PATH=$(dirname "$0")
+if [[ "" == $DEVENV_REVISION ]]; then
+	DEVENV_REVISION=$( (
+		cd $DEVENV_PATH
+		git rev-parse --short HEAD
+	))
+fi
 
 # Install WARNING before we start provisioning so that it
 # will remain active.  We will remove the warning after
 # success
 SCRIPT_DIR="$(readlink -f "$(dirname "$0")")"
-cat $IPFN_PATH/tools/devenv/motd-failure.txt >/etc/motd
+cat $DEVENV_PATH/motd-failure.txt >/etc/motd
 
-$IPFN_PATH/tools/devenv/install-deps.sh
+bash $DEVENV_PATH/install-deps.sh
+
+# ----------------------------------------------------------------
+# Install CMake
+# ----------------------------------------------------------------
+if [ ! -f /opt/cmake/bin/cmake ]; then
+	bash $DEVENV_PATH/install-cmake.sh
+fi
 
 # ----------------------------------------------------------------
 # Install nvm and Node.js
 # ----------------------------------------------------------------
 if [ ! -d $HOME_DIR/.nvm ]; then
-	$IPFN_PATH/tools/devenv/install-nvm.sh
+	bash $DEVENV_PATH/install-nvm.sh
 fi
 
 # ----------------------------------------------------------------
 # Install docker and docker-compose
 # ----------------------------------------------------------------
 if [ ! -f /usr/bin/docker ]; then
-	$IPFN_PATH/tools/devenv/install-docker.sh
+	if [ -f /.dockerenv ]; then
+		echo "Not installing Docker inside Docker"
+	else
+		bash $DEVENV_PATH/install-docker.sh
+	fi
 fi
 
 # ----------------------------------------------------------------
 # Install Go and test tools
 # ----------------------------------------------------------------
 if [ ! -f /opt/go/bin/go ]; then
-	$IPFN_PATH/tools/devenv/install-go.sh
-	$IPFN_PATH/tools/devenv/install-go-tools.sh
+	bash $DEVENV_PATH/install-go.sh
+	bash $DEVENV_PATH/install-go-tools.sh
 fi
 
 # ----------------------------------------------------------------
 # Install Rust
 # ----------------------------------------------------------------
 if [ ! -d $HOME_DIR/.cargo ]; then
-	$IPFN_PATH/tools/devenv/install-rust.sh
+	bash $DEVENV_PATH/install-rust.sh
 fi
 
 # ----------------------------------------------------------------
 # Install Emscripten
 # ----------------------------------------------------------------
 if [ ! -d /opt/fastcomp/build/bin ]; then
-	$IPFN_PATH/tools/devenv/install-emscripten.sh
-fi
-
-# ----------------------------------------------------------------
-# Install CMake
-# ----------------------------------------------------------------
-if [ ! -f /opt/cmake/bin/cmake ]; then
-	$IPFN_PATH/tools/devenv/install-cmake.sh
+	bash $DEVENV_PATH/install-emscripten.sh
 fi
 
 # ----------------------------------------------------------------
@@ -92,26 +99,15 @@ echo $DEVENV_REVISION >/var/ipfn/build-head-rev
 # NOTE: This must be done before the chown below
 cd $IPFN_PATH
 
-# ----------------------------------------------------------------
-# Test Go code
-# ----------------------------------------------------------------
-# test ipfn go source code
-source /etc/profile.d/goroot.sh
-go test -v ./src/go/...
-go test -v -covermode=count -coverprofile=coverage.out
-# generate code coverate report
-goveralls -coverprofile=coverage.out -service=travis-ci -repotoken $COVERALLS_TOKEN
-
 # Update limits.conf to increase nofiles for LevelDB and network connections
-cp $IPFN_PATH/tools/devenv/limits.conf /etc/security/limits.conf
+cp $DEVENV_PATH/limits.conf /etc/security/limits.conf
 
 # Configure vagrant specific environment
 cat <<EOF >/etc/profile.d/vagrant-devenv.sh
 # Expose the tools/devenv in the $PATH
 export IPFN_PATH=$IPFN_PATH
-export PATH=\$PATH:$IPFN_PATH/tools/devenv:$IPFN_PATH/.build/bin
+export PATH=\$PATH:$IPFN_PATH/build/src/apps
 export IPFN_CFG_PATH=$IPFN_PATH/sampleconfig/
-export VAGRANT=1
 EOF
 
 # Set our shell prompt to something less ugly than the default from packer
@@ -123,5 +119,5 @@ cd $IPFN_PATH
 EOF
 
 # Install success message.
-SCRIPT_DIR="$(readlink -f "$(dirname "$0")")"
+SCRIPT_DIR="$(readlink -f "$DEVENV_PATH")"
 cat "$SCRIPT_DIR/motd-success.txt" >/etc/motd

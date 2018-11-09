@@ -9,7 +9,11 @@
 function my_username() {
 	WHOAMI=$(who am i | awk '{print $1}')
 	if [[ "" == $WHOAMI ]]; then
-		echo "vagrant"
+		if [[ "1" == $VAGRANT ]]; then
+			echo "vagrant"
+		else
+			echo $(whoami)
+		fi
 	else
 		echo $WHOAMI
 	fi

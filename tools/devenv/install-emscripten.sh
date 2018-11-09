@@ -19,7 +19,7 @@ set -x
 HOME_DIR=$(my_homedir)
 USERNAME=$(my_username)
 
-EM_VER=1.38.16
+export EM_VER=1.38.16
 
 # Install java
 apt-get install -qy default-jre
@@ -39,7 +39,7 @@ if [ -f /etc/profile.d/cmake.sh ]; then
 	source /etc/profile.d/cmake.sh
 fi
 
-export LLVM="/opt/emsdk/clang/e$VER_64bit"
+export LLVM="/opt/emsdk/clang/e${EM_VER}_64bit"
 
 if [ ! -d "$LLVM" ]; then
 	# ----------------------------------------------------------------
@@ -83,12 +83,12 @@ if [ ! -d "$LLVM" ]; then
 		ninja -j12
 	fi
 	export LLVM="/opt/fastcomp/build"
+	chown -R $USERNAME:$USERNAME /opt/fastcomp
 fi
 
 # Make sure user owns right to the directory
 # supposes we are running under sudo
 chown -R $USERNAME:$USERNAME /opt/emsdk
-chown -R $USERNAME:$USERNAME /opt/fastcomp
 
 mkdir -p $HOME_DIR/.emscripten_cache
 mkdir -p $HOME_DIR/.emscripten_ports
