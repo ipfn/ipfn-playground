@@ -8,7 +8,7 @@ Files: *
 Copyright: 2017-2018, The IPFN Developers
 License: Apache-2.0
 
-Files: cmake/util/{FindLLVM,Util}.cmake
+Files: cmake/util/Util.cmake
 Source: https://github.com/dmlc/tvm/
 Copyright: 2017, TVM Contributors
 License: Apache-2.0
@@ -78,6 +78,11 @@ License: BSD-style
 Files: src/third_party/smf/*
 Source: https://github.com/smfrpc/smf/
 Copyright: 2016-2018, SMF Authors
+License: Apache-2.0
+
+Files: src/tests/bench/checksum.cc
+Source: https://github.com/smfrpc/smf/
+Copyright: 2018, Alexander Gallego
 License: Apache-2.0
 
 Files: src/third_party/tvm/*

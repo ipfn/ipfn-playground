@@ -15,6 +15,4 @@
  */
 #pragma once
 
-#define str char
-
 #include <ipfn/rust/bindings.h>

@@ -53,6 +53,10 @@ macro(ipfn_option variable description value)
   endif()
 endmacro()
 
+macro(set_option_force option value)
+  set(${option} ${value} CACHE "" INTERNAL FORCE)
+endmacro()
+
 function(assign_source_group group)
     foreach(_source IN ITEMS ${ARGN})
         if (IS_ABSOLUTE "${_source}")

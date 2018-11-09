@@ -9,9 +9,6 @@ ipfn_test(
   LIBRARIES gtest ipfn_rust ${RUST_DEPS_LIBS}
 )
 
-
-message("RUST_DEPS_LIBS=${RUST_DEPS_LIBS}")
-
 # Hello.cc
 add_executable(ipfn_rust_ctest hello.cc)
 target_link_libraries(ipfn_rust_ctest ipfn_core ipfn_rust ${RUST_DEPS_LIBS})
