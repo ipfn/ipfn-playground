@@ -27,9 +27,7 @@ set(CMAKE_MODULE_PATH
     "${CMAKE_SOURCE_DIR}/cmake/toolchain"
     "${CMAKE_SOURCE_DIR}/cmake/util")
 
-include(ccache)
 include(Util)
-include(tests)
 
 # Configuration defaults
 if(EXISTS ${CMAKE_CURRENT_BINARY_DIR}/config.cmake)
@@ -37,6 +35,9 @@ if(EXISTS ${CMAKE_CURRENT_BINARY_DIR}/config.cmake)
 elseif(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/config.cmake)
   include(${CMAKE_CURRENT_SOURCE_DIR}/config.cmake)
 endif()
+
+include(ccache)
+include(tests)
 
 if(BUILD_RUST_SDK)
   enable_language(Rust)
