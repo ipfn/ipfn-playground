@@ -13,13 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include <ipfn/core.h>
+#include <cctype>
+#include <utility>
 
-#include <iostream>
+#include <gtest/gtest.h>
+
+#include <ipfn/rust/ffi.h>
+
+using namespace ipfn::ffi;
+
+TEST(ipfn_rust, addition) {
+  auto res = addition(2, 2);
+  ASSERT_EQ(res, 4);
+}
 
 int
-main() {
-  ipfn_test();
-
-  std::cout << "test" << std::endl;
+main(int argc, char **argv) {
+  ::testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
 }

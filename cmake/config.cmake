@@ -1,7 +1,11 @@
 
+ipfn_option(BUILD_SMF           "Build with SMF"          OFF)
+
 ipfn_option(BUILD_TESTS         "Build with tests"          OFF)
 ipfn_option(BUILD_TEST_COVERAGE "Build tests with coverage" OFF)
 ipfn_option(BUILD_BENCHMARKS    "Build with benchmarks"     OFF)
+
+ipfn_option(BUILD_INTEGRATION_TESTS "Build integration tests" OFF)
 
 ipfn_option(BUILD_RUST_SDK    "Build Rust target"        OFF)
 ipfn_option(BUILD_PYTHON_SDK  "Build Python target"      OFF)

@@ -14,12 +14,18 @@
  * limitations under the License.
  */
 #include <ipfn/core.h>
+#include <ipfn/rust/ffi.h>
 
 #include <iostream>
 
-int
-main() {
-  ipfn_test();
+using namespace ipfn::ffi;
 
-  std::cout << "test" << std::endl;
+int
+main(int argc, char *argv[]) {
+  ipfn_test();
+  // std::cout << addition(2, 2) << std::endl;
+  auto song = theme_song_generate("test");
+  std::cout << song << std::endl << std::flush;
+  theme_song_free(song);
+  std::cout << "hello.cc" << std::endl;
 }

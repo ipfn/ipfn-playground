@@ -1,11 +1,12 @@
 [package]
-name = "ipfn"
+name = "ipfn_rust"
 version = "0.1.0"
 authors = ["IPFN Developers <developers@ipfn.io>"]
 build = "build.rs"
 
 [lib]
-crate-type = ["cdylib"]
+crate-type = ["cdylib", "staticlib"]
+name = "ipfn_rust"
 
 [dependencies]
 

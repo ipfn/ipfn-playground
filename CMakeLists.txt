@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.9)
 
-project(ipfn VERSION "0.0.1" LANGUAGES C CXX)
+project(ipfn VERSION "0.0.0" LANGUAGES C CXX)
 
 enable_language(CXX)
 
@@ -29,6 +29,7 @@ set(CMAKE_MODULE_PATH
 
 include(ccache)
 include(Util)
+include(tests)
 
 # Configuration defaults
 if(EXISTS ${CMAKE_CURRENT_BINARY_DIR}/config.cmake)
@@ -40,6 +41,7 @@ endif()
 if(BUILD_RUST_SDK)
   enable_language(Rust)
   include(CMakeCargo)
+  include(FindRust)
 endif()
 
 set(IPFN_LINKER_LIBS "")
@@ -47,16 +49,14 @@ set(IPFN_RUNTIME_LINKER_LIBS "")
 
 if(BUILD_DOCS)
   find_package(Doxygen)
-  
+
   if(DOXYGEN_FOUND AND BUILD_DEPS_DOCS)
     set(BUILD_DOCUMENTATION ON)
   else()
     set(BUILD_DOCUMENTATION OFF)
   endif()
-  
+
   add_subdirectory(docs)
 endif()
-
-include(ProjectSecp256k1)
 
 add_subdirectory(src)

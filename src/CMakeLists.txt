@@ -21,3 +21,11 @@ endif()
 if(BUILD_WASM_TARGET)
   add_subdirectory(wasm)
 endif()
+
+if(BUILD_TESTS)
+  add_subdirectory(tests)
+endif()
+
+if(BUILD_BENCHMARKS)
+  add_subdirectory(tests/bench)
+endif()

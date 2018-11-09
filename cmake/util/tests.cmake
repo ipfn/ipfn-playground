@@ -9,19 +9,19 @@ enable_testing()
 set(INTEGRATION_TESTS "")
 set(UNIT_TESTS "")
 set(BENCHMARK_TESTS "")
-set(TEST_RUNNER ${PROJECT_SOURCE_DIR}/src/test_runner.py)
+set(TEST_RUNNER ${PROJECT_SOURCE_DIR}/src/third_party/smf/src/test_runner.py)
 
-message(STATUS "IPFN_ENABLE_INTEGRATION_TESTS=${IPFN_ENABLE_INTEGRATION_TESTS}")
-message(STATUS "IPFN_ENABLE_UNIT_TESTS=${IPFN_ENABLE_UNIT_TESTS}")
-message(STATUS "IPFN_ENABLE_BENCHMARK_TESTS=${IPFN_ENABLE_BENCHMARK_TESTS}")
+message(STATUS "BUILD_TESTS=${BUILD_TESTS}")
+message(STATUS "BUILD_BENCHMARKS=${BUILD_BENCHMARKS}")
+message(STATUS "BUILD_INTEGRATION_TESTS=${BUILD_INTEGRATION_TESTS}")
 
 function (ipfn_test)
   set(options INTEGRATION_TEST UNIT_TEST BENCHMARK_TEST)
   set(oneValueArgs BINARY_NAME SOURCE_DIRECTORY)
-  set(multiValueArgs SOURCES LIBRARIES INCLUDES)
+  set(multiValueArgs SOURCES LIBRARIES INCLUDES DEFINITIONS)
   cmake_parse_arguments(IPFN_TEST "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
-  if(IPFN_TEST_INTEGRATION_TEST AND IPFN_ENABLE_INTEGRATION_TESTS)
+  if(IPFN_TEST_INTEGRATION_TEST AND BUILD_INTEGRATION_TESTS)
     set(IPFN_TEST_BINARY_NAME "ipfn_${IPFN_TEST_BINARY_NAME}_integration_test")
     set(INTEGRATION_TESTS "${INTEGRATION_TESTS} ${IPFN_TEST_BINARY_NAME}")
     add_executable(
@@ -47,7 +47,7 @@ function (ipfn_test)
       --directory ${IPFN_TEST_SOURCE_DIRECTORY}
       )
   endif()
-  if(IPFN_TEST_UNIT_TEST AND IPFN_ENABLE_UNIT_TESTS)
+  if(IPFN_TEST_UNIT_TEST AND BUILD_TESTS)
     set(IPFN_TEST_BINARY_NAME "ipfn_${IPFN_TEST_BINARY_NAME}_unit_test")
     set(UNIT_TESTS "${UNIT_TESTS} ${IPFN_TEST_BINARY_NAME}")
     add_executable(
@@ -72,8 +72,8 @@ function (ipfn_test)
       --directory ${IPFN_TEST_SOURCE_DIRECTORY}
       )
   endif()
-  if(IPFN_TEST_BENCHMARK_TEST AND IPFN_ENABLE_BENCHMARK_TESTS)
-    set(IPFN_TEST_BINARY_NAME "ipfn_${IPFN_TEST_BINARY_NAME}_benchmark_test")
+  if(IPFN_TEST_BENCHMARK_TEST AND BUILD_BENCHMARKS)
+    set(IPFN_TEST_BINARY_NAME "ipfn_${IPFN_TEST_BINARY_NAME}_benchmark")
     set(BENCHMARK_TESTS "${BENCHMARK_TESTS} ${IPFN_TEST_BINARY_NAME}")
     add_executable(
       ${IPFN_TEST_BINARY_NAME} "${IPFN_TEST_SOURCES}")
@@ -97,11 +97,18 @@ function (ipfn_test)
       )
   endif()
   foreach(i ${IPFN_TEST_INCLUDES})
-    target_include_directories(${IPFN_TEST_BINARY_NAME} PUBLIC ${i})
+    message("including ${i}")
+    target_include_directories(${IPFN_TEST_BINARY_NAME}
+      PUBLIC ${i})
+  endforeach()
+  foreach(i ${IPFN_TEST_DEFINITIONS})
+    message("target_compile_definitions ${i}")
+    target_compile_definitions(${IPFN_TEST_BINARY_NAME}
+      PUBLIC ${i})
   endforeach()
 
 endfunction ()
-if(IPFN_ENABLE_TESTS)
+if(BUILD_TESTS)
   add_custom_target(check
     COMMAND ctest --output-on-failure -N -R "^IPFN"
     DEPENDS "${UNIT_TESTS} ${INTEGRATION_TESTS} ${BENCHMARK_TESTS}")

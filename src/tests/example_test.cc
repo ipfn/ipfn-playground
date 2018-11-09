@@ -13,13 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include <ipfn/core.h>
+#include <gtest/gtest.h>
 
-#include <iostream>
+TEST(example, test_one) { ASSERT_TRUE(true); }
 
 int
-main() {
-  ipfn_test();
-
-  std::cout << "test" << std::endl;
+main(int argc, char **argv) {
+  ::testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
 }

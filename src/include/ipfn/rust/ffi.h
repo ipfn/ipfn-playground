@@ -13,13 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include <ipfn/core.h>
+#pragma once
 
-#include <iostream>
+#define str char
 
-int
-main() {
-  ipfn_test();
-
-  std::cout << "test" << std::endl;
-}
+#include <ipfn/rust/bindings.h>
