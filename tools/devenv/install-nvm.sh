@@ -19,7 +19,7 @@ USERNAME=$(my_username)
 # ----------------------------------------------------------------
 NVM_VER=0.33.11
 NVM_URL=https://raw.githubusercontent.com/creationix/nvm/v$NVM_VER/install.sh
-NODE_VER=8.4 # node.js version
+NODE_VER=8.9 # node.js version
 
 # Download and install nvm
 curl -o- $NVM_URL | bash
