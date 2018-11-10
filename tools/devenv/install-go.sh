@@ -33,6 +33,5 @@ export PATH=\$PATH:$GOROOT/bin:$GOPATH/bin
 EOF
 
 mkdir -p $GOROOT $GOPATH
-chown -R $USERNAME:$USERNAME $GOPATH
-
 curl -sL $GO_URL | (cd $GOROOT && tar --strip-components 1 -xz)
+chown -R $USERNAME:$USERNAME $GOPATH

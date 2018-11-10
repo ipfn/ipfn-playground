@@ -25,12 +25,14 @@ curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain nightly -y
 
 if [[ "$HOME_DIR" != "$HOME" ]]; then
 	mv $HOME/.cargo $HOME_DIR/.cargo
+	mv $HOME/.rustup $HOME_DIR/.rustup
 fi
 
 export CARGO_HOME="$HOME_DIR/.cargo"
 PATH=$PATH:$CARGO_HOME/bin
 
-chown -R $USERNAME:$USERNAME $CARGO_HOME
+chown -R $USERNAME:$USERNAME $HOME_DIR/.cargo
+chown -R $USERNAME:$USERNAME $HOME_DIR/.rustup
 
 cat <<EOF >/etc/profile.d/rust.sh
 export CARGO_HOME="$CARGO_HOME"
