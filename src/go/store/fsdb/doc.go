@@ -1,4 +1,4 @@
-// Package local provides an implementation of key-value store on your
+// Package fsdb provides an implementation of key-value store on your
 // filesystem.
 //
 // It implements fsdb.Local interface.
