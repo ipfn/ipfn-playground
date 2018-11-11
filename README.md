@@ -23,7 +23,6 @@ IPFN – Interplanetary Functions Project Development Environment
 
 ## License
 
-Contributors licensed under the Apache License 2.0.
 See [COPYING][COPYING] file for licensing details.
 
 ## Project
