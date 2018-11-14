@@ -80,3 +80,5 @@ yarn.lock
 
 *.pyc
 __pycache__
+
+*.box
