@@ -26,6 +26,12 @@ Vagrant.configure("2") do |config|
   config.vm.box = "debian/contrib-stretch64"
   config.vm.box_version = "9.3.0"
 
+  # vagrant plugin install vagrant-disksize
+  if Vagrant.has_plugin?("vagrant-disksize") then
+    config.disksize.size = "50GB"
+  end
+
+
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
   # `vagrant box outdated`. This is not recommended.
