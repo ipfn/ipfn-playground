@@ -31,18 +31,10 @@ import (
 )
 
 const (
-	// PubkeyHashV1 - Content ID of Sealed Cell Version 1. (24748)
+	// PubkeyHashV1 - Content ID of Sealed Cell Version 1. (name = "pubkey-hash-v1", id = 24748)
 	PubkeyHashV1 = 0x60ac
-	// BinaryCellV1 - Content ID of Binary Cell Version 1. (28860)
+	// BinaryCellV1 - Content ID of Binary Cell Version 1. (name = "cell-binary-v1", id = 28860)
 	BinaryCellV1 = 0x70bc
-	// ChainHeaderV0 - Content ID of Chain Header Version 1. (79278)
-	ChainHeaderV0 = 0x51df0
-	// ChainSignedV0 - Content ID of Chain Signed Header Version 1. (335344)
-	ChainSignedV0 = 0x135ae
-	// OperationTrieV0 - Content ID of Cell Trie Version 1. (26156)
-	OperationTrieV0 = 0x662c
-	// StateTrieV1 - Content ID of Cell Trie Version 1. (27549)
-	StateTrieV1 = 0x6b9d
 )
 
 //
@@ -52,30 +44,50 @@ const (
 //   BinaryCellV2 = 0xb0bc
 //
 
-// Codecs - Maps the name of a codec to its type.
-var Codecs = map[string]uint64{
-	"pubkey-hash-v1":    PubkeyHashV1,
-	"cell-binary-v1":    BinaryCellV1,
-	"chain-header-v0":   ChainHeaderV0,
-	"chain-signed-v0":   ChainSignedV0,
-	"operation-trie-v0": OperationTrieV0,
-	"state-trie-v1":     StateTrieV1,
+func init() {
+	// this one should be always before
+	// subsequent calls to RegisterTarget
+	// are using these maps to clone later
+	RegisterTarget(Codecs, CodecToStr)
+	Register(map[string]uint64{
+		"pubkey-hash-v1": PubkeyHashV1,
+		"cell-binary-v1": BinaryCellV1,
+	})
+	// this one is after to ensure it works
+	RegisterTarget(cid.Codecs, cid.CodecToStr)
 }
 
-// CodecToStr - Maps the numeric codec to its name.
-var CodecToStr = map[uint64]string{}
+type target struct {
+	Codecs     map[string]uint64
+	CodecToStr map[uint64]string
+}
 
-// RegisterPrefixes - Registers codecs in remote cids package.
-func RegisterPrefixes(codecs map[string]uint64, codecToStr map[uint64]string) {
+var targets []target
+
+// Codecs - Maps the name of a codec to its type.
+var Codecs = make(map[string]uint64)
+
+// CodecToStr - Maps the numeric codec to its name.
+var CodecToStr = make(map[uint64]string)
+
+// Register - Registers codecs in remote cids package.
+func Register(codecs map[string]uint64) {
+	for _, target := range targets {
+		for name, codec := range codecs {
+			target.Codecs[name] = codec
+			target.CodecToStr[codec] = name
+		}
+	}
+}
+
+// RegisterTarget - Registers codecs in remote cids package.
+func RegisterTarget(codecs map[string]uint64, codecToStr map[uint64]string) {
+	targets = append(targets, target{
+		Codecs:     codecs,
+		CodecToStr: codecToStr,
+	})
 	for name, codec := range Codecs {
 		codecs[name] = codec
 		codecToStr[codec] = name
 	}
-}
-
-func init() {
-	for name, codec := range Codecs {
-		CodecToStr[codec] = name
-	}
-	RegisterPrefixes(cid.Codecs, cid.CodecToStr)
 }
