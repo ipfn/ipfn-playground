@@ -23,6 +23,7 @@ import (
 	"os"
 	"testing"
 
+	"github.com/ipfn/ipfn/pkg/crypto/bccsp"
 	"github.com/ipfn/ipfn/pkg/crypto/bccsp/pkcs11"
 	"github.com/spf13/viper"
 	"github.com/stretchr/testify/assert"
@@ -34,7 +35,7 @@ func TestMain(m *testing.M) {
 
 	var jsonBCCSP, yamlBCCSP *FactoryOpts
 	jsonCFG := []byte(
-		`{ "default": "SW", "SW":{ "security": 384, "hash": "SHA3" } }`)
+		`{ "default": "SW", "SW":{ "security": 384, "hash": "sha3" } }`)
 
 	err := json.Unmarshal(jsonCFG, &jsonBCCSP)
 	if err != nil {
@@ -46,10 +47,10 @@ func TestMain(m *testing.M) {
 BCCSP:
     default: PKCS11
     SW:
-        Hash: SHA3
+        Hash: 22
         Security: 256
     PKCS11:
-        Hash: SHA3
+        Hash: 22
         Security: 256
 
         Library: %s
@@ -63,7 +64,7 @@ BCCSP:
 BCCSP:
     default: SW
     SW:
-        Hash: SHA3
+        Hash: 22
         Security: 256`
 	}
 
@@ -84,7 +85,7 @@ BCCSP:
 		{
 			ProviderName: "SW",
 			SwOpts: &SwOpts{
-				HashFamily: "SHA2",
+				HashFamily: bccsp.Sha2Family,
 				SecLevel:   256,
 
 				Ephemeral: true,

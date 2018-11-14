@@ -17,7 +17,7 @@ package factory
 
 import (
 	"github.com/ipfn/ipfn/pkg/crypto/bccsp"
-	"github.com/ipfn/ipfn/pkg/crypto/bccsp/sw"
+	"github.com/ipfn/ipfn/pkg/crypto/bccsp/swcp"
 	"github.com/pkg/errors"
 )
 
@@ -45,26 +45,26 @@ func (f *SWFactory) Get(config *FactoryOpts) (bccsp.BCCSP, error) {
 
 	var ks bccsp.KeyStore
 	if swOpts.Ephemeral == true {
-		ks = sw.NewDummyKeyStore()
+		ks = swcp.NewDummyKeyStore()
 	} else if swOpts.FileKeystore != nil {
-		fks, err := sw.NewFileBasedKeyStore(nil, swOpts.FileKeystore.KeyStorePath, false)
+		fks, err := swcp.NewFileBasedKeyStore(nil, swOpts.FileKeystore.KeyStorePath, false)
 		if err != nil {
 			return nil, errors.Wrapf(err, "Failed to initialize software key store")
 		}
 		ks = fks
 	} else {
 		// Default to DummyKeystore
-		ks = sw.NewDummyKeyStore()
+		ks = swcp.NewDummyKeyStore()
 	}
 
-	return sw.NewWithParams(swOpts.SecLevel, swOpts.HashFamily, ks)
+	return swcp.NewWithParams(swOpts.SecLevel, swOpts.HashFamily, ks)
 }
 
 // SwOpts contains options for the SWFactory
 type SwOpts struct {
 	// Default algorithms when not specified (Deprecated?)
-	SecLevel   int    `mapstructure:"security" json:"security" yaml:"Security"`
-	HashFamily string `mapstructure:"hash" json:"hash" yaml:"Hash"`
+	SecLevel   int              `mapstructure:"security" json:"security" yaml:"Security"`
+	HashFamily bccsp.HashFamily `mapstructure:"hash" json:"hash" yaml:"Hash"`
 
 	// Keystore Options
 	Ephemeral     bool               `mapstructure:"tempkeys,omitempty" json:"tempkeys,omitempty"`

@@ -17,7 +17,6 @@ package bccsp
 
 import (
 	"reflect"
-	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -96,22 +95,6 @@ func TestECDSAOpts(t *testing.T) {
 	assert.False(t, opts.Ephemeral())
 	assert.Equal(t, "ECDSA_RERAND", opts.Algorithm())
 	assert.Empty(t, opts.ExpansionValue())
-}
-
-func TestHashOpts(t *testing.T) {
-	for _, ho := range []HashOpts{&SHA256Opts{}, &SHA384Opts{}, &SHA3_256Opts{}, &SHA3_384Opts{}} {
-		s := strings.Replace(reflect.TypeOf(ho).String(), "*bccsp.", "", -1)
-		algorithm := strings.Replace(s, "Opts", "", -1)
-		assert.Equal(t, algorithm, ho.Algorithm())
-		ho2, err := GetHashOpt(algorithm)
-		assert.NoError(t, err)
-		assert.Equal(t, ho.Algorithm(), ho2.Algorithm())
-	}
-	_, err := GetHashOpt("foo")
-	assert.Error(t, err)
-	assert.Contains(t, err.Error(), "hash function not recognized")
-
-	assert.Equal(t, "SHA", (&SHAOpts{}).Algorithm())
 }
 
 func TestHMAC(t *testing.T) {

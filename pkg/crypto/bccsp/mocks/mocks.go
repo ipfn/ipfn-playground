@@ -49,6 +49,14 @@ type MockBCCSP struct {
 	HashErr error
 }
 
+func (*MockBCCSP) ReadOnly() bool {
+	panic("Not yet implemented")
+}
+
+func (*MockBCCSP) StoreKey(k bccsp.Key) (err error) {
+	panic("Not yet implemented")
+}
+
 func (*MockBCCSP) KeyGen(opts bccsp.KeyGenOpts) (bccsp.Key, error) {
 	panic("Not yet implemented")
 }
@@ -61,15 +69,15 @@ func (m *MockBCCSP) KeyImport(raw interface{}, opts bccsp.KeyImportOpts) (bccsp.
 	return m.KeyImportValue, m.KeyImportErr
 }
 
-func (*MockBCCSP) GetKey(ski []byte) (bccsp.Key, error) {
+func (*MockBCCSP) Key(ski []byte) (bccsp.Key, error) {
 	panic("Not yet implemented")
 }
 
-func (m *MockBCCSP) Hash(msg []byte, opts bccsp.HashOpts) ([]byte, error) {
+func (m *MockBCCSP) Hash(msg []byte, t bccsp.HashType) ([]byte, error) {
 	return m.HashVal, m.HashErr
 }
 
-func (*MockBCCSP) GetHash(opts bccsp.HashOpts) (hash.Hash, error) {
+func (*MockBCCSP) Hasher(t bccsp.HashType) (hash.Hash, error) {
 	panic("Not yet implemented")
 }
 
@@ -177,7 +185,7 @@ func (*KeyStore) ReadOnly() bool {
 	panic("Not yet implemented")
 }
 
-func (ks *KeyStore) GetKey(ski []byte) (bccsp.Key, error) {
+func (ks *KeyStore) Key(ski []byte) (bccsp.Key, error) {
 	return ks.GetKeyValue, ks.GetKeyErr
 }
 

@@ -60,25 +60,6 @@ const (
 	// HMACTruncated256 HMAC truncated at 256 bits.
 	HMACTruncated256 = "HMAC_TRUNCATED_256"
 
-	// SHA Secure Hash Algorithm using default family.
-	// Each BCCSP may or may not support default security level. If not supported than
-	// an error will be returned.
-	SHA = "SHA"
-
-	// SHA2 is an identifier for SHA2 hash family
-	SHA2 = "SHA2"
-	// SHA3 is an identifier for SHA3 hash family
-	SHA3 = "SHA3"
-
-	// SHA256
-	SHA256 = "SHA256"
-	// SHA384
-	SHA384 = "SHA384"
-	// SHA3_256
-	SHA3_256 = "SHA3_256"
-	// SHA3_384
-	SHA3_384 = "SHA3_384"
-
 	// X509Certificate Label for X509 certificate related operation
 	X509Certificate = "X509Certificate"
 )
@@ -261,15 +242,6 @@ func (opts *HMACImportKeyOpts) Algorithm() string {
 // false otherwise.
 func (opts *HMACImportKeyOpts) Ephemeral() bool {
 	return opts.Temporary
-}
-
-// SHAOpts contains options for computing SHA.
-type SHAOpts struct {
-}
-
-// Algorithm returns the hash algorithm identifier (to be used).
-func (opts *SHAOpts) Algorithm() string {
-	return SHA
 }
 
 // RSAKeyGenOpts contains options for RSA key generation.

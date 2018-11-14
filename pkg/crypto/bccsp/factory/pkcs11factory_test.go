@@ -21,6 +21,7 @@ import (
 	"os"
 	"testing"
 
+	"github.com/ipfn/ipfn/pkg/crypto/bccsp"
 	"github.com/ipfn/ipfn/pkg/crypto/bccsp/pkcs11"
 	"github.com/stretchr/testify/assert"
 )
@@ -53,7 +54,7 @@ func TestPKCS11FactoryGet(t *testing.T) {
 	opts := &FactoryOpts{
 		Pkcs11Opts: &pkcs11.PKCS11Opts{
 			SecLevel:   256,
-			HashFamily: "SHA2",
+			HashFamily: bccsp.Sha2Family,
 			Library:    lib,
 			Pin:        pin,
 			Label:      label,
@@ -66,7 +67,7 @@ func TestPKCS11FactoryGet(t *testing.T) {
 	opts = &FactoryOpts{
 		Pkcs11Opts: &pkcs11.PKCS11Opts{
 			SecLevel:     256,
-			HashFamily:   "SHA2",
+			HashFamily:   bccsp.Sha2Family,
 			FileKeystore: &pkcs11.FileKeystoreOpts{KeyStorePath: os.TempDir()},
 			Library:      lib,
 			Pin:          pin,
@@ -80,7 +81,7 @@ func TestPKCS11FactoryGet(t *testing.T) {
 	opts = &FactoryOpts{
 		Pkcs11Opts: &pkcs11.PKCS11Opts{
 			SecLevel:   256,
-			HashFamily: "SHA2",
+			HashFamily: bccsp.Sha2Family,
 			Ephemeral:  true,
 			Library:    lib,
 			Pin:        pin,

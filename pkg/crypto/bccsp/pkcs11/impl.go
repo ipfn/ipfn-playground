@@ -22,7 +22,7 @@ import (
 	"os"
 
 	"github.com/ipfn/ipfn/pkg/crypto/bccsp"
-	"github.com/ipfn/ipfn/pkg/crypto/bccsp/sw"
+	"github.com/ipfn/ipfn/pkg/crypto/bccsp/swcp"
 	"github.com/ipfn/ipfn/pkg/utils/flog"
 	"github.com/miekg/pkcs11"
 	"github.com/pkg/errors"
@@ -43,7 +43,7 @@ func New(opts PKCS11Opts, keyStore bccsp.KeyStore) (bccsp.BCCSP, error) {
 		return nil, errors.Wrapf(err, "Failed initializing configuration")
 	}
 
-	swCSP, err := sw.NewWithParams(opts.SecLevel, opts.HashFamily, keyStore)
+	swCSP, err := swcp.NewWithParams(opts.SecLevel, opts.HashFamily, keyStore)
 	if err != nil {
 		return nil, errors.Wrapf(err, "Failed initializing fallback SW BCCSP")
 	}
@@ -160,9 +160,9 @@ func (csp *impl) KeyImport(raw interface{}, opts bccsp.KeyImportOpts) (k bccsp.K
 	}
 }
 
-// GetKey returns the key this CSP associates to
+// Key returns the key this CSP associates to
 // the Subject Key Identifier ski.
-func (csp *impl) GetKey(ski []byte) (bccsp.Key, error) {
+func (csp *impl) Key(ski []byte) (bccsp.Key, error) {
 	pubKey, isPriv, err := csp.getECKey(ski)
 	if err == nil {
 		if isPriv {
@@ -170,7 +170,7 @@ func (csp *impl) GetKey(ski []byte) (bccsp.Key, error) {
 		}
 		return &ecdsaPublicKey{ski, pubKey}, nil
 	}
-	return csp.BCCSP.GetKey(ski)
+	return csp.BCCSP.Key(ski)
 }
 
 // Sign signs digest using key k.

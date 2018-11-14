@@ -21,6 +21,7 @@ import (
 	"os"
 	"testing"
 
+	"github.com/ipfn/ipfn/pkg/crypto/bccsp"
 	"github.com/ipfn/ipfn/pkg/crypto/bccsp/pkcs11"
 	"github.com/stretchr/testify/assert"
 )
@@ -70,7 +71,7 @@ func TestGetBCCSPFromOpts(t *testing.T) {
 		ProviderName: "PKCS11",
 		Pkcs11Opts: &pkcs11.PKCS11Opts{
 			SecLevel:   256,
-			HashFamily: "SHA2",
+			HashFamily: bccsp.Sha2Family,
 			Ephemeral:  true,
 			Library:    lib,
 			Pin:        pin,

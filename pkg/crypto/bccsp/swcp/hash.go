@@ -13,22 +13,32 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package bccsp
+package swcp
 
-// KeyStore represents a storage system for cryptographic keys.
-// It allows to store and retrieve bccsp.Key objects.
-// The KeyStore can be read only, in that case StoreKey will return
-// an error.
-type KeyStore interface {
-	// Key returns the key this CSP associates to
-	// the Subject Key Identifier ski.
-	Key(ski []byte) (k Key, err error)
+import (
+	"fmt"
+	"hash"
 
-	// StoreKey stores the key k in this KeyStore.
-	// If this KeyStore is read only then the method will fail.
-	StoreKey(k Key) (err error)
+	"github.com/ipfn/ipfn/pkg/crypto/bccsp"
+)
 
-	// ReadOnly returns true if this KeyStore is read only, false otherwise.
-	// If ReadOnly is true then StoreKey will fail.
-	ReadOnly() bool
+type hasher struct {
+	algo bccsp.HashType
+	impl func() hash.Hash
+}
+
+func (c *hasher) Hash(msg []byte, algo bccsp.HashType) ([]byte, error) {
+	if algo != c.algo {
+		return nil, fmt.Errorf("hasher does not implement %s", algo)
+	}
+	h := c.impl()
+	h.Write(msg)
+	return h.Sum(nil), nil
+}
+
+func (c *hasher) Hasher(algo bccsp.HashType) (hash.Hash, error) {
+	if algo != c.algo {
+		return nil, fmt.Errorf("hasher does not implement %s", algo)
+	}
+	return c.impl(), nil
 }

@@ -13,22 +13,41 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package bccsp
+package swcp
 
-// KeyStore represents a storage system for cryptographic keys.
-// It allows to store and retrieve bccsp.Key objects.
-// The KeyStore can be read only, in that case StoreKey will return
-// an error.
-type KeyStore interface {
-	// Key returns the key this CSP associates to
-	// the Subject Key Identifier ski.
-	Key(ski []byte) (k Key, err error)
+import (
+	"testing"
 
-	// StoreKey stores the key k in this KeyStore.
-	// If this KeyStore is read only then the method will fail.
-	StoreKey(k Key) (err error)
+	"github.com/ipfn/ipfn/pkg/crypto/bccsp/mocks"
+	"github.com/stretchr/testify/assert"
+)
 
-	// ReadOnly returns true if this KeyStore is read only, false otherwise.
-	// If ReadOnly is true then StoreKey will fail.
-	ReadOnly() bool
+func TestNewDummyKeyStore(t *testing.T) {
+	t.Parallel()
+
+	ks := NewDummyKeyStore()
+	assert.NotNil(t, ks)
+}
+
+func TestDummyKeyStore_GetKey(t *testing.T) {
+	t.Parallel()
+
+	ks := NewDummyKeyStore()
+	_, err := ks.Key([]byte{0, 1, 2, 3, 4})
+	assert.Error(t, err)
+}
+
+func TestDummyKeyStore_ReadOnly(t *testing.T) {
+	t.Parallel()
+
+	ks := NewDummyKeyStore()
+	assert.True(t, ks.ReadOnly())
+}
+
+func TestDummyKeyStore_StoreKey(t *testing.T) {
+	t.Parallel()
+
+	ks := NewDummyKeyStore()
+	err := ks.StoreKey(&mocks.MockKey{})
+	assert.Error(t, err)
 }

@@ -69,7 +69,7 @@ func TestPluginFactoryInvalidConfig(t *testing.T) {
 
 func TestPluginFactoryValidConfig(t *testing.T) {
 	// build plugin
-	lib := "./bccsp.so"
+	lib := "./plugins.so"
 	defer os.Remove(lib)
 	buildPlugin(lib, t)
 
@@ -84,13 +84,13 @@ func TestPluginFactoryValidConfig(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, csp)
 
-	_, err = csp.GetKey([]byte{123})
+	_, err = csp.Key([]byte{123})
 	assert.NoError(t, err)
 }
 
 func TestPluginFactoryFromOpts(t *testing.T) {
 	// build plugin
-	lib := "./bccsp.so"
+	lib := "./plugins.so"
 	defer os.Remove(lib)
 	buildPlugin(lib, t)
 
@@ -104,6 +104,6 @@ func TestPluginFactoryFromOpts(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, csp)
 
-	_, err = csp.GetKey([]byte{123})
+	_, err = csp.Key([]byte{123})
 	assert.NoError(t, err)
 }

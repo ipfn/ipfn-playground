@@ -29,6 +29,18 @@ func New(config map[string]interface{}) (bccsp.BCCSP, error) {
 	return &impl{}, nil
 }
 
+// ReadOnly returns true if this KeyStore is read only, false otherwise.
+// If ReadOnly is true then StoreKey will fail.
+func (csp *impl) ReadOnly() bool {
+	return false
+}
+
+// StoreKey stores the key k in this KeyStore.
+// If this KeyStore is read only then the method will fail.
+func (csp *impl) StoreKey(k bccsp.Key) (err error) {
+	return nil
+}
+
 // KeyGen generates a key using opts.
 func (csp *impl) KeyGen(opts bccsp.KeyGenOpts) (k bccsp.Key, err error) {
 	return nil, nil
@@ -46,21 +58,21 @@ func (csp *impl) KeyImport(raw interface{}, opts bccsp.KeyImportOpts) (k bccsp.K
 	return nil, nil
 }
 
-// GetKey returns the key this CSP associates to
+// Key returns the key this CSP associates to
 // the Subject Key Identifier ski.
-func (csp *impl) GetKey(ski []byte) (k bccsp.Key, err error) {
+func (csp *impl) Key(ski []byte) (k bccsp.Key, err error) {
 	return nil, nil
 }
 
 // Hash hashes messages msg using options opts.
 // If opts is nil, the default hash function will be used.
-func (csp *impl) Hash(msg []byte, opts bccsp.HashOpts) (hash []byte, err error) {
+func (csp *impl) Hash(msg []byte, t bccsp.HashType) (hash []byte, err error) {
 	return nil, nil
 }
 
 // GetHash returns and instance of hash.Hash using options opts.
 // If opts is nil, the default hash function will be returned.
-func (csp *impl) GetHash(opts bccsp.HashOpts) (h hash.Hash, err error) {
+func (csp *impl) Hasher(t bccsp.HashType) (h hash.Hash, err error) {
 	return nil, nil
 }
 

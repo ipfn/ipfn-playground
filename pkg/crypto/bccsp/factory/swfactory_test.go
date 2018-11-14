@@ -19,6 +19,7 @@ import (
 	"os"
 	"testing"
 
+	"github.com/ipfn/ipfn/pkg/crypto/bccsp"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -49,7 +50,7 @@ func TestSWFactoryGet(t *testing.T) {
 	opts := &FactoryOpts{
 		SwOpts: &SwOpts{
 			SecLevel:   256,
-			HashFamily: "SHA2",
+			HashFamily: bccsp.Sha2Family,
 		},
 	}
 	csp, err := f.Get(opts)
@@ -59,7 +60,7 @@ func TestSWFactoryGet(t *testing.T) {
 	opts = &FactoryOpts{
 		SwOpts: &SwOpts{
 			SecLevel:     256,
-			HashFamily:   "SHA2",
+			HashFamily:   bccsp.Sha2Family,
 			FileKeystore: &FileKeystoreOpts{KeyStorePath: os.TempDir()},
 		},
 	}
