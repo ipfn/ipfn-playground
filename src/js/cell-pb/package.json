@@ -1,6 +1,6 @@
 {
   "name": "@ipfn/cell-pb",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "IPFN Cell Protocol Buffers codec.",
   "keywords": [
     "ipfn"
@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@ipfn/cell": "0.0.2",
-    "@ipfn/protons": "^1.1.0"
+    "@ipfn/protons": "^1.2.0"
   },
   "license": "Apache-2.0",
   "engines": {
