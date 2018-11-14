@@ -13,8 +13,8 @@ Go implementation of IPFN core with command line tool and daemon.
 | Name               | Description    | Spec                         | Comment                  | Docs                 |
 |:-------------------|:---------------|:-----------------------------|:-------------------------|:---------------------|
 | [bccsp][bccsp]     | Crypto Service | [BCCSP][bccsp-spec]          | Source: [Fabric][fabric] | [godoc][bccsp-doc]   |
-| [celldag][celldag] | Cell IPFS DAG  | [IPFS DAG][ipfs-dag]         |                          | [godoc][celldag-doc] |
-| [cells][cells]     | Cells & Codecs | [IPFN Cells][cell-spec]      |                          | [godoc][cells-doc]   |
+| [celldag][celldag] | Cell IPFS DAG  | [IPFS DAG][ipfs-dag]         | Prototype                | [godoc][celldag-doc] |
+| [cells][cells]     | Cells & Codecs | [IPFN Cell V1][cell-spec]    |                          | [godoc][cells-doc]   |
 | [codec][codec]     | IPFN Codec     |                              |                          | [godoc][codec-doc]   |
 | [sealbox][sealbox] | Seal Box       | [Web3 Secrets][web3-secrets] |                          | [godoc][sealbox-doc] |
 
@@ -22,9 +22,9 @@ Go implementation of IPFN core with command line tool and daemon.
 
 | Name                         | Description        | Spec                               | Comment   | Docs                      |
 |:-----------------------------|:-------------------|:-----------------------------------|:----------|:--------------------------|
-| [base32i][base32i]           | Base32 Encoding    | [Spec][base32i-spec]               |           | [godoc][base32i-doc]      |
+| [base32i][base32i]           | Base32 Encoding    | [Spec][base32i-spec]               | Prototype | [godoc][base32i-doc]      |
 | [codecs][codecs]             | IPFN Codec IDs     |                                    |           | [godoc][codecs-doc]       |
-| [pkcid][pkcid]               | Public Key CID     |                                    |           | [godoc][pkcid-doc]        |
+| [pkcid][pkcid]               | Public Key CID     | [Content ID][cid-spec]             | Prototype | [godoc][pkcid-doc]        |
 | [shortaddress][shortaddress] | IPFN Short Address | [Short address][shortaddress-spec] | Prototype | [godoc][shortaddress-doc] |
 
 ## Utilities
@@ -73,7 +73,7 @@ This source code is part of [IPFN](https://github.com/ipfn) – interplanetary f
 [codecs]: https://github.com/ipfn/ipfn/tree/master/src/go/common/codecs
 [bccsp-doc]: https://godoc.org/github.com/ipfn/ipfn/src/go/crypto/bccsp
 [bccsp-spec]: https://jira.hyperledger.org/secure/attachment/10124/BCCSP.pdf
-[bccsp]: https://godoc.org/github.com/ipfn/ipfn/tree/master/src/go/crypto/bccsp
+[bccsp]: https://github.com/ipfn/ipfn/tree/master/src/go/crypto/bccsp
 [bip32]: https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki
 [cell-spec]: https://github.com/ipfn/ipfn/tree/master/src/proto/cell.proto
 [celldag-doc]: https://godoc.org/github.com/ipfn/ipfn/src/go/cells/celldag
@@ -109,3 +109,4 @@ This source code is part of [IPFN](https://github.com/ipfn) – interplanetary f
 [shortaddress]: https://github.com/ipfn/ipfn/tree/master/src/go/common/shortaddress
 [wallet-doc]: https://godoc.org/github.com/ipfn/ipfn/src/go/wallet
 [web3-secrets]: https://github.com/ethereum/wiki/wiki/Web3-Secret-Storage-Definition
+[cid-spec]: https://github.com/ipld/cid
