@@ -1,6 +1,6 @@
 Format-Specification: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Name: ipfn
-Source: http://ipfn.io/
+Source: https://www.ipfn.io/
 Maintainer: Łukasz Kurowski <crackcomm@gmail.com>
 
 
@@ -51,6 +51,7 @@ License: Apache-2.0
 Files: src/go/crypto/sealbox/*
        src/go/utils/hdkeychain/*
        src/go/utils/mathutil/*
+       src/go/trie/*
 Source: https://github.com/ethereum/go-ethereum
 Copyright: 2017, The go-ethereum Authors
            2018, The IPFN Developers
@@ -62,8 +63,8 @@ Copyright: 2013-2014, The btcsuite developers
            2018, The IPFN Developers
 License: ISC
 
-Files: src/go/store/{errors,interfaces}.go
-       src/go/store/fsdbstore/*.go
+Files: src/go/store/{errors,interfaces,key}.go
+       src/go/store/fsdb/*.go
 Source: https://github.com/fishy/fsdb
 Copyright: 2017, Yuxuan 'fishy' Wang
            2018, The IPFN Developers
