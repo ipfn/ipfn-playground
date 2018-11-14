@@ -1,6 +1,6 @@
 language: go
-go: 
- - 1.9.2
+go:
+ - "1.10.x"
 
 script:
  - ./tools/devenv/install-go-tools.sh
