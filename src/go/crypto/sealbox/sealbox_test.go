@@ -19,6 +19,8 @@
 
 package sealbox
 
+// Implements #TST-crypto-sealed
+
 import (
 	"io/ioutil"
 	"testing"
@@ -54,7 +56,7 @@ func TestKeyEncryptDecrypt(t *testing.T) {
 		// }
 		// Recrypt with a new password and start over
 		password += "new data appended"
-		if keyjson, err = EncryptJSON(body, []byte(password), veryLightScryptN, veryLightScryptP); err != nil {
+		if keyjson, err = EncryptToJSON(body, []byte(password), veryLightScryptN, veryLightScryptP); err != nil {
 			t.Errorf("test %d: failed to recrypt key %v", i, err)
 		}
 	}

@@ -22,6 +22,8 @@
 // https://github.com/ethereum/wiki/wiki/Web3-Secret-Storage-Definition
 package sealbox
 
+// Implements #SPC-crypto-sealed
+
 const version = 3
 
 // SealedBox - Sealed box JSON structure version 3.

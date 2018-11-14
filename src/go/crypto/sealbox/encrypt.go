@@ -29,8 +29,8 @@ import (
 	"golang.org/x/crypto/scrypt"
 )
 
-// EncryptJSON - Encrypts a box to JSON using the specified scrypt parameters.
-func EncryptJSON(body, pwd []byte, scryptN, scryptP int) (_ []byte, err error) {
+// EncryptToJSON - Encrypts a box to JSON using the specified scrypt parameters.
+func EncryptToJSON(body, pwd []byte, scryptN, scryptP int) (_ []byte, err error) {
 	box, err := Encrypt(body, pwd, scryptN, scryptP)
 	if err != nil {
 		return
