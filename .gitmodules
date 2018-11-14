@@ -1,12 +1,8 @@
-[submodule "src/third_party/pybind11"]
-	path = src/third_party/pybind11
+[submodule "third_party/pybind11"]
+	path = third_party/pybind11
 	url = https://github.com/pybind/pybind11.git
 	branch = master
-[submodule "src/third_party/smf"]
-	path = src/third_party/smf
-	url = https://github.com/ipfn/smf.git
-	branch = master
-[submodule "src/third_party/tvm"]
-	path = src/third_party/tvm
-	url = https://github.com/dmlc/tvm.git
+[submodule "third_party/smf"]
+	path = third_party/smf
+	url = https://github.com/smfrpc/smf.git
 	branch = master

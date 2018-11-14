@@ -89,7 +89,7 @@ function usage() {
 	echo "Source code argument is required"
 	echo
 	echo "Example usage:"
-	echo "  ./tools/merger/fabric-licenses.sh ./src/go/bccsp"
+	echo "  ./tools/merger/fabric-licenses.sh ./pkg/bccsp"
 	echo
 	exit 1
 }
