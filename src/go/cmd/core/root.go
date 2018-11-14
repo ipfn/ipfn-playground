@@ -16,8 +16,6 @@ package core
 
 import (
 	cmdutil "github.com/ipfn/go-ipfn-cmd-util"
-	"github.com/ipfn/go-ipfn-cmd-util/logger"
-	"github.com/ipfn/ipfn/src/go/cmd/wallet"
 	"github.com/spf13/cobra"
 )
 
@@ -36,14 +34,14 @@ var InitCmd = &cobra.Command{
 
 // HandleInitCmd - Handles init command.
 func HandleInitCmd(cmd *cobra.Command, args []string) (err error) {
-	if wallet.CheckCreateArgs(cmd, args) == nil {
-		err = wallet.HandleCreateCmd(cmd, args)
-		if err != nil {
-			return
-		}
-	} else {
-		logger.Print("Wallet already exists...")
-	}
+	// if wallet.CheckCreateArgs(cmd, args) == nil {
+	// 	err = wallet.HandleCreateCmd(cmd, args)
+	// 	if err != nil {
+	// 		return
+	// 	}
+	// } else {
+	// 	logger.Print("Wallet already exists...")
+	// }
 
 	return
 }

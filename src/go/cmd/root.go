@@ -36,6 +36,9 @@ func init() {
 	core.RegisterCommands(RootCmd)
 	RootCmd.AddCommand(config.RootCmd)
 	RootCmd.AddCommand(daemon.RootCmd)
+	// RootCmd.AddCommand(chain.RootCmd)
+	// RootCmd.AddCommand(cmdwallet.RootCmd)
+	// RootCmd.AddCommand(sign.SignCmd)
 	RootCmd.PersistentFlags().BoolVarP(&logger.Verbose, "verbose", "v", false, "verbose logs output (stdout/stderr)")
 }
 
