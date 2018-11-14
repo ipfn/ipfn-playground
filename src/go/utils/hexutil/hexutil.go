@@ -25,10 +25,10 @@ func Encode(src []byte) []byte {
 }
 
 // ToString - Encodes hex.
-func ToString(src []byte) []byte {
+func ToString(src []byte) string {
 	res := make([]byte, hex.EncodedLen(len(src)))
 	hex.Encode(res, []byte(src))
-	return res
+	return string(res)
 }
 
 // Decode - Decodes hex.
