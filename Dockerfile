@@ -1,32 +1,18 @@
-# Currently only C++ development environment
-# Includes emscripten SDK for WebAssembly compilation
-FROM fedora:28
+FROM debian:stretch
 
-RUN dnf install -y gcc-c++ make cmake ragel boost-devel libubsan libasan
-RUN dnf install -y git nodejs jre llvm
-RUN dnf install -y xz
+MAINTAINER IPFN Developers <developers@ipfn.io>
 
-RUN git clone https://github.com/juj/emsdk.git /emsdk
-WORKDIR /emsdk
-RUN ./emsdk install latest
-RUN source ./emsdk_env.sh
+RUN apt-get update -qy
+RUN apt-get install -qy git
 
-RUN curl --output /tmp/fastcomp.tar.gz https://codeload.github.com/kripken/emscripten-fastcomp/tar.gz/1.38.15 && \
-    tar -C / -xf /tmp/fastcomp.tar.gz && rm -f /tmp/fastcomp.tar.gz && mv /emscripten-fastcomp-1.38.15 /fastcomp
-RUN curl --output /tmp/fastcomp-clang.tar.gz https://codeload.github.com/kripken/emscripten-fastcomp-clang/tar.gz/1.38.15 && \
-    tar -C /fastcomp/tools -xf /tmp/fastcomp-clang.tar.gz && rm -f /tmp/fastcomp-clang.tar.gz && mv /fastcomp/tools/emscripten-fastcomp-clang-1.38.15 /fastcomp/tools/clang
-RUN curl --output /tmp/extra.zip https://codeload.github.com/llvm-mirror/clang-tools-extra/zip/master && \
-    unzip /tmp/extra.zip -d /fastcomp/tools/clang/tools && mv /fastcomp/tools/clang/tools/clang-tools-extra-master/ /fastcomp/tools/clang/tools/extra
+ARG DEVENV_REVISION
+ADD ./tools/devenv /opt/gopath/src/github.com/ipfn/ipfn/tools/devenv
+RUN bash /opt/gopath/src/github.com/ipfn/ipfn/tools/devenv/setup.sh
+RUN rm -rf /opt/gopath/src/github.com/ipfn/ipfn
+VOLUME /opt/gopath/src/github.com/ipfn/ipfn
+WORKDIR /opt/gopath/src/github.com/ipfn/ipfn
 
-RUN mkdir /fastcomp/build
-WORKDIR /fastcomp/build
-RUN cmake ..
-RUN make
-
-WORKDIR /
-
-ENV LLVM_ROOT /fastcomp/build/bin
-ENV EMSCRIPTEN /emsdk/emscripten/1.38.14
-
-VOLUME /src
-WORKDIR /src
+EXPOSE 2348
+EXPOSE 2380
+EXPOSE 3147
+EXPOSE 3333
