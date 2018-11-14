@@ -16,7 +16,6 @@ package bccsp
 
 import (
 	"fmt"
-	"math"
 )
 
 // HashType - Multihash algorithm ID.
@@ -63,7 +62,7 @@ const (
 	// Murmur3 - MURMUR3 hashing algorithm.
 	Murmur3 HashType = 0x22
 	// UnknownHash - Unknown hashing algorithm.
-	UnknownHash HashType = math.MaxUint64
+	UnknownHash HashType = 0
 )
 
 // HashNames - Multihash identifier names.
@@ -148,6 +147,11 @@ func (t HashType) Family() HashFamily {
 	default:
 		return UnknownFamily
 	}
+}
+
+// Code - Returns algorithm multihash code.
+func (t HashType) Code() uint64 {
+	return uint64(t)
 }
 
 // String - Returns algorithm name.
