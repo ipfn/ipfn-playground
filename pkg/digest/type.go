@@ -65,8 +65,8 @@ const (
 	UnknownType Type = 0
 )
 
-// HashNames - Multihash identifier names.
-var HashNames = map[Type]string{
+// Names - Multihash identifier names.
+var Names = map[Type]string{
 	Sha1:           "sha1",
 	Sha2_256:       "sha2-256",
 	Sha2_512:       "sha2-512",
@@ -156,7 +156,7 @@ func (t Type) Code() uint64 {
 
 // String - Returns algorithm name.
 func (t Type) String() string {
-	if name, ok := HashNames[t]; ok {
+	if name, ok := Names[t]; ok {
 		return name
 	}
 	return "unknown"
