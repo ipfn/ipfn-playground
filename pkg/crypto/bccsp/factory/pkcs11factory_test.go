@@ -54,7 +54,7 @@ func TestPKCS11FactoryGet(t *testing.T) {
 	opts := &FactoryOpts{
 		Pkcs11Opts: &pkcs11.PKCS11Opts{
 			SecLevel:   256,
-			HashFamily: bccsp.Sha2Family,
+			HashFamily: digest.FamilySha2,
 			Library:    lib,
 			Pin:        pin,
 			Label:      label,
@@ -67,7 +67,7 @@ func TestPKCS11FactoryGet(t *testing.T) {
 	opts = &FactoryOpts{
 		Pkcs11Opts: &pkcs11.PKCS11Opts{
 			SecLevel:     256,
-			HashFamily:   bccsp.Sha2Family,
+			HashFamily:   digest.FamilySha2,
 			FileKeystore: &pkcs11.FileKeystoreOpts{KeyStorePath: os.TempDir()},
 			Library:      lib,
 			Pin:          pin,
@@ -81,7 +81,7 @@ func TestPKCS11FactoryGet(t *testing.T) {
 	opts = &FactoryOpts{
 		Pkcs11Opts: &pkcs11.PKCS11Opts{
 			SecLevel:   256,
-			HashFamily: bccsp.Sha2Family,
+			HashFamily: digest.FamilySha2,
 			Ephemeral:  true,
 			Library:    lib,
 			Pin:        pin,

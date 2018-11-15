@@ -41,6 +41,7 @@ import (
 	"github.com/ipfn/ipfn/pkg/crypto/bccsp/signer"
 	"github.com/ipfn/ipfn/pkg/crypto/bccsp/swcp/mocks"
 	"github.com/ipfn/ipfn/pkg/crypto/bccsp/utils"
+	"github.com/ipfn/ipfn/pkg/digest"
 	"github.com/stretchr/testify/assert"
 	"golang.org/x/crypto/sha3"
 )
@@ -52,8 +53,8 @@ var (
 
 type testConfig struct {
 	securityLevel int
-	hashFamily    bccsp.HashFamily
-	hashType      bccsp.HashType
+	hashFamily    digest.Family
+	hashType      digest.Type
 }
 
 func (tc testConfig) Provider(t *testing.T) (bccsp.BCCSP, bccsp.KeyStore, func()) {
@@ -68,9 +69,9 @@ func (tc testConfig) Provider(t *testing.T) (bccsp.BCCSP, bccsp.KeyStore, func()
 
 func TestMain(m *testing.M) {
 	tests := []testConfig{
-		{256, bccsp.Sha2Family, bccsp.Sha2_256},
-		{256, bccsp.Sha3Family, bccsp.Sha3_256},
-		{384, bccsp.Sha3Family, bccsp.Sha3_384},
+		{256, digest.FamilySha2, digest.Sha2_256},
+		{256, digest.FamilySha3, digest.Sha3_256},
+		{384, digest.FamilySha3, digest.Sha3_384},
 	}
 
 	var err error
@@ -97,7 +98,7 @@ func TestInvalidNewParameter(t *testing.T) {
 	_, ks, cleanup := currentTestConfig.Provider(t)
 	defer cleanup()
 
-	r, err := NewWithParams(0, bccsp.Sha2Family, ks)
+	r, err := NewWithParams(0, digest.FamilySha2, ks)
 	if err == nil {
 		t.Fatal("Error should be different from nil in this case")
 	}
@@ -113,7 +114,7 @@ func TestInvalidNewParameter(t *testing.T) {
 		t.Fatal("Return value should be equal to nil in this case")
 	}
 
-	r, err = NewWithParams(256, bccsp.Sha2Family, nil)
+	r, err = NewWithParams(256, digest.FamilySha2, nil)
 	if err == nil {
 		t.Fatal("Error should be different from nil in this case")
 	}
@@ -121,7 +122,7 @@ func TestInvalidNewParameter(t *testing.T) {
 		t.Fatal("Return value should be equal to nil in this case")
 	}
 
-	r, err = NewWithParams(0, bccsp.Sha3Family, nil)
+	r, err = NewWithParams(0, digest.FamilySha3, nil)
 	if err == nil {
 		t.Fatal("Error should be different from nil in this case")
 	}
@@ -961,7 +962,7 @@ func TestKeyImportFromX509ECDSAPublicKey(t *testing.T) {
 		UnknownExtKeyUsage: testUnknownExtKeyUsage,
 
 		BasicConstraintsValid: true,
-		IsCA:                  true,
+		IsCA: true,
 
 		OCSPServer:            []string{"http://ocurrentBCCSP.example.com"},
 		IssuingCertificateURL: []string{"http://crt.example.com/ca1.crt"},
@@ -1424,26 +1425,26 @@ func TestSHA(t *testing.T) {
 
 		var (
 			h  hash.Hash
-			ht bccsp.HashType
+			ht digest.Type
 		)
 
 		switch currentTestConfig.hashFamily {
-		case bccsp.Sha2Family:
+		case digest.FamilySha2:
 			switch currentTestConfig.securityLevel {
 			case 256:
 				h = sha256.New()
-				ht = bccsp.Sha2_256
+				ht = digest.Sha2_256
 			default:
 				t.Fatalf("Invalid SHA2 security level [%d]", currentTestConfig.securityLevel)
 			}
-		case bccsp.Sha3Family:
+		case digest.FamilySha3:
 			switch currentTestConfig.securityLevel {
 			case 256:
 				h = sha3.New256()
-				ht = bccsp.Sha3_256
+				ht = digest.Sha3_256
 			case 384:
 				h = sha3.New384()
-				ht = bccsp.Sha3_384
+				ht = digest.Sha3_384
 			default:
 				t.Fatalf("Invalid SHA3 security level [%d]", currentTestConfig.securityLevel)
 			}
@@ -1846,7 +1847,7 @@ func TestKeyImportFromX509RSAPublicKey(t *testing.T) {
 		UnknownExtKeyUsage: testUnknownExtKeyUsage,
 
 		BasicConstraintsValid: true,
-		IsCA:                  true,
+		IsCA: true,
 
 		OCSPServer:            []string{"http://ocurrentBCCSP.example.com"},
 		IssuingCertificateURL: []string{"http://crt.example.com/ca1.crt"},
@@ -1964,11 +1965,11 @@ func TestAddWrapper(t *testing.T) {
 
 func getCryptoHashIndex(t *testing.T) crypto.Hash {
 	switch currentTestConfig.hashType {
-	case bccsp.Sha2_256:
+	case digest.Sha2_256:
 		return crypto.SHA256
-	case bccsp.Sha3_256:
+	case digest.Sha3_256:
 		return crypto.SHA3_256
-	case bccsp.Sha3_384:
+	case digest.Sha3_384:
 		return crypto.SHA3_384
 	default:
 		t.Fatalf("Invalid hash type [%s]", currentTestConfig.hashType)

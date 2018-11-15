@@ -22,6 +22,7 @@ import (
 
 	"github.com/ipfn/ipfn/pkg/crypto/bccsp"
 	"github.com/ipfn/ipfn/pkg/crypto/bccsp/swcp/mocks"
+	"github.com/ipfn/ipfn/pkg/digest"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -29,11 +30,11 @@ func TestHash(t *testing.T) {
 	t.Parallel()
 
 	expectetMsg := []byte{1, 2, 3, 4}
-	expectedOpts := bccsp.Sha2_256
+	expectedOpts := digest.Sha2_256
 	expectetValue := []byte{1, 2, 3, 4, 5}
 	expectedErr := errors.New("Expected Error")
 
-	hashers := make(map[bccsp.HashType]bccsp.Hasher)
+	hashers := make(map[digest.Type]bccsp.Hasher)
 	hashers[expectedOpts] = &mocks.Hasher{
 		MsgArg:  expectetMsg,
 		OptsArg: expectedOpts,
@@ -45,7 +46,7 @@ func TestHash(t *testing.T) {
 	assert.Equal(t, expectetValue, value)
 	assert.Nil(t, err)
 
-	hashers = make(map[bccsp.HashType]bccsp.Hasher)
+	hashers = make(map[digest.Type]bccsp.Hasher)
 	hashers[expectedOpts] = &mocks.Hasher{
 		MsgArg:  expectetMsg,
 		OptsArg: expectedOpts,
@@ -61,11 +62,11 @@ func TestHash(t *testing.T) {
 func TestHasher(t *testing.T) {
 	t.Parallel()
 
-	expectedOpts := bccsp.Sha2_256
+	expectedOpts := digest.Sha2_256
 	expectetValue := sha256.New()
 	expectedErr := errors.New("Expected Error")
 
-	hashers := make(map[bccsp.HashType]bccsp.Hasher)
+	hashers := make(map[digest.Type]bccsp.Hasher)
 	hashers[expectedOpts] = &mocks.Hasher{
 		OptsArg:   expectedOpts,
 		ValueHash: expectetValue,
@@ -76,7 +77,7 @@ func TestHasher(t *testing.T) {
 	assert.Equal(t, expectetValue, value)
 	assert.Nil(t, err)
 
-	hashers = make(map[bccsp.HashType]bccsp.Hasher)
+	hashers = make(map[digest.Type]bccsp.Hasher)
 	hashers[expectedOpts] = &mocks.Hasher{
 		OptsArg:   expectedOpts,
 		ValueHash: expectetValue,
@@ -91,17 +92,17 @@ func TestHasher(t *testing.T) {
 func TestHasherSha256(t *testing.T) {
 	t.Parallel()
 
-	hasher := &hasher{algo: bccsp.Sha2_256, impl: sha256.New}
+	hasher := &hasher{algo: digest.Sha2_256, impl: sha256.New}
 
 	msg := []byte("Hello World")
-	out, err := hasher.Hash(msg, bccsp.Sha2_256)
+	out, err := hasher.Hash(msg, digest.Sha2_256)
 	assert.NoError(t, err)
 	h := sha256.New()
 	h.Write(msg)
 	out2 := h.Sum(nil)
 	assert.Equal(t, out, out2)
 
-	hf, err := hasher.Hasher(bccsp.Sha2_256)
+	hf, err := hasher.Hasher(digest.Sha2_256)
 	assert.NoError(t, err)
 	assert.Equal(t, hf, sha256.New())
 }

@@ -24,6 +24,7 @@ import (
 	"bytes"
 
 	"github.com/ipfn/ipfn/pkg/crypto/bccsp"
+	"github.com/ipfn/ipfn/pkg/digest"
 )
 
 type MockBCCSP struct {
@@ -73,11 +74,11 @@ func (*MockBCCSP) Key(ski []byte) (bccsp.Key, error) {
 	panic("Not yet implemented")
 }
 
-func (m *MockBCCSP) Hash(msg []byte, t bccsp.HashType) ([]byte, error) {
+func (m *MockBCCSP) Hash(msg []byte, t digest.Type) ([]byte, error) {
 	return m.HashVal, m.HashErr
 }
 
-func (*MockBCCSP) Hasher(t bccsp.HashType) (hash.Hash, error) {
+func (*MockBCCSP) Hasher(t digest.Type) (hash.Hash, error) {
 	panic("Not yet implemented")
 }
 

@@ -71,7 +71,7 @@ func TestGetBCCSPFromOpts(t *testing.T) {
 		ProviderName: "PKCS11",
 		Pkcs11Opts: &pkcs11.PKCS11Opts{
 			SecLevel:   256,
-			HashFamily: bccsp.Sha2Family,
+			HashFamily: digest.FamilySha2,
 			Ephemeral:  true,
 			Library:    lib,
 			Pin:        pin,

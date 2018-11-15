@@ -23,7 +23,7 @@ func GetDefaultOpts() *FactoryOpts {
 	return &FactoryOpts{
 		ProviderName: "SW",
 		SwOpts: &SwOpts{
-			HashFamily: bccsp.Sha2Family,
+			HashFamily: digest.FamilySha2,
 			SecLevel:   256,
 
 			Ephemeral: true,

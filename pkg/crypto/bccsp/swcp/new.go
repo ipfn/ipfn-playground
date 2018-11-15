@@ -20,9 +20,11 @@ import (
 	"crypto/sha256"
 	"reflect"
 
-	"github.com/ipfn/ipfn/pkg/crypto/bccsp"
 	"github.com/pkg/errors"
 	"golang.org/x/crypto/sha3"
+
+	"github.com/ipfn/ipfn/pkg/crypto/bccsp"
+	"github.com/ipfn/ipfn/pkg/digest"
 )
 
 // NewDefaultSecurityLevel returns a new instance of the software-based BCCSP
@@ -33,18 +35,18 @@ func NewDefaultSecurityLevel(keyStorePath string) (bccsp.BCCSP, error) {
 		return nil, errors.Wrapf(err, "Failed initializing key store at [%v]", keyStorePath)
 	}
 
-	return NewWithParams(256, bccsp.Sha2Family, ks)
+	return NewWithParams(256, digest.FamilySha2, ks)
 }
 
 // NewDefaultSecurityLevelWithKeystore returns a new instance of the software-based BCCSP
 // at security level 256, hash family SHA2 and using the passed KeyStore.
 func NewDefaultSecurityLevelWithKeystore(keyStore bccsp.KeyStore) (bccsp.BCCSP, error) {
-	return NewWithParams(256, bccsp.Sha2Family, keyStore)
+	return NewWithParams(256, digest.FamilySha2, keyStore)
 }
 
 // NewWithParams returns a new instance of the software-based BCCSP
 // set at the passed security level, hash family and KeyStore.
-func NewWithParams(securityLevel int, hashFamily bccsp.HashFamily, keyStore bccsp.KeyStore) (bccsp.BCCSP, error) {
+func NewWithParams(securityLevel int, hashFamily digest.Family, keyStore bccsp.KeyStore) (bccsp.BCCSP, error) {
 	// Init config
 	conf := &config{}
 	err := conf.setSecurityLevel(securityLevel, hashFamily)
@@ -77,9 +79,9 @@ func NewWithParams(securityLevel int, hashFamily bccsp.HashFamily, keyStore bccs
 	swbccsp.AddWrapper(reflect.TypeOf(&rsaPublicKey{}), &rsaPublicKeyKeyVerifier{})
 
 	// Set the hashers
-	swbccsp.AddHasher(bccsp.Sha2_256, &hasher{algo: bccsp.Sha2_256, impl: sha256.New})
-	swbccsp.AddHasher(bccsp.Sha3_256, &hasher{algo: bccsp.Sha3_256, impl: sha3.New256})
-	swbccsp.AddHasher(bccsp.Sha3_384, &hasher{algo: bccsp.Sha3_384, impl: sha3.New384})
+	swbccsp.AddHasher(digest.Sha2_256, &hasher{algo: digest.Sha2_256, impl: sha256.New})
+	swbccsp.AddHasher(digest.Sha3_256, &hasher{algo: digest.Sha3_256, impl: sha3.New256})
+	swbccsp.AddHasher(digest.Sha3_384, &hasher{algo: digest.Sha3_384, impl: sha3.New384})
 
 	// Set the key generators
 	swbccsp.AddWrapper(reflect.TypeOf(&bccsp.ECDSAKeyGenOpts{}), &ecdsaKeyGenerator{curve: conf.ellipticCurve})

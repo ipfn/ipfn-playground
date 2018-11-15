@@ -21,6 +21,7 @@ import (
 	"reflect"
 
 	"github.com/ipfn/ipfn/pkg/crypto/bccsp"
+	"github.com/ipfn/ipfn/pkg/digest"
 )
 
 type Encryptor struct {
@@ -104,14 +105,14 @@ func (s *Verifier) Verify(k bccsp.Key, signature, digest []byte, opts bccsp.Sign
 
 type Hasher struct {
 	MsgArg  []byte
-	OptsArg bccsp.HashType
+	OptsArg digest.Type
 
 	Value     []byte
 	ValueHash hash.Hash
 	Err       error
 }
 
-func (h *Hasher) Hash(msg []byte, hashType bccsp.HashType) (hash []byte, err error) {
+func (h *Hasher) Hash(msg []byte, hashType digest.Type) (hash []byte, err error) {
 	if !reflect.DeepEqual(h.MsgArg, msg) {
 		return nil, errors.New("invalid message")
 	}
@@ -122,7 +123,7 @@ func (h *Hasher) Hash(msg []byte, hashType bccsp.HashType) (hash []byte, err err
 	return h.Value, h.Err
 }
 
-func (h *Hasher) Hasher(hashType bccsp.HashType) (hash.Hash, error) {
+func (h *Hasher) Hasher(hashType digest.Type) (hash.Hash, error) {
 	if h.OptsArg != hashType {
 		return nil, errors.New("invalid hash type")
 	}

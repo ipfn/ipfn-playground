@@ -19,15 +19,15 @@ import (
 	"fmt"
 	"hash"
 
-	"github.com/ipfn/ipfn/pkg/crypto/bccsp"
+	"github.com/ipfn/ipfn/pkg/digest"
 )
 
 type hasher struct {
-	algo bccsp.HashType
+	algo digest.Type
 	impl func() hash.Hash
 }
 
-func (c *hasher) Hash(msg []byte, algo bccsp.HashType) ([]byte, error) {
+func (c *hasher) Hash(msg []byte, algo digest.Type) ([]byte, error) {
 	if algo != c.algo {
 		return nil, fmt.Errorf("hasher does not implement %s", algo)
 	}
@@ -36,7 +36,7 @@ func (c *hasher) Hash(msg []byte, algo bccsp.HashType) ([]byte, error) {
 	return h.Sum(nil), nil
 }
 
-func (c *hasher) Hasher(algo bccsp.HashType) (hash.Hash, error) {
+func (c *hasher) Hasher(algo digest.Type) (hash.Hash, error) {
 	if algo != c.algo {
 		return nil, fmt.Errorf("hasher does not implement %s", algo)
 	}

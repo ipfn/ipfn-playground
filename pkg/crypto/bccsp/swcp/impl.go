@@ -22,6 +22,7 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/ipfn/ipfn/pkg/crypto/bccsp"
+	"github.com/ipfn/ipfn/pkg/digest"
 	"github.com/ipfn/ipfn/pkg/utils/flog"
 )
 
@@ -44,7 +45,7 @@ type CSP struct {
 	decryptors    map[reflect.Type]bccsp.Decryptor
 	signers       map[reflect.Type]bccsp.Signer
 	verifiers     map[reflect.Type]bccsp.Verifier
-	hashers       map[bccsp.HashType]bccsp.Hasher
+	hashers       map[digest.Type]bccsp.Hasher
 }
 
 // New - Creates new software implemented BCCSP.
@@ -60,7 +61,7 @@ func New(keyStore bccsp.KeyStore) (*CSP, error) {
 	keyGenerators := make(map[reflect.Type]bccsp.KeyGenerator)
 	keyDerivers := make(map[reflect.Type]bccsp.KeyDeriver)
 	keyImporters := make(map[reflect.Type]bccsp.KeyImporter)
-	hashers := make(map[bccsp.HashType]bccsp.Hasher)
+	hashers := make(map[digest.Type]bccsp.Hasher)
 
 	csp := &CSP{keyStore,
 		keyGenerators, keyDerivers, keyImporters, encryptors,
@@ -188,7 +189,7 @@ func (csp *CSP) Key(ski []byte) (k bccsp.Key, err error) {
 }
 
 // Hash hashes messages msg using options opts.
-func (csp *CSP) Hash(msg []byte, hashType bccsp.HashType) (digest []byte, err error) {
+func (csp *CSP) Hash(msg []byte, hashType digest.Type) (digest []byte, err error) {
 	hasher, found := csp.hashers[hashType]
 	if !found {
 		return nil, errors.Errorf("Unsupported hash type [%v]", hashType)
@@ -204,7 +205,7 @@ func (csp *CSP) Hash(msg []byte, hashType bccsp.HashType) (digest []byte, err er
 
 // Hasher returns and instance of hash.Hash using options opts.
 // If opts is nil then the default hash function is returned.
-func (csp *CSP) Hasher(hashType bccsp.HashType) (h hash.Hash, err error) {
+func (csp *CSP) Hasher(hashType digest.Type) (h hash.Hash, err error) {
 	hasher, found := csp.hashers[hashType]
 	if !found {
 		return nil, errors.Errorf("Unsupported hash type [%v]", hashType)
@@ -342,7 +343,7 @@ func (csp *CSP) AddWrapper(t reflect.Type, w interface{}) error {
 }
 
 // AddHasher binds the passed type to the passed wrapper.
-func (csp *CSP) AddHasher(t bccsp.HashType, hasher bccsp.Hasher) error {
+func (csp *CSP) AddHasher(t digest.Type, hasher bccsp.Hasher) error {
 	if csp.hashers[t] != nil {
 		return errors.Errorf("hasher for type %s already implemented", t)
 	}

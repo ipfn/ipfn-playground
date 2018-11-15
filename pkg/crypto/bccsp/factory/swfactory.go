@@ -64,7 +64,7 @@ func (f *SWFactory) Get(config *FactoryOpts) (bccsp.BCCSP, error) {
 type SwOpts struct {
 	// Default algorithms when not specified (Deprecated?)
 	SecLevel   int              `mapstructure:"security" json:"security" yaml:"Security"`
-	HashFamily bccsp.HashFamily `mapstructure:"hash" json:"hash" yaml:"Hash"`
+	HashFamily digest.Family `mapstructure:"hash" json:"hash" yaml:"Hash"`
 
 	// Keystore Options
 	Ephemeral     bool               `mapstructure:"tempkeys,omitempty" json:"tempkeys,omitempty"`

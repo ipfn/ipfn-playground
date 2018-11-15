@@ -18,6 +18,8 @@ package bccsp
 import (
 	"crypto"
 	"hash"
+
+	"github.com/ipfn/ipfn/pkg/digest"
 )
 
 // BCCSP is the blockchain cryptographic service provider that offers
@@ -90,11 +92,11 @@ type Verifier interface {
 type Hasher interface {
 	// Hash hashes messages msg using options opts.
 	// If opts is nil, the default hash function will be used.
-	Hash(msg []byte, algo HashType) (hash []byte, err error)
+	Hash(msg []byte, algo digest.Type) (hash []byte, err error)
 
 	// Hasher returns and instance of hash.Hash using options opts.
 	// If opts is nil, the default hash function will be returned.
-	Hasher(algo HashType) (h hash.Hash, err error)
+	Hasher(algo digest.Type) (h hash.Hash, err error)
 }
 
 // SignerOpts contains options for signing with a CSP.

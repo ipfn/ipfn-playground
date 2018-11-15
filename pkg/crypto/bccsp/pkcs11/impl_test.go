@@ -53,7 +53,7 @@ var (
 
 type testConfig struct {
 	securityLevel int
-	hashFamily    bccsp.HashFamily
+	hashFamily    digest.Family
 	softVerify    bool
 	immutable     bool
 }
@@ -68,17 +68,17 @@ func TestMain(m *testing.M) {
 
 	lib, pin, label := FindPKCS11Lib()
 	tests := []testConfig{
-		{256, bccsp.Sha2Family, true, false},
-		{256, bccsp.Sha3Family, false, false},
-		{384, bccsp.Sha2Family, false, false},
-		{384, bccsp.Sha3Family, false, false},
-		{384, bccsp.Sha3Family, true, false},
+		{256, digest.FamilySha2, true, false},
+		{256, digest.FamilySha3, false, false},
+		{384, digest.FamilySha2, false, false},
+		{384, digest.FamilySha3, false, false},
+		{384, digest.FamilySha3, true, false},
 	}
 
 	if strings.Contains(lib, "softhsm") {
 		tests = append(tests, []testConfig{
-			{256, bccsp.Sha2Family, true, false},
-			{256, bccsp.Sha2Family, true, true},
+			{256, digest.FamilySha2, true, false},
+			{256, digest.FamilySha2, true, true},
 		}...)
 	}
 
@@ -113,7 +113,7 @@ func TestMain(m *testing.M) {
 
 func TestNew(t *testing.T) {
 	opts := PKCS11Opts{
-		HashFamily: bccsp.Sha2Family,
+		HashFamily: digest.FamilySha2,
 		SecLevel:   256,
 		SoftVerify: false,
 		Library:    "lib",
@@ -174,7 +174,7 @@ func TestInvalidNewParameter(t *testing.T) {
 		SoftVerify: true,
 	}
 
-	opts.HashFamily = bccsp.Sha2Family
+	opts.HashFamily = digest.FamilySha2
 	opts.SecLevel = 0
 	r, err := New(opts, currentKS)
 	if err == nil {
@@ -194,7 +194,7 @@ func TestInvalidNewParameter(t *testing.T) {
 		t.Fatal("Return value should be equal to nil in this case")
 	}
 
-	opts.HashFamily = bccsp.Sha2Family
+	opts.HashFamily = digest.FamilySha2
 	opts.SecLevel = 256
 	r, err = New(opts, nil)
 	if err == nil {
@@ -204,7 +204,7 @@ func TestInvalidNewParameter(t *testing.T) {
 		t.Fatal("Return value should be equal to nil in this case")
 	}
 
-	opts.HashFamily = bccsp.Sha3Family
+	opts.HashFamily = digest.FamilySha3
 	opts.SecLevel = 0
 	r, err = New(opts, nil)
 	if err == nil {
@@ -370,7 +370,7 @@ func TestHashOpts(t *testing.T) {
 	msg := []byte("abcd")
 
 	// SHA256
-	digest1, err := currentBCCSP.Hash(msg, bccsp.Sha2_256)
+	digest1, err := currentBCCSP.Hash(msg, digest.Sha2_256)
 	if err != nil {
 		t.Fatalf("Failed computing SHA256 [%s]", err)
 	}
@@ -384,7 +384,7 @@ func TestHashOpts(t *testing.T) {
 	}
 
 	// SHA3_256
-	digest1, err = currentBCCSP.Hash(msg, bccsp.Sha3_256)
+	digest1, err = currentBCCSP.Hash(msg, digest.Sha3_256)
 	if err != nil {
 		t.Fatalf("Failed computing SHA3_256 [%s]", err)
 	}
@@ -398,7 +398,7 @@ func TestHashOpts(t *testing.T) {
 	}
 
 	// SHA3_384
-	digest1, err = currentBCCSP.Hash(msg, bccsp.Sha3_384)
+	digest1, err = currentBCCSP.Hash(msg, digest.Sha3_384)
 	if err != nil {
 		t.Fatalf("Failed computing SHA3_384 [%s]", err)
 	}
@@ -587,7 +587,7 @@ func TestECDSASign(t *testing.T) {
 
 	msg := []byte("Hello World")
 
-	digest, err := currentBCCSP.Hash(msg, bccsp.Sha2_256)
+	digest, err := currentBCCSP.Hash(msg, digest.Sha2_256)
 	if err != nil {
 		t.Fatalf("Failed computing HASH [%s]", err)
 	}
@@ -620,7 +620,7 @@ func TestECDSAVerify(t *testing.T) {
 
 	msg := []byte("Hello World")
 
-	digest, err := currentBCCSP.Hash(msg, bccsp.Sha2_256)
+	digest, err := currentBCCSP.Hash(msg, digest.Sha2_256)
 	if err != nil {
 		t.Fatalf("Failed computing HASH [%s]", err)
 	}
@@ -722,7 +722,7 @@ func TestECDSAKeyImportFromExportedKey(t *testing.T) {
 	// Sign and verify with the imported public key
 	msg := []byte("Hello World")
 
-	digest, err := currentBCCSP.Hash(msg, bccsp.Sha2_256)
+	digest, err := currentBCCSP.Hash(msg, digest.Sha2_256)
 	if err != nil {
 		t.Fatalf("Failed computing HASH [%s]", err)
 	}
@@ -779,7 +779,7 @@ func TestECDSAKeyImportFromECDSAPublicKey(t *testing.T) {
 	// Sign and verify with the imported public key
 	msg := []byte("Hello World")
 
-	digest, err := currentBCCSP.Hash(msg, bccsp.Sha2_256)
+	digest, err := currentBCCSP.Hash(msg, digest.Sha2_256)
 	if err != nil {
 		t.Fatalf("Failed computing HASH [%s]", err)
 	}
@@ -909,7 +909,7 @@ func TestKeyImportFromX509ECDSAPublicKey(t *testing.T) {
 	// Sign and verify with the imported public key
 	msg := []byte("Hello World")
 
-	digest, err := currentBCCSP.Hash(msg, bccsp.Sha2_256)
+	digest, err := currentBCCSP.Hash(msg, digest.Sha2_256)
 	if err != nil {
 		t.Fatalf("Failed computing HASH [%s]", err)
 	}
@@ -981,7 +981,7 @@ func TestECDSALowS(t *testing.T) {
 
 	msg := []byte("Hello World")
 
-	digest, err := currentBCCSP.Hash(msg, bccsp.Sha2_256)
+	digest, err := currentBCCSP.Hash(msg, digest.Sha2_256)
 	if err != nil {
 		t.Fatalf("Failed computing HASH [%s]", err)
 	}
@@ -1296,14 +1296,14 @@ func TestSHA(t *testing.T) {
 			t.Fatalf("Failed getting random bytes [%s]", err)
 		}
 
-		h1, err := currentBCCSP.Hash(b, bccsp.Sha2_256)
+		h1, err := currentBCCSP.Hash(b, digest.Sha2_256)
 		if err != nil {
 			t.Fatalf("Failed computing SHA [%s]", err)
 		}
 
 		var h hash.Hash
 		switch currentTestConfig.hashFamily {
-		case bccsp.Sha2Family:
+		case digest.FamilySha2:
 			switch currentTestConfig.securityLevel {
 			case 256:
 				h = sha256.New()
@@ -1312,7 +1312,7 @@ func TestSHA(t *testing.T) {
 			default:
 				t.Fatalf("Invalid security level [%d]", currentTestConfig.securityLevel)
 			}
-		case bccsp.Sha3Family:
+		case digest.FamilySha3:
 			switch currentTestConfig.securityLevel {
 			case 256:
 				h = sha3.New256()
@@ -1510,7 +1510,7 @@ func TestRSASign(t *testing.T) {
 
 	msg := []byte("Hello World")
 
-	digest, err := currentBCCSP.Hash(msg, bccsp.Sha2_256)
+	digest, err := currentBCCSP.Hash(msg, digest.Sha2_256)
 	if err != nil {
 		t.Fatalf("Failed computing HASH [%s]", err)
 	}
@@ -1535,7 +1535,7 @@ func TestRSAVerify(t *testing.T) {
 
 	msg := []byte("Hello World")
 
-	digest, err := currentBCCSP.Hash(msg, bccsp.Sha2_256)
+	digest, err := currentBCCSP.Hash(msg, digest.Sha2_256)
 	if err != nil {
 		t.Fatalf("Failed computing HASH [%s]", err)
 	}
@@ -1625,7 +1625,7 @@ func TestRSAKeyImportFromRSAPublicKey(t *testing.T) {
 	// Sign and verify with the imported public key
 	msg := []byte("Hello World")
 
-	digest, err := currentBCCSP.Hash(msg, bccsp.Sha2_256)
+	digest, err := currentBCCSP.Hash(msg, digest.Sha2_256)
 	if err != nil {
 		t.Fatalf("Failed computing HASH [%s]", err)
 	}
@@ -1755,7 +1755,7 @@ func TestKeyImportFromX509RSAPublicKey(t *testing.T) {
 	// Sign and verify with the imported public key
 	msg := []byte("Hello World")
 
-	digest, err := currentBCCSP.Hash(msg, bccsp.Sha2_256)
+	digest, err := currentBCCSP.Hash(msg, digest.Sha2_256)
 	if err != nil {
 		t.Fatalf("Failed computing HASH [%s]", err)
 	}
@@ -1776,7 +1776,7 @@ func TestKeyImportFromX509RSAPublicKey(t *testing.T) {
 
 func getCryptoHashIndex(t *testing.T) crypto.Hash {
 	switch currentTestConfig.hashFamily {
-	case bccsp.Sha2Family:
+	case digest.FamilySha2:
 		switch currentTestConfig.securityLevel {
 		case 256:
 			return crypto.SHA256
@@ -1785,7 +1785,7 @@ func getCryptoHashIndex(t *testing.T) crypto.Hash {
 		default:
 			t.Fatalf("Invalid security level [%d]", currentTestConfig.securityLevel)
 		}
-	case bccsp.Sha3Family:
+	case digest.FamilySha3:
 		switch currentTestConfig.securityLevel {
 		case 256:
 			return crypto.SHA3_256

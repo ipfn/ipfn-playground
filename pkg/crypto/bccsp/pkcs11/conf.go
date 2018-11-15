@@ -32,11 +32,11 @@ type config struct {
 	rsaBitLength  int
 }
 
-func (conf *config) setSecurityLevel(securityLevel int, hashFamily bccsp.HashFamily) (err error) {
+func (conf *config) setSecurityLevel(securityLevel int, hashFamily digest.Family) (err error) {
 	switch hashFamily {
-	case bccsp.Sha2Family:
+	case digest.FamilySha2:
 		err = conf.setSecurityLevelSHA2(securityLevel)
-	case bccsp.Sha3Family:
+	case digest.FamilySha3:
 		err = conf.setSecurityLevelSHA3(securityLevel)
 	default:
 		err = fmt.Errorf("Hash Family not supported [%s]", hashFamily)
@@ -79,7 +79,7 @@ func (conf *config) setSecurityLevelSHA3(level int) (err error) {
 type PKCS11Opts struct {
 	// Default algorithms when not specified (Deprecated?)
 	SecLevel   int              `mapstructure:"security" json:"security"`
-	HashFamily bccsp.HashFamily `mapstructure:"hash" json:"hash"`
+	HashFamily digest.Family `mapstructure:"hash" json:"hash"`
 
 	// Keystore options
 	Ephemeral     bool               `mapstructure:"tempkeys,omitempty" json:"tempkeys,omitempty"`

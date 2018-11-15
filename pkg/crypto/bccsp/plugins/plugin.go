@@ -20,6 +20,7 @@ import (
 	"hash"
 
 	"github.com/ipfn/ipfn/pkg/crypto/bccsp"
+	"github.com/ipfn/ipfn/pkg/digest"
 )
 
 type impl struct{}
@@ -66,13 +67,13 @@ func (csp *impl) Key(ski []byte) (k bccsp.Key, err error) {
 
 // Hash hashes messages msg using options opts.
 // If opts is nil, the default hash function will be used.
-func (csp *impl) Hash(msg []byte, t bccsp.HashType) (hash []byte, err error) {
+func (csp *impl) Hash(msg []byte, t digest.Type) (hash []byte, err error) {
 	return nil, nil
 }
 
 // GetHash returns and instance of hash.Hash using options opts.
 // If opts is nil, the default hash function will be returned.
-func (csp *impl) Hasher(t bccsp.HashType) (h hash.Hash, err error) {
+func (csp *impl) Hasher(t digest.Type) (h hash.Hash, err error) {
 	return nil, nil
 }
 

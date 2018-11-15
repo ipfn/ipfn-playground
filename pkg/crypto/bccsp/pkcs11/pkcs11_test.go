@@ -168,8 +168,8 @@ func TestPKCS11ECKeySignVerify(t *testing.T) {
 
 	msg1 := []byte("This is my very authentic message")
 	msg2 := []byte("This is my very unauthentic message")
-	hash1, _ := currentBCCSP.Hash(msg1, bccsp.Sha2_256)
-	hash2, _ := currentBCCSP.Hash(msg2, bccsp.Sha2_256)
+	hash1, _ := currentBCCSP.Hash(msg1, digest.Sha2_256)
+	hash2, _ := currentBCCSP.Hash(msg2, digest.Sha2_256)
 
 	var oid asn1.ObjectIdentifier
 	if currentTestConfig.securityLevel == 256 {

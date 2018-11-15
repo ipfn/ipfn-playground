@@ -20,9 +20,10 @@ import (
 	"fmt"
 	"hash"
 
-	"github.com/ipfn/ipfn/pkg/crypto/bccsp"
 	"github.com/minio/sha256-simd"
 	"golang.org/x/crypto/sha3"
+
+	"github.com/ipfn/ipfn/pkg/digest"
 )
 
 type config struct {
@@ -32,11 +33,11 @@ type config struct {
 	rsaBitLength  int
 }
 
-func (conf *config) setSecurityLevel(securityLevel int, hashFamily bccsp.HashFamily) (err error) {
+func (conf *config) setSecurityLevel(securityLevel int, hashFamily digest.Family) (err error) {
 	switch hashFamily {
-	case bccsp.Sha2Family:
+	case digest.FamilySha2:
 		err = conf.setSecurityLevelSHA2(securityLevel)
-	case bccsp.Sha3Family:
+	case digest.FamilySha3:
 		err = conf.setSecurityLevelSHA3(securityLevel)
 	default:
 		err = fmt.Errorf("Hash Family not supported [%s]", hashFamily)
