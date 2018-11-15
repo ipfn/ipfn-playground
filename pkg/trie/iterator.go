@@ -1,12 +1,15 @@
-// Copyright 2014 The go-ethereum Authors
-// This file is part of the go-ethereum library.
+// Copyright © 2018 The IPFN Developers Authors. All Rights Reserved.
+// Copyright © 2014-2018 The go-ethereum Authors. All Rights Reserved.
 //
-// The go-ethereum library is free software: you can redistribute it and/or modify
+// This file is part of the IPFN project.
+// This file was part of the go-ethereum library.
+//
+// The IPFN project is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-ethereum library is distributed in the hope that it will be useful,
+// The IPFN project is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
@@ -22,7 +25,7 @@ import (
 	"errors"
 
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/ipfn/ipfn/pkg/trie/common"
+	"github.com/ipfn/ipfn/pkg/digest"
 )
 
 // Iterator is a key-value trie iterator that traverses a Trie.
@@ -72,11 +75,11 @@ type NodeIterator interface {
 	Error() error
 
 	// Hash returns the hash of the current node.
-	Hash() common.Hash
+	Hash() digest.Digest
 
 	// Parent returns the hash of the parent of the current node. The hash may be the one
 	// grandparent if the immediate parent is an internal node with no hash.
-	Parent() common.Hash
+	Parent() digest.Digest
 
 	// Path returns the hex-encoded path to the current node.
 	// Callers must not retain references to the return value after calling Next.
@@ -105,11 +108,11 @@ type NodeIterator interface {
 // nodeIteratorState represents the iteration state at one particular node of the
 // trie, which can be resumed at a later invocation.
 type nodeIteratorState struct {
-	hash    common.Hash // Hash of the node being iterated (nil if not standalone)
-	node    node        // Trie node being iterated
-	parent  common.Hash // Hash of the first full ancestor node (nil if current is the root)
-	index   int         // Child to be processed next
-	pathlen int         // Length of the path to this node
+	hash    digest.Digest // Hash of the node being iterated (nil if not standalone)
+	node    node          // Trie node being iterated
+	parent  digest.Digest // Hash of the first full ancestor node (nil if current is the root)
+	index   int           // Child to be processed next
+	pathlen int           // Length of the path to this node
 }
 
 type nodeIterator struct {
@@ -141,16 +144,16 @@ func newNodeIterator(trie *Trie, start []byte) NodeIterator {
 	return it
 }
 
-func (it *nodeIterator) Hash() common.Hash {
+func (it *nodeIterator) Hash() digest.Digest {
 	if len(it.stack) == 0 {
-		return common.Hash{}
+		return digest.Empty()
 	}
 	return it.stack[len(it.stack)-1].hash
 }
 
-func (it *nodeIterator) Parent() common.Hash {
+func (it *nodeIterator) Parent() digest.Digest {
 	if len(it.stack) == 0 {
-		return common.Hash{}
+		return digest.Empty()
 	}
 	return it.stack[len(it.stack)-1].parent
 }
@@ -181,6 +184,7 @@ func (it *nodeIterator) LeafProof() [][]byte {
 	if len(it.stack) > 0 {
 		if _, ok := it.stack[len(it.stack)-1].node.(valueNode); ok {
 			hasher := newHasher(0, 0, nil)
+			defer returnHasherToPool(hasher)
 			proofs := make([][]byte, 0, len(it.stack))
 
 			for i, item := range it.stack[:len(it.stack)-1] {
@@ -274,7 +278,7 @@ func (it *nodeIterator) peek(descend bool) (*nodeIteratorState, *int, []byte, er
 	for len(it.stack) > 0 {
 		parent := it.stack[len(it.stack)-1]
 		ancestor := parent.hash
-		if (ancestor == common.Hash{}) {
+		if digest.IsEmpty(ancestor) {
 			ancestor = parent.parent
 		}
 		state, path, ok := it.nextChild(parent, ancestor)
@@ -297,12 +301,12 @@ func (st *nodeIteratorState) resolve(tr *Trie, path []byte) error {
 			return err
 		}
 		st.node = resolved
-		st.hash = common.BytesToHash(hash)
+		st.hash = digest.Digest(hash)
 	}
 	return nil
 }
 
-func (it *nodeIterator) nextChild(parent *nodeIteratorState, ancestor common.Hash) (*nodeIteratorState, []byte, bool) {
+func (it *nodeIterator) nextChild(parent *nodeIteratorState, ancestor digest.Digest) (*nodeIteratorState, []byte, bool) {
 	switch node := parent.node.(type) {
 	case *fullNode:
 		// Full node, move to the first non-nil child.
@@ -311,7 +315,7 @@ func (it *nodeIterator) nextChild(parent *nodeIteratorState, ancestor common.Has
 			if child != nil {
 				hash, _ := child.cache()
 				state := &nodeIteratorState{
-					hash:    common.BytesToHash(hash),
+					hash:    digest.Digest(hash),
 					node:    child,
 					parent:  ancestor,
 					index:   -1,
@@ -327,7 +331,7 @@ func (it *nodeIterator) nextChild(parent *nodeIteratorState, ancestor common.Has
 		if parent.index < 0 {
 			hash, _ := node.Val.cache()
 			state := &nodeIteratorState{
-				hash:    common.BytesToHash(hash),
+				hash:    digest.Digest(hash),
 				node:    node.Val,
 				parent:  ancestor,
 				index:   -1,
@@ -363,7 +367,7 @@ func compareNodes(a, b NodeIterator) int {
 	} else if b.Leaf() && !a.Leaf() {
 		return 1
 	}
-	if cmp := bytes.Compare(a.Hash().Bytes(), b.Hash().Bytes()); cmp != 0 {
+	if cmp := digest.Compare(a.Hash(), b.Hash()); cmp != 0 {
 		return cmp
 	}
 	if a.Leaf() && b.Leaf() {
@@ -390,11 +394,11 @@ func NewDifferenceIterator(a, b NodeIterator) (NodeIterator, *int) {
 	return it, &it.count
 }
 
-func (it *differenceIterator) Hash() common.Hash {
+func (it *differenceIterator) Hash() digest.Digest {
 	return it.b.Hash()
 }
 
-func (it *differenceIterator) Parent() common.Hash {
+func (it *differenceIterator) Parent() digest.Digest {
 	return it.b.Parent()
 }
 
@@ -446,7 +450,7 @@ func (it *differenceIterator) Next(bool) bool {
 			return true
 		case 0:
 			// a and b are identical; skip this whole subtree if the nodes have hashes
-			hasHash := it.a.Hash() == common.Hash{}
+			hasHash := digest.IsEmpty(it.a.Hash())
 			if !it.b.Next(hasHash) {
 				return false
 			}
@@ -497,11 +501,11 @@ func NewUnionIterator(iters []NodeIterator) (NodeIterator, *int) {
 	return ui, &ui.count
 }
 
-func (it *unionIterator) Hash() common.Hash {
+func (it *unionIterator) Hash() digest.Digest {
 	return (*it.items)[0].Hash()
 }
 
-func (it *unionIterator) Parent() common.Hash {
+func (it *unionIterator) Parent() digest.Digest {
 	return (*it.items)[0].Parent()
 }
 
@@ -552,7 +556,7 @@ func (it *unionIterator) Next(descend bool) bool {
 	for len(*it.items) > 0 && ((!descend && bytes.HasPrefix((*it.items)[0].Path(), least.Path())) || compareNodes(least, (*it.items)[0]) == 0) {
 		skipped := heap.Pop(it.items).(NodeIterator)
 		// Skip the whole subtree if the nodes have hashes; otherwise just skip this node
-		if skipped.Next(skipped.Hash() == common.Hash{}) {
+		if skipped.Next(digest.IsEmpty(skipped.Hash())) {
 			it.count++
 			// If there are more elements, push the iterator back on the heap
 			heap.Push(it.items, skipped)

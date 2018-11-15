@@ -22,7 +22,7 @@ import (
 	"strings"
 
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/ipfn/ipfn/pkg/trie/common"
+	"github.com/ipfn/ipfn/pkg/digest"
 )
 
 var indices = []string{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "[17]"}
@@ -43,13 +43,16 @@ type (
 		Val   node
 		flags nodeFlag
 	}
-	hashNode  []byte
+	hashNode  digest.Digest
 	valueNode []byte
 )
 
 // nilValueNode is used when collapsing internal trie nodes for hashing, since
 // unset children need to serialize correctly.
 var nilValueNode = valueNode(nil)
+
+// nilHashNode is empty digest converted to hashNode.
+var nilHashNode = hashNode(digest.Empty())
 
 // EncodeRLP encodes a full node into the consensus RLP format.
 func (n *fullNode) EncodeRLP(w io.Writer) error {
@@ -87,8 +90,8 @@ func (n valueNode) canUnload(uint16, uint16) bool     { return false }
 
 func (n *fullNode) cache() (hashNode, bool)  { return n.flags.hash, n.flags.dirty }
 func (n *shortNode) cache() (hashNode, bool) { return n.flags.hash, n.flags.dirty }
-func (n hashNode) cache() (hashNode, bool)   { return nil, true }
-func (n valueNode) cache() (hashNode, bool)  { return nil, true }
+func (n hashNode) cache() (hashNode, bool)   { return nilHashNode, true }
+func (n valueNode) cache() (hashNode, bool)  { return nilHashNode, true }
 
 // Pretty printing.
 func (n *fullNode) String() string  { return n.fstring("") }
@@ -99,7 +102,7 @@ func (n valueNode) String() string  { return n.fstring("") }
 func (n *fullNode) fstring(ind string) string {
 	resp := fmt.Sprintf("[\n%s  ", ind)
 	for i, node := range &n.Children {
-		if node == nil {
+		if node == nil || node == nilHashNode {
 			resp += fmt.Sprintf("%s: <nil> ", indices[i])
 		} else {
 			resp += fmt.Sprintf("%s: %v", indices[i], node.fstring(ind+"  "))
@@ -111,13 +114,15 @@ func (n *shortNode) fstring(ind string) string {
 	return fmt.Sprintf("{%x: %v} ", n.Key, n.Val.fstring(ind+"  "))
 }
 func (n hashNode) fstring(ind string) string {
-	return fmt.Sprintf("<%x> ", []byte(n))
+	return fmt.Sprintf("<%x> ", n)
 }
 func (n valueNode) fstring(ind string) string {
 	return fmt.Sprintf("%x ", []byte(n))
 }
 
-func mustDecodeNode(hash, buf []byte, cachegen uint16) node {
+func (n hashNode) isEmpty() bool { return n == nilHashNode }
+
+func mustDecodeNode(hash digest.Digest, buf []byte, cachegen uint16) node {
 	n, err := decodeNode(hash, buf, cachegen)
 	if err != nil {
 		panic(fmt.Sprintf("node %x: %v", hash, err))
@@ -126,7 +131,7 @@ func mustDecodeNode(hash, buf []byte, cachegen uint16) node {
 }
 
 // decodeNode parses the RLP encoding of a trie node.
-func decodeNode(hash, buf []byte, cachegen uint16) (node, error) {
+func decodeNode(hash digest.Digest, buf []byte, cachegen uint16) (node, error) {
 	if len(buf) == 0 {
 		return nil, io.ErrUnexpectedEOF
 	}
@@ -146,12 +151,12 @@ func decodeNode(hash, buf []byte, cachegen uint16) (node, error) {
 	}
 }
 
-func decodeShort(hash, elems []byte, cachegen uint16) (node, error) {
+func decodeShort(hash digest.Digest, elems []byte, cachegen uint16) (node, error) {
 	kbuf, rest, err := rlp.SplitString(elems)
 	if err != nil {
 		return nil, err
 	}
-	flag := nodeFlag{hash: hash, gen: cachegen}
+	flag := nodeFlag{hash: hashNode(hash), gen: cachegen}
 	key := compactToHex(kbuf)
 	if hasTerm(key) {
 		// value node
@@ -168,8 +173,8 @@ func decodeShort(hash, elems []byte, cachegen uint16) (node, error) {
 	return &shortNode{key, r, flag}, nil
 }
 
-func decodeFull(hash, elems []byte, cachegen uint16) (*fullNode, error) {
-	n := &fullNode{flags: nodeFlag{hash: hash, gen: cachegen}}
+func decodeFull(hash digest.Digest, elems []byte, cachegen uint16) (*fullNode, error) {
+	n := &fullNode{flags: nodeFlag{hash: hashNode(hash), gen: cachegen}}
 	for i := 0; i < 16; i++ {
 		cld, rest, err := decodeRef(elems, cachegen)
 		if err != nil {
@@ -187,8 +192,6 @@ func decodeFull(hash, elems []byte, cachegen uint16) (*fullNode, error) {
 	return n, nil
 }
 
-const hashLen = len(common.Hash{})
-
 func decodeRef(buf []byte, cachegen uint16) (node, []byte, error) {
 	kind, val, rest, err := rlp.Split(buf)
 	if err != nil {
@@ -198,17 +201,17 @@ func decodeRef(buf []byte, cachegen uint16) (node, []byte, error) {
 	case kind == rlp.List:
 		// 'embedded' node reference. The encoding must be smaller
 		// than a hash in order to be valid.
-		if size := len(buf) - len(rest); size > hashLen {
-			err := fmt.Errorf("oversized embedded node (size is %d bytes, want size < %d)", size, hashLen)
+		if size := len(buf) - len(rest); size > digest.Size {
+			err := fmt.Errorf("oversized embedded node (size is %d bytes, want size < %d)", size, digest.Size)
 			return nil, buf, err
 		}
-		n, err := decodeNode(nil, buf, cachegen)
+		n, err := decodeNode(digest.Empty(), buf, cachegen)
 		return n, rest, err
 	case kind == rlp.String && len(val) == 0:
 		// empty node
 		return nil, rest, nil
-	case kind == rlp.String && len(val) == 32:
-		return append(hashNode{}, val...), rest, nil
+	case kind == rlp.String && len(val) == digest.Size:
+		return hashNode(digest.FromBytes(val)), rest, nil
 	default:
 		return nil, nil, fmt.Errorf("invalid RLP string size %d (want 0 or 32)", len(val))
 	}

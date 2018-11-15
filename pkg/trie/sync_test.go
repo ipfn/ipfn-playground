@@ -1,12 +1,15 @@
-// Copyright 2015 The go-ethereum Authors
-// This file is part of the go-ethereum library.
+// Copyright © 2018 The IPFN Developers Authors. All Rights Reserved.
+// Copyright © 2014-2018 The go-ethereum Authors. All Rights Reserved.
 //
-// The go-ethereum library is free software: you can redistribute it and/or modify
+// This file is part of the IPFN project.
+// This file was part of the go-ethereum library.
+//
+// The IPFN project is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-ethereum library is distributed in the hope that it will be useful,
+// The IPFN project is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
@@ -20,31 +23,32 @@ import (
 	"bytes"
 	"testing"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/ethdb"
+	"github.com/ipfn/ipfn/pkg/digest"
+	"github.com/ipfn/ipfn/pkg/trie/ethdb"
+	"github.com/ipfn/ipfn/pkg/utils/byteutil"
 )
 
 // makeTestTrie create a sample test trie to test node-wise reconstruction.
 func makeTestTrie() (*Database, *Trie, map[string][]byte) {
 	// Create an empty trie
 	triedb := NewDatabase(ethdb.NewMemDatabase())
-	trie, _ := New(common.Hash{}, triedb)
+	trie, _ := New(digest.Empty(), triedb)
 
 	// Fill it with some arbitrary data
 	content := make(map[string][]byte)
 	for i := byte(0); i < 255; i++ {
 		// Map the same data under multiple keys
-		key, val := common.LeftPadBytes([]byte{1, i}, 32), []byte{i}
+		key, val := byteutil.LeftPad([]byte{1, i}, 32), []byte{i}
 		content[string(key)] = val
 		trie.Update(key, val)
 
-		key, val = common.LeftPadBytes([]byte{2, i}, 32), []byte{i}
+		key, val = byteutil.LeftPad([]byte{2, i}, 32), []byte{i}
 		content[string(key)] = val
 		trie.Update(key, val)
 
 		// Add some other data to inflate the trie
 		for j := byte(3); j < 13; j++ {
-			key, val = common.LeftPadBytes([]byte{j, i}, 32), []byte{j, i}
+			key, val = byteutil.LeftPad([]byte{j, i}, 32), []byte{j, i}
 			content[string(key)] = val
 			trie.Update(key, val)
 		}
@@ -59,11 +63,11 @@ func makeTestTrie() (*Database, *Trie, map[string][]byte) {
 // content map.
 func checkTrieContents(t *testing.T, db *Database, root []byte, content map[string][]byte) {
 	// Check root availability and trie contents
-	trie, err := New(common.BytesToHash(root), db)
+	trie, err := New(digest.FromBytes(root), db)
 	if err != nil {
 		t.Fatalf("failed to create trie at %x: %v", root, err)
 	}
-	if err := checkTrieConsistency(db, common.BytesToHash(root)); err != nil {
+	if err := checkTrieConsistency(db, digest.FromBytes(root)); err != nil {
 		t.Fatalf("inconsistent trie at %x: %v", root, err)
 	}
 	for key, val := range content {
@@ -74,7 +78,7 @@ func checkTrieContents(t *testing.T, db *Database, root []byte, content map[stri
 }
 
 // checkTrieConsistency checks that all nodes in a trie are indeed present.
-func checkTrieConsistency(db *Database, root common.Hash) error {
+func checkTrieConsistency(db *Database, root digest.Digest) error {
 	// Create and iterate a trie rooted in a subnode
 	trie, err := New(root, db)
 	if err != nil {
@@ -90,7 +94,7 @@ func checkTrieConsistency(db *Database, root common.Hash) error {
 func TestEmptySync(t *testing.T) {
 	dbA := NewDatabase(ethdb.NewMemDatabase())
 	dbB := NewDatabase(ethdb.NewMemDatabase())
-	emptyA, _ := New(common.Hash{}, dbA)
+	emptyA, _ := New(digest.Empty(), dbA)
 	emptyB, _ := New(emptyRoot, dbB)
 
 	for i, trie := range []*Trie{emptyA, emptyB} {
@@ -114,7 +118,7 @@ func testIterativeSync(t *testing.T, batch int) {
 	triedb := NewDatabase(diskdb)
 	sched := NewSync(srcTrie.Hash(), diskdb, nil)
 
-	queue := append([]common.Hash{}, sched.Missing(batch)...)
+	queue := append([]digest.Digest{}, sched.Missing(batch)...)
 	for len(queue) > 0 {
 		results := make([]SyncResult, len(queue))
 		for i, hash := range queue {
@@ -133,7 +137,7 @@ func testIterativeSync(t *testing.T, batch int) {
 		queue = append(queue[:0], sched.Missing(batch)...)
 	}
 	// Cross check that the two tries are in sync
-	checkTrieContents(t, triedb, srcTrie.Root(), srcData)
+	checkTrieContents(t, triedb, srcTrie.Hash().Bytes(), srcData)
 }
 
 // Tests that the trie scheduler can correctly reconstruct the state even if only
@@ -147,7 +151,7 @@ func TestIterativeDelayedSync(t *testing.T) {
 	triedb := NewDatabase(diskdb)
 	sched := NewSync(srcTrie.Hash(), diskdb, nil)
 
-	queue := append([]common.Hash{}, sched.Missing(10000)...)
+	queue := append([]digest.Digest{}, sched.Missing(10000)...)
 	for len(queue) > 0 {
 		// Sync only half of the scheduled nodes
 		results := make([]SyncResult, len(queue)/2+1)
@@ -167,7 +171,7 @@ func TestIterativeDelayedSync(t *testing.T) {
 		queue = append(queue[len(results):], sched.Missing(10000)...)
 	}
 	// Cross check that the two tries are in sync
-	checkTrieContents(t, triedb, srcTrie.Root(), srcData)
+	checkTrieContents(t, triedb, srcTrie.Hash().Bytes(), srcData)
 }
 
 // Tests that given a root hash, a trie can sync iteratively on a single thread,
@@ -185,7 +189,7 @@ func testIterativeRandomSync(t *testing.T, batch int) {
 	triedb := NewDatabase(diskdb)
 	sched := NewSync(srcTrie.Hash(), diskdb, nil)
 
-	queue := make(map[common.Hash]struct{})
+	queue := make(map[digest.Digest]struct{})
 	for _, hash := range sched.Missing(batch) {
 		queue[hash] = struct{}{}
 	}
@@ -206,13 +210,13 @@ func testIterativeRandomSync(t *testing.T, batch int) {
 		if index, err := sched.Commit(diskdb); err != nil {
 			t.Fatalf("failed to commit data #%d: %v", index, err)
 		}
-		queue = make(map[common.Hash]struct{})
+		queue = make(map[digest.Digest]struct{})
 		for _, hash := range sched.Missing(batch) {
 			queue[hash] = struct{}{}
 		}
 	}
 	// Cross check that the two tries are in sync
-	checkTrieContents(t, triedb, srcTrie.Root(), srcData)
+	checkTrieContents(t, triedb, srcTrie.Hash().Bytes(), srcData)
 }
 
 // Tests that the trie scheduler can correctly reconstruct the state even if only
@@ -226,7 +230,7 @@ func TestIterativeRandomDelayedSync(t *testing.T) {
 	triedb := NewDatabase(diskdb)
 	sched := NewSync(srcTrie.Hash(), diskdb, nil)
 
-	queue := make(map[common.Hash]struct{})
+	queue := make(map[digest.Digest]struct{})
 	for _, hash := range sched.Missing(10000) {
 		queue[hash] = struct{}{}
 	}
@@ -259,7 +263,7 @@ func TestIterativeRandomDelayedSync(t *testing.T) {
 		}
 	}
 	// Cross check that the two tries are in sync
-	checkTrieContents(t, triedb, srcTrie.Root(), srcData)
+	checkTrieContents(t, triedb, srcTrie.Hash().Bytes(), srcData)
 }
 
 // Tests that a trie sync will not request nodes multiple times, even if they
@@ -273,8 +277,8 @@ func TestDuplicateAvoidanceSync(t *testing.T) {
 	triedb := NewDatabase(diskdb)
 	sched := NewSync(srcTrie.Hash(), diskdb, nil)
 
-	queue := append([]common.Hash{}, sched.Missing(0)...)
-	requested := make(map[common.Hash]struct{})
+	queue := append([]digest.Digest{}, sched.Missing(0)...)
+	requested := make(map[digest.Digest]struct{})
 
 	for len(queue) > 0 {
 		results := make([]SyncResult, len(queue))
@@ -299,7 +303,7 @@ func TestDuplicateAvoidanceSync(t *testing.T) {
 		queue = append(queue[:0], sched.Missing(0)...)
 	}
 	// Cross check that the two tries are in sync
-	checkTrieContents(t, triedb, srcTrie.Root(), srcData)
+	checkTrieContents(t, triedb, srcTrie.Hash().Bytes(), srcData)
 }
 
 // Tests that at any point in time during a sync, only complete sub-tries are in
@@ -313,8 +317,8 @@ func TestIncompleteSync(t *testing.T) {
 	triedb := NewDatabase(diskdb)
 	sched := NewSync(srcTrie.Hash(), diskdb, nil)
 
-	added := []common.Hash{}
-	queue := append([]common.Hash{}, sched.Missing(1)...)
+	added := []digest.Digest{}
+	queue := append([]digest.Digest{}, sched.Missing(1)...)
 	for len(queue) > 0 {
 		// Fetch a batch of trie nodes
 		results := make([]SyncResult, len(queue))

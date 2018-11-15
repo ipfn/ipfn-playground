@@ -20,25 +20,26 @@ import (
 	"hash"
 	"sync"
 
+	"github.com/cespare/xxhash"
+	"github.com/ethereum/go-ethereum/crypto/sha3"
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/ipfn/ipfn/pkg/trie/common"
-	"golang.org/x/crypto/sha3"
+	"github.com/ipfn/ipfn/pkg/digest"
+	"github.com/ipfn/ipfn/pkg/utils/byteutil"
 )
 
 type hasher struct {
 	tmp        sliceBuffer
-	sha        keccakState
+	hasher     hash.Hash
 	cachegen   uint16
 	cachelimit uint16
 	onleaf     LeafCallback
 }
 
-// keccakState wraps sha3.state. In addition to the usual hash methods, it also supports
-// Read to get a variable amount of data from the hash state. Read is faster than Sum
-// because it doesn't copy the internal state, but also modifies the internal state.
-type keccakState interface {
-	hash.Hash
-	Read([]byte) (int, error)
+// xxhasher used to hash keys in bigcache.
+type xxhasher struct{}
+
+func (*xxhasher) Sum64(v string) uint64 {
+	return xxhash.Sum64String(v)
 }
 
 type sliceBuffer []byte
@@ -56,8 +57,9 @@ func (b *sliceBuffer) Reset() {
 var hasherPool = sync.Pool{
 	New: func() interface{} {
 		return &hasher{
-			tmp: make(sliceBuffer, 0, 550), // cap is as large as a full fullNode.
-			sha: sha3.NewKeccak256().(keccakState),
+			tmp:    make(sliceBuffer, 0, 550), // cap is as large as a full fullNode.
+			hasher: sha3.NewKeccak256(),
+			// hasher: sha256.New(),
 		}
 	},
 }
@@ -76,7 +78,7 @@ func returnHasherToPool(h *hasher) {
 // original node initialized with the computed hash to replace the original one.
 func (h *hasher) hash(n node, db *Database, force bool) (node, node, error) {
 	// If we're not storing the node, just hashing, use available cached data
-	if hash, dirty := n.cache(); hash != nil {
+	if hash, dirty := n.cache(); !hash.isEmpty() {
 		if db == nil {
 			return hash, n, nil
 		}
@@ -129,7 +131,7 @@ func (h *hasher) hashChildren(original node, db *Database) (node, node, error) {
 		// Hash the short node's child, caching the newly hashed subtree
 		collapsed, cached := n.copy(), n.copy()
 		collapsed.Key = hexToCompact(n.Key)
-		cached.Key = common.CopyBytes(n.Key)
+		cached.Key = byteutil.Copy(n.Key)
 
 		if _, ok := n.Val.(valueNode); !ok {
 			collapsed.Val, cached.Val, err = h.hash(n.Val, db, false)
@@ -177,15 +179,14 @@ func (h *hasher) store(n node, db *Database, force bool) (node, error) {
 		return n, nil // Nodes smaller than 32 bytes are stored inside their parent
 	}
 	// Larger nodes are replaced by their hash and stored in the database.
-	hash, _ := n.cache()
-	if hash == nil {
-		hash = h.makeHashNode(h.tmp)
+	var hash digest.Digest
+	if cached, _ := n.cache(); !cached.isEmpty() {
+		hash = digest.Digest(cached)
+	} else {
+		hash = digest.Sum(h.hasher, h.tmp)
 	}
 
 	if db != nil {
-		// We are pooling the trie nodes into an intermediate memory cache
-		hash := common.BytesToHash(hash)
-
 		db.lock.Lock()
 		db.insert(hash, h.tmp, n)
 		db.lock.Unlock()
@@ -206,13 +207,5 @@ func (h *hasher) store(n node, db *Database, force bool) (node, error) {
 			}
 		}
 	}
-	return hash, nil
-}
-
-func (h *hasher) makeHashNode(data []byte) hashNode {
-	n := make(hashNode, h.sha.Size())
-	h.sha.Reset()
-	h.sha.Write(data)
-	h.sha.Read(n)
-	return n
+	return hashNode(hash), nil
 }

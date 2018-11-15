@@ -17,7 +17,8 @@
 package trie
 
 import (
-	"github.com/ipfn/ipfn/pkg/trie/common"
+	"github.com/ipfn/ipfn/pkg/digest"
+	"github.com/ipfn/ipfn/pkg/utils/byteutil"
 )
 
 // SecureTrie wraps a trie with key hashing. In a secure trie, all
@@ -32,7 +33,7 @@ import (
 // SecureTrie is not safe for concurrent use.
 type SecureTrie struct {
 	trie             Trie
-	hashKeyBuf       [common.HashLength]byte
+	hashKeyBuf       [digest.Size]byte
 	secKeyCache      map[string][]byte
 	secKeyCacheOwner *SecureTrie // Pointer to self, replace the key cache on mismatch
 }
@@ -48,7 +49,7 @@ type SecureTrie struct {
 // Loaded nodes are kept around until their 'cache generation' expires.
 // A new cache generation is created by each call to Commit.
 // cachelimit sets the number of past cache generations to keep.
-func NewSecure(root common.Hash, db *Database, cachelimit uint16) (*SecureTrie, error) {
+func NewSecure(root digest.Digest, db *Database, cachelimit uint16) (*SecureTrie, error) {
 	if db == nil {
 		panic("trie.NewSecure called without a database")
 	}
@@ -103,7 +104,7 @@ func (t *SecureTrie) TryUpdate(key, value []byte) error {
 	if err != nil {
 		return err
 	}
-	t.getSecKeyCache()[string(hk)] = common.CopyBytes(key)
+	t.getSecKeyCache()[string(hk)] = byteutil.Copy(key)
 	return nil
 }
 
@@ -128,7 +129,7 @@ func (t *SecureTrie) GetKey(shaKey []byte) []byte {
 	if key, ok := t.getSecKeyCache()[string(shaKey)]; ok {
 		return key
 	}
-	key, _ := t.trie.db.preimage(common.BytesToHash(shaKey))
+	key, _ := t.trie.db.preimage(digest.FromBytes(shaKey))
 	return key
 }
 
@@ -137,12 +138,12 @@ func (t *SecureTrie) GetKey(shaKey []byte) []byte {
 //
 // Committing flushes nodes from memory. Subsequent Get calls will load nodes
 // from the database.
-func (t *SecureTrie) Commit(onleaf LeafCallback) (root common.Hash, err error) {
+func (t *SecureTrie) Commit(onleaf LeafCallback) (root digest.Digest, err error) {
 	// Write all the pre-images to the actual disk database
 	if len(t.getSecKeyCache()) > 0 {
 		t.trie.db.lock.Lock()
 		for hk, key := range t.secKeyCache {
-			t.trie.db.insertPreimage(common.BytesToHash([]byte(hk)), key)
+			t.trie.db.insertPreimage(digest.FromBytes([]byte(hk)), key)
 		}
 		t.trie.db.lock.Unlock()
 
@@ -154,7 +155,7 @@ func (t *SecureTrie) Commit(onleaf LeafCallback) (root common.Hash, err error) {
 
 // Hash returns the root hash of SecureTrie. It does not write to the
 // database and can be used even if the trie doesn't have one.
-func (t *SecureTrie) Hash() common.Hash {
+func (t *SecureTrie) Hash() digest.Digest {
 	return t.trie.Hash()
 }
 
@@ -175,9 +176,9 @@ func (t *SecureTrie) NodeIterator(start []byte) NodeIterator {
 // invalid on the next call to hashKey or secKey.
 func (t *SecureTrie) hashKey(key []byte) []byte {
 	h := newHasher(0, 0, nil)
-	h.sha.Reset()
-	h.sha.Write(key)
-	buf := h.sha.Sum(t.hashKeyBuf[:0])
+	h.hasher.Reset()
+	h.hasher.Write(key)
+	buf := h.hasher.Sum(t.hashKeyBuf[:0])
 	returnHasherToPool(h)
 	return buf
 }

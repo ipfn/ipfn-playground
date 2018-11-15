@@ -21,9 +21,8 @@ import (
 	"fmt"
 
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/ipfn/ipfn/pkg/trie/common"
+	"github.com/ipfn/ipfn/pkg/digest"
 	"github.com/ipfn/ipfn/pkg/trie/ethdb"
-	"github.com/ipfn/ipfn/pkg/utils/hashutil"
 )
 
 // Prove constructs a merkle proof for key. The result contains all encoded nodes
@@ -65,6 +64,7 @@ func (t *Trie) Prove(key []byte, fromLevel uint, proofDb ethdb.Putter) error {
 		}
 	}
 	hasher := newHasher(0, 0, nil)
+	defer returnHasherToPool(hasher)
 	for i, n := range nodes {
 		// Don't bother checking for errors here since hasher panics
 		// if encoding doesn't work and we're not writing to any database.
@@ -78,9 +78,10 @@ func (t *Trie) Prove(key []byte, fromLevel uint, proofDb ethdb.Putter) error {
 			} else {
 				enc, _ := rlp.EncodeToBytes(n)
 				if !ok {
-					hash = hashutil.SumKeccak256(enc)
+					proofDb.Put(digest.SumBytes(hasher.hasher, enc), enc)
+				} else {
+					proofDb.Put(hash[:], enc)
 				}
-				proofDb.Put(hash, enc)
 			}
 		}
 	}
@@ -101,7 +102,7 @@ func (t *SecureTrie) Prove(key []byte, fromLevel uint, proofDb ethdb.Putter) err
 // VerifyProof checks merkle proofs. The given proof must contain the value for
 // key in a trie with the given root hash. VerifyProof returns an error if the
 // proof contains invalid trie nodes or the wrong value.
-func VerifyProof(rootHash common.Hash, key []byte, proofDb DatabaseReader) (value []byte, nodes int, err error) {
+func VerifyProof(rootHash digest.Digest, key []byte, proofDb DatabaseReader) (value []byte, nodes int, err error) {
 	key = keybytesToHex(key)
 	wantHash := rootHash
 	for i := 0; ; i++ {
@@ -109,7 +110,7 @@ func VerifyProof(rootHash common.Hash, key []byte, proofDb DatabaseReader) (valu
 		if buf == nil {
 			return nil, i, fmt.Errorf("proof node %d (hash %064x) missing", i, wantHash)
 		}
-		n, err := decodeNode(wantHash[:], buf, 0)
+		n, err := decodeNode(wantHash, buf, 0)
 		if err != nil {
 			return nil, i, fmt.Errorf("bad proof node %d: %v", i, err)
 		}
@@ -119,8 +120,11 @@ func VerifyProof(rootHash common.Hash, key []byte, proofDb DatabaseReader) (valu
 			// The trie doesn't contain the key.
 			return nil, i, nil
 		case hashNode:
+			if cld.isEmpty() {
+				return nil, i, nil
+			}
 			key = keyrest
-			copy(wantHash[:], cld)
+			wantHash = digest.Digest(cld)
 		case valueNode:
 			return cld, i + 1, nil
 		}

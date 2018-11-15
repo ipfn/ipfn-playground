@@ -1,12 +1,15 @@
-// Copyright 2015 The go-ethereum Authors
-// This file is part of the go-ethereum library.
+// Copyright © 2018 The IPFN Developers Authors. All Rights Reserved.
+// Copyright © 2014-2018 The go-ethereum Authors. All Rights Reserved.
 //
-// The go-ethereum library is free software: you can redistribute it and/or modify
+// This file is part of the IPFN project.
+// This file was part of the go-ethereum library.
+//
+// The IPFN project is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-ethereum library is distributed in the hope that it will be useful,
+// The IPFN project is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
@@ -23,9 +26,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/ethdb"
+	"github.com/gxed/hashland/keccak"
+	"github.com/ipfn/ipfn/pkg/digest"
+	"github.com/ipfn/ipfn/pkg/trie/ethdb"
+	"github.com/ipfn/ipfn/pkg/utils/byteutil"
 )
 
 func init() {
@@ -48,7 +52,7 @@ func makeProvers(trie *Trie) []func(key []byte) *ethdb.MemDatabase {
 		proof := ethdb.NewMemDatabase()
 		if it := NewIterator(trie.NodeIterator(key)); it.Next() && bytes.Equal(key, it.Key) {
 			for _, p := range it.Prove() {
-				proof.Put(crypto.Keccak256(p), p)
+				proof.Put(digest.SumBytes(keccak.New256(), p), p)
 			}
 		}
 		return proof
@@ -111,7 +115,7 @@ func TestBadProof(t *testing.T) {
 			proof.Delete(key)
 
 			mutateByte(val)
-			proof.Put(crypto.Keccak256(val), val)
+			proof.Put(digest.SumBytes(keccak.New256(), val), val)
 
 			if _, _, err := VerifyProof(root, kv.k, proof); err == nil {
 				t.Fatalf("prover %d: expected proof to fail for key %x", i, kv.k)
@@ -196,8 +200,8 @@ func randomTrie(n int) (*Trie, map[string]*kv) {
 	trie := new(Trie)
 	vals := make(map[string]*kv)
 	for i := byte(0); i < 100; i++ {
-		value := &kv{common.LeftPadBytes([]byte{i}, 32), []byte{i}, false}
-		value2 := &kv{common.LeftPadBytes([]byte{i + 10}, 32), []byte{i}, false}
+		value := &kv{byteutil.LeftPad([]byte{i}, 32), []byte{i}, false}
+		value2 := &kv{byteutil.LeftPad([]byte{i + 10}, 32), []byte{i}, false}
 		trie.Update(value.k, value.v)
 		trie.Update(value2.k, value2.v)
 		vals[string(value.k)] = value

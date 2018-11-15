@@ -1,12 +1,15 @@
-// Copyright 2014 The go-ethereum Authors
-// This file is part of the go-ethereum library.
+// Copyright © 2018 The IPFN Developers Authors. All Rights Reserved.
+// Copyright © 2014-2018 The go-ethereum Authors. All Rights Reserved.
 //
-// The go-ethereum library is free software: you can redistribute it and/or modify
+// This file is part of the IPFN project.
+// This file was part of the go-ethereum library.
+//
+// The IPFN project is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-ethereum library is distributed in the hope that it will be useful,
+// The IPFN project is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
@@ -21,20 +24,21 @@ import (
 	"bytes"
 	"fmt"
 
-	"github.com/ipfn/ipfn/pkg/trie/common"
+	"github.com/gxed/hashland/keccak"
+	"github.com/ipfn/ipfn/pkg/digest"
 	"github.com/ipfn/ipfn/pkg/trie/metrics"
-	"github.com/ipfn/ipfn/pkg/utils/hashutil"
+	"github.com/ipfn/ipfn/pkg/utils/flog"
 )
 
 var (
 	// emptyRoot is the known root hash of an empty trie.
-	emptyRoot = common.HexToHash("56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421")
+	emptyRoot = digest.FromHex("56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421")
 
 	// emptyState is the known hash of an empty state trie entry.
-	emptyState = hashutil.SumKeccak256(nil)
+	emptyState = digest.Sum(keccak.New256(), nil)
 
 	// package logger
-	logger = logger.MustGetLogger("trie")
+	logger = flog.MustGetLogger("trie")
 )
 
 var (
@@ -59,7 +63,7 @@ func CacheUnloads() int64 {
 // LeafCallback is a callback type invoked when a trie operation reaches a leaf
 // node. It's used by state sync and commit to allow handling external references
 // between account and storage tries.
-type LeafCallback func(leaf []byte, parent common.Hash) error
+type LeafCallback func(leaf []byte, parent digest.Digest) error
 
 // Trie is a Merkle Patricia Trie.
 // The zero value is an empty trie with no database.
@@ -94,15 +98,15 @@ func (t *Trie) newFlag() nodeFlag {
 // trie is initially empty and does not require a database. Otherwise,
 // New will panic if db is nil and returns a MissingNodeError if root does
 // not exist in the database. Accessing the trie loads nodes from db on demand.
-func New(root common.Hash, db *Database) (*Trie, error) {
+func New(root digest.Digest, db *Database) (*Trie, error) {
 	if db == nil {
 		panic("trie.New called without a database")
 	}
 	trie := &Trie{
 		db: db,
 	}
-	if root != (common.Hash{}) && root != emptyRoot {
-		rootnode, err := trie.resolveHash(root[:], nil)
+	if !digest.IsEmpty(root) && root != emptyRoot {
+		rootnode, err := trie.resolveHash(hashNode(root), nil)
 		if err != nil {
 			return nil, err
 		}
@@ -431,9 +435,8 @@ func (t *Trie) resolve(n node, prefix []byte) (node, error) {
 
 func (t *Trie) resolveHash(n hashNode, prefix []byte) (node, error) {
 	cacheMissCounter.Inc(1)
-
-	hash := common.BytesToHash(n)
-	if node := t.db.node(hash, t.cachegen); node != nil {
+	hash := digest.Digest(n)
+	if node := t.db.node(hash, t.cachegen); node != nil && node != nilHashNode {
 		return node, nil
 	}
 	return nil, &MissingNodeError{NodeHash: hash, Path: prefix}
@@ -441,30 +444,31 @@ func (t *Trie) resolveHash(n hashNode, prefix []byte) (node, error) {
 
 // Hash returns the root hash of the trie. It does not write to the
 // database and can be used even if the trie doesn't have one.
-func (t *Trie) Hash() common.Hash {
+func (t *Trie) Hash() digest.Digest {
 	hash, cached, _ := t.hashRoot(nil, nil)
 	t.root = cached
-	return common.BytesToHash(hash.(hashNode))
+	return digest.Digest(hash.(hashNode))
 }
 
 // Commit writes all nodes to the trie's memory database, tracking the internal
 // and external (for account tries) references.
-func (t *Trie) Commit(onleaf LeafCallback) (root common.Hash, err error) {
+func (t *Trie) Commit(onleaf LeafCallback) (root digest.Digest, err error) {
 	if t.db == nil {
 		panic("commit called on trie with nil database")
 	}
 	hash, cached, err := t.hashRoot(t.db, onleaf)
 	if err != nil {
-		return common.Hash{}, err
+		return digest.Empty(), err
 	}
 	t.root = cached
 	t.cachegen++
-	return common.BytesToHash(hash.(hashNode)), nil
+	return digest.Digest(hash.(hashNode)), nil
 }
 
 func (t *Trie) hashRoot(db *Database, onleaf LeafCallback) (node, node, error) {
-	if t.root == nil {
-		return hashNode(emptyRoot.Bytes()), nil, nil
+	if t.root == nil || t.root == nilHashNode {
+		// if t.root == nil {
+		return hashNode(emptyRoot), nil, nil
 	}
 	h := newHasher(t.cachegen, t.cachelimit, onleaf)
 	defer returnHasherToPool(h)

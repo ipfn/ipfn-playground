@@ -1,12 +1,15 @@
-// Copyright 2014 The go-ethereum Authors
-// This file is part of the go-ethereum library.
+// Copyright © 2018 The IPFN Developers Authors. All Rights Reserved.
+// Copyright © 2014-2018 The go-ethereum Authors. All Rights Reserved.
 //
-// The go-ethereum library is free software: you can redistribute it and/or modify
+// This file is part of the IPFN project.
+// This file was part of the go-ethereum library.
+//
+// The IPFN project is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-ethereum library is distributed in the hope that it will be useful,
+// The IPFN project is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
@@ -24,16 +27,15 @@ import (
 	"io/ioutil"
 	"math/big"
 	"math/rand"
-	"os"
 	"reflect"
 	"testing"
 	"testing/quick"
 
 	"github.com/davecgh/go-spew/spew"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/ethdb"
 	"github.com/ethereum/go-ethereum/rlp"
+	"github.com/gxed/hashland/keccak"
+	"github.com/ipfn/ipfn/pkg/digest"
+	"github.com/ipfn/ipfn/pkg/trie/ethdb"
 )
 
 func init() {
@@ -43,7 +45,7 @@ func init() {
 
 // Used for testing
 func newEmpty() *Trie {
-	trie, _ := New(common.Hash{}, NewDatabase(ethdb.NewMemDatabase()))
+	trie, _ := New(digest.Empty(), NewDatabase(ethdb.NewMemDatabase()))
 	return trie
 }
 
@@ -51,7 +53,7 @@ func TestEmptyTrie(t *testing.T) {
 	var trie Trie
 	res := trie.Hash()
 	exp := emptyRoot
-	if res != common.Hash(exp) {
+	if res != digest.Digest(exp) {
 		t.Errorf("expected %x got %x", exp, res)
 	}
 }
@@ -67,7 +69,7 @@ func TestNull(t *testing.T) {
 }
 
 func TestMissingRoot(t *testing.T) {
-	trie, err := New(common.HexToHash("0beec7b5ea3f0fdbc95d0dd47f3c5bc275da8a33"), NewDatabase(ethdb.NewMemDatabase()))
+	trie, err := New(digest.FromHex("0beec7b5ea3f0fdbc95d0dd47f3c5bc275da8a33"), NewDatabase(ethdb.NewMemDatabase()))
 	if trie != nil {
 		t.Error("New returned non-nil trie for invalid root")
 	}
@@ -83,16 +85,20 @@ func testMissingNode(t *testing.T, memonly bool) {
 	diskdb := ethdb.NewMemDatabase()
 	triedb := NewDatabase(diskdb)
 
-	trie, _ := New(common.Hash{}, triedb)
+	trie, _ := New(digest.Empty(), triedb)
 	updateString(trie, "120000", "qwerqwerqwerqwerqwerqwerqwerqwer")
 	updateString(trie, "123456", "asdfasdfasdfasdfasdfasdfasdfasdf")
-	root, _ := trie.Commit(nil)
+	root, err := trie.Commit(nil)
+	if err != nil {
+		t.Errorf("Unexpected error: %v", err)
+	}
+
 	if !memonly {
-		triedb.Commit(root, true)
+		triedb.Commit(root)
 	}
 
 	trie, _ = New(root, triedb)
-	_, err := trie.TryGet([]byte("120000"))
+	_, err = trie.TryGet([]byte("120000"))
 	if err != nil {
 		t.Errorf("Unexpected error: %v", err)
 	}
@@ -117,9 +123,9 @@ func testMissingNode(t *testing.T, memonly bool) {
 		t.Errorf("Unexpected error: %v", err)
 	}
 
-	hash := common.HexToHash("0xe1d943cc8f061a0c0b98162830b970395ac9315654824bf21b73b891365262f9")
+	hash := digest.FromHex("e1d943cc8f061a0c0b98162830b970395ac9315654824bf21b73b891365262f9")
 	if memonly {
-		delete(triedb.nodes, hash)
+		delete(triedb.dirties, hash)
 	} else {
 		diskdb.Delete(hash[:])
 	}
@@ -158,7 +164,7 @@ func TestInsert(t *testing.T) {
 	updateString(trie, "dog", "puppy")
 	updateString(trie, "dogglesworth", "cat")
 
-	exp := common.HexToHash("8aad789dff2f538bca5d8ea56e8abe10f4c7ba3a5dea95fea4cd6e7c3a1168d3")
+	exp := digest.FromHex("8aad789dff2f538bca5d8ea56e8abe10f4c7ba3a5dea95fea4cd6e7c3a1168d3")
 	root := trie.Hash()
 	if root != exp {
 		t.Errorf("exp %x got %x", exp, root)
@@ -167,7 +173,7 @@ func TestInsert(t *testing.T) {
 	trie = newEmpty()
 	updateString(trie, "A", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 
-	exp = common.HexToHash("d23786fb4a010da3ce639d66d5e904a11dbc02746d1ce25029e53290cabf28ab")
+	exp = digest.FromHex("d23786fb4a010da3ce639d66d5e904a11dbc02746d1ce25029e53290cabf28ab")
 	root, err := trie.Commit(nil)
 	if err != nil {
 		t.Fatalf("commit error: %v", err)
@@ -222,7 +228,7 @@ func TestDelete(t *testing.T) {
 	}
 
 	hash := trie.Hash()
-	exp := common.HexToHash("5991bb8c6514148a29db676a14ac506cd2cd5775ace63c30a4fe457715e9ac84")
+	exp := digest.FromHex("5991bb8c6514148a29db676a14ac506cd2cd5775ace63c30a4fe457715e9ac84")
 	if hash != exp {
 		t.Errorf("expected %x got %x", exp, hash)
 	}
@@ -246,7 +252,7 @@ func TestEmptyValues(t *testing.T) {
 	}
 
 	hash := trie.Hash()
-	exp := common.HexToHash("5991bb8c6514148a29db676a14ac506cd2cd5775ace63c30a4fe457715e9ac84")
+	exp := digest.FromHex("5991bb8c6514148a29db676a14ac506cd2cd5775ace63c30a4fe457715e9ac84")
 	if hash != exp {
 		t.Errorf("expected %x got %x", exp, hash)
 	}
@@ -337,20 +343,21 @@ func TestCacheUnload(t *testing.T) {
 	updateString(trie, key2, "this is the branch of key2.")
 
 	root, _ := trie.Commit(nil)
-	trie.db.Commit(root, true)
+	trie.db.Commit(root)
 
 	// Commit the trie repeatedly and access key1.
 	// The branch containing it is loaded from DB exactly two times:
 	// in the 0th and 6th iteration.
-	db := &countingDB{Database: trie.db.diskdb, gets: make(map[string]int)}
-	trie, _ = New(root, NewDatabase(db))
+	diskdb := &countingDB{Database: trie.db.diskdb, gets: make(map[string]int)}
+	triedb := NewDatabase(diskdb)
+	trie, _ = New(root, triedb)
 	trie.SetCacheLimit(5)
 	for i := 0; i < 12; i++ {
 		getString(trie, key1)
 		trie.Commit(nil)
 	}
 	// Check that it got loaded two times.
-	for dbkey, count := range db.gets {
+	for dbkey, count := range diskdb.gets {
 		if count != 2 {
 			t.Errorf("db key %x loaded %d times, want %d times", []byte(dbkey), count, 2)
 		}
@@ -413,7 +420,7 @@ func (randTest) Generate(r *rand.Rand, size int) reflect.Value {
 func runRandTest(rt randTest) bool {
 	triedb := NewDatabase(ethdb.NewMemDatabase())
 
-	tr, _ := New(common.Hash{}, triedb)
+	tr, _ := New(digest.Empty(), triedb)
 	values := make(map[string]string) // tracks content of the trie
 
 	for i, step := range rt {
@@ -447,7 +454,7 @@ func runRandTest(rt randTest) bool {
 			}
 			tr = newtr
 		case opItercheckhash:
-			checktr, _ := New(common.Hash{}, triedb)
+			checktr, _ := New(digest.Empty(), triedb)
 			it := NewIterator(tr.NodeIterator(nil))
 			for it.Next() {
 				checktr.Update(it.Key, it.Value)
@@ -520,7 +527,7 @@ func benchGet(b *testing.B, commit bool) {
 	trie := new(Trie)
 	if commit {
 		_, tmpdb := tempDB()
-		trie, _ = New(common.Hash{}, tmpdb)
+		trie, _ = New(digest.Empty(), tmpdb)
 	}
 	k := make([]byte, 32)
 	for i := 0; i < benchElemCount; i++ {
@@ -539,9 +546,11 @@ func benchGet(b *testing.B, commit bool) {
 	b.StopTimer()
 
 	if commit {
-		ldb := trie.db.diskdb.(*ethdb.LDBDatabase)
-		ldb.Close()
-		os.RemoveAll(ldb.Path())
+		// TODO(crackcomm): diskdb
+		// ldb := trie.db.diskdb.(*ethdb.MemDatabase)
+		// ldb.Close()
+		// os.RemoveAll(ldb.Path())
+		memDiskDb = nil
 	}
 }
 
@@ -554,6 +563,12 @@ func benchUpdate(b *testing.B, e binary.ByteOrder) *Trie {
 	}
 	return trie
 }
+
+// Common big integers often used
+var (
+	big2   = big.NewInt(2)
+	big256 = big.NewInt(256)
+)
 
 // Benchmarks the trie hashing. Since the trie caches the result of any operation,
 // we cannot use b.N as the number of hashing rouns, since all rounds apart from
@@ -574,32 +589,38 @@ func BenchmarkHash(b *testing.B) {
 	for i := 0; i < len(accounts); i++ {
 		var (
 			nonce   = uint64(random.Int63())
-			balance = new(big.Int).Rand(random, new(big.Int).Exp(common.Big2, common.Big256, nil))
+			balance = new(big.Int).Rand(random, new(big.Int).Exp(big2, big256, nil))
 			root    = emptyRoot
-			code    = crypto.Keccak256(nil)
+			code    = digest.Sum(keccak.New256(), nil)
 		)
 		accounts[i], _ = rlp.EncodeToBytes([]interface{}{nonce, balance, root, code})
 	}
 	// Insert the accounts into the trie and hash it
 	trie := newEmpty()
 	for i := 0; i < len(addresses); i++ {
-		trie.Update(crypto.Keccak256(addresses[i][:]), accounts[i])
+		trie.Update(digest.SumBytes(keccak.New256(), addresses[i][:]), accounts[i])
 	}
 	b.ResetTimer()
 	b.ReportAllocs()
 	trie.Hash()
 }
 
+var memDiskDb *ethdb.MemDatabase
+
 func tempDB() (string, *Database) {
 	dir, err := ioutil.TempDir("", "trie-bench")
 	if err != nil {
 		panic(fmt.Sprintf("can't create temporary directory: %v", err))
 	}
-	diskdb, err := ethdb.NewLDBDatabase(dir, 256, 0)
-	if err != nil {
-		panic(fmt.Sprintf("can't create temporary database: %v", err))
+	if memDiskDb == nil {
+		memDiskDb = ethdb.NewMemDatabase()
 	}
-	return dir, NewDatabase(diskdb)
+	// TODO(crackcomm): diskdb
+	// diskdb, err := ethdb.NewLDBDatabase(dir, 256, 0)
+	// if err != nil {
+	// 	panic(fmt.Sprintf("can't create temporary database: %v", err))
+	// }
+	return dir, NewDatabase(memDiskDb)
 }
 
 func getString(trie *Trie, k string) []byte {

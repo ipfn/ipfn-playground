@@ -21,18 +21,31 @@ package trie
 
 import (
 	"fmt"
-
-	"github.com/ipfn/ipfn/pkg/digest"
 )
 
-// MissingNodeError is returned by the trie functions (TryGet, TryUpdate, TryDelete)
-// in the case where a trie node is not present in the local database. It contains
-// information necessary for retrieving the missing node.
-type MissingNodeError struct {
-	NodeHash digest.Digest // hash of the missing node
-	Path     []byte        // hex-encoded path to the missing node
+// StorageSize is a wrapper around a float value that supports user friendly
+// formatting.
+type StorageSize float64
+
+// String implements the stringer interface.
+func (s StorageSize) String() string {
+	if s > 1000000 {
+		return fmt.Sprintf("%.2f mB", s/1000000)
+	} else if s > 1000 {
+		return fmt.Sprintf("%.2f kB", s/1000)
+	} else {
+		return fmt.Sprintf("%.2f B", s)
+	}
 }
 
-func (err *MissingNodeError) Error() string {
-	return fmt.Sprintf("missing trie node %x (path %x)", err.NodeHash, err.Path)
+// TerminalString implements log.TerminalStringer, formatting a string for console
+// output during logging.
+func (s StorageSize) TerminalString() string {
+	if s > 1000000 {
+		return fmt.Sprintf("%.2fmB", s/1000000)
+	} else if s > 1000 {
+		return fmt.Sprintf("%.2fkB", s/1000)
+	} else {
+		return fmt.Sprintf("%.2fB", s)
+	}
 }

@@ -1,24 +1,26 @@
+// Copyright © 2018 The IPFN Developers Authors. All Rights Reserved.
+// Copyright © 2014-2018 The go-ethereum Authors. All Rights Reserved.
+//
+// This file is part of the IPFN project.
+// This file was part of the go-ethereum library.
+//
+// The IPFN project is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Lesser General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// The IPFN project is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
+
 package metrics
 
-import "sync/atomic"
-
-var Enabled = false
-
-var DefaultRegistry Registry
-
-// A Registry holds references to a set of metrics by name and can iterate
-// over them, calling callback functions provided by the user.
-//
-// This is an interface so as to encourage other structs to implement
-// the Registry API as appropriate.
+// Registry
 type Registry interface {
-	// Gets an existing metric or registers the given one.
-	// The interface can be the metric to register if not found in registry,
-	// or a function returning the metric for lazy instantiation.
-	GetOrRegister(string, interface{}) interface{}
-
-	// Register the given metric under the given name.
-	Register(string, interface{}) error
 }
 
 // Counters hold an int64 value that can be incremented and decremented.
@@ -33,56 +35,18 @@ type Counter interface {
 // GetOrRegisterCounter returns an existing Counter or constructs and registers
 // a new StandardCounter.
 func GetOrRegisterCounter(name string, r Registry) Counter {
-	if !Enabled {
-		return NilCounter{}
-	}
-	if nil == r {
-		r = DefaultRegistry
-	}
-	return r.GetOrRegister(name, NewCounter).(Counter)
+	return NilCounter{}
 }
 
 // NewCounter constructs a new StandardCounter.
 func NewCounter() Counter {
-	if !Enabled {
-		return NilCounter{}
-	}
-	return &StandardCounter{0}
+	return NilCounter{}
 }
 
 // NewRegisteredCounter constructs and registers a new StandardCounter.
 func NewRegisteredCounter(name string, r Registry) Counter {
-	c := NewCounter()
-	if nil == r {
-		r = DefaultRegistry
-	}
-	r.Register(name, c)
-	return c
+	return NilCounter{}
 }
-
-// CounterSnapshot is a read-only copy of another Counter.
-type CounterSnapshot int64
-
-// Clear panics.
-func (CounterSnapshot) Clear() {
-	panic("Clear called on a CounterSnapshot")
-}
-
-// Count returns the count at the time the snapshot was taken.
-func (c CounterSnapshot) Count() int64 { return int64(c) }
-
-// Dec panics.
-func (CounterSnapshot) Dec(int64) {
-	panic("Dec called on a CounterSnapshot")
-}
-
-// Inc panics.
-func (CounterSnapshot) Inc(int64) {
-	panic("Inc called on a CounterSnapshot")
-}
-
-// Snapshot returns the snapshot.
-func (c CounterSnapshot) Snapshot() Counter { return c }
 
 // NilCounter is a no-op Counter.
 type NilCounter struct{}
@@ -101,34 +65,3 @@ func (NilCounter) Inc(i int64) {}
 
 // Snapshot is a no-op.
 func (NilCounter) Snapshot() Counter { return NilCounter{} }
-
-// StandardCounter is the standard implementation of a Counter and uses the
-// sync/atomic package to manage a single int64 value.
-type StandardCounter struct {
-	count int64
-}
-
-// Clear sets the counter to zero.
-func (c *StandardCounter) Clear() {
-	atomic.StoreInt64(&c.count, 0)
-}
-
-// Count returns the current count.
-func (c *StandardCounter) Count() int64 {
-	return atomic.LoadInt64(&c.count)
-}
-
-// Dec decrements the counter by the given amount.
-func (c *StandardCounter) Dec(i int64) {
-	atomic.AddInt64(&c.count, -i)
-}
-
-// Inc increments the counter by the given amount.
-func (c *StandardCounter) Inc(i int64) {
-	atomic.AddInt64(&c.count, i)
-}
-
-// Snapshot returns a read-only copy of the counter.
-func (c *StandardCounter) Snapshot() Counter {
-	return CounterSnapshot(c.Count())
-}

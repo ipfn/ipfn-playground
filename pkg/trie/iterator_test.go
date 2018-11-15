@@ -1,12 +1,15 @@
-// Copyright 2014 The go-ethereum Authors
-// This file is part of the go-ethereum library.
+// Copyright © 2018 The IPFN Developers Authors. All Rights Reserved.
+// Copyright © 2014-2018 The go-ethereum Authors. All Rights Reserved.
 //
-// The go-ethereum library is free software: you can redistribute it and/or modify
+// This file is part of the IPFN project.
+// This file was part of the go-ethereum library.
+//
+// The IPFN project is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-ethereum library is distributed in the hope that it will be useful,
+// The IPFN project is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
@@ -22,8 +25,9 @@ import (
 	"math/rand"
 	"testing"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/ethdb"
+	"github.com/ipfn/ipfn/pkg/digest"
+	"github.com/ipfn/ipfn/pkg/trie/ethdb"
+	"github.com/ipfn/ipfn/pkg/utils/byteutil"
 )
 
 func TestIterator(t *testing.T) {
@@ -67,8 +71,8 @@ func TestIteratorLargeData(t *testing.T) {
 	vals := make(map[string]*kv)
 
 	for i := byte(0); i < 255; i++ {
-		value := &kv{common.LeftPadBytes([]byte{i}, 32), []byte{i}, false}
-		value2 := &kv{common.LeftPadBytes([]byte{10, i}, 32), []byte{i}, false}
+		value := &kv{byteutil.LeftPad([]byte{i}, 32), []byte{i}, false}
+		value2 := &kv{byteutil.LeftPad([]byte{10, i}, 32), []byte{i}, false}
 		trie.Update(value.k, value.v)
 		trie.Update(value2.k, value2.v)
 		vals[string(value.k)] = value
@@ -101,9 +105,9 @@ func TestNodeIteratorCoverage(t *testing.T) {
 	db, trie, _ := makeTestTrie()
 
 	// Gather all the node hashes found by the iterator
-	hashes := make(map[common.Hash]struct{})
+	hashes := make(map[digest.Digest]struct{})
 	for it := trie.NodeIterator(nil); it.Next(true); {
-		if it.Hash() != (common.Hash{}) {
+		if !digest.IsEmpty(it.Hash()) {
 			hashes[it.Hash()] = struct{}{}
 		}
 	}
@@ -113,15 +117,15 @@ func TestNodeIteratorCoverage(t *testing.T) {
 			t.Errorf("failed to retrieve reported node %x: %v", hash, err)
 		}
 	}
-	for hash, obj := range db.nodes {
-		if obj != nil && hash != (common.Hash{}) {
+	for hash, obj := range db.dirties {
+		if obj != nil && !digest.IsEmpty(hash) {
 			if _, ok := hashes[hash]; !ok {
 				t.Errorf("state entry not reported %x", hash)
 			}
 		}
 	}
 	for _, key := range db.diskdb.(*ethdb.MemDatabase).Keys() {
-		if _, ok := hashes[common.BytesToHash(key)]; !ok {
+		if _, ok := hashes[digest.FromBytes(key)]; !ok {
 			t.Errorf("state entry not reported %x", key)
 		}
 	}
@@ -292,19 +296,19 @@ func testIteratorContinueAfterError(t *testing.T, memonly bool) {
 	diskdb := ethdb.NewMemDatabase()
 	triedb := NewDatabase(diskdb)
 
-	tr, _ := New(common.Hash{}, triedb)
+	tr, _ := New(digest.Empty(), triedb)
 	for _, val := range testdata1 {
 		tr.Update([]byte(val.k), []byte(val.v))
 	}
 	tr.Commit(nil)
 	if !memonly {
-		triedb.Commit(tr.Hash(), true)
+		triedb.Commit(tr.Hash())
 	}
 	wantNodeCount := checkIteratorNoDups(t, tr.NodeIterator(nil), nil)
 
 	var (
 		diskKeys [][]byte
-		memKeys  []common.Hash
+		memKeys  []digest.Digest
 	)
 	if memonly {
 		memKeys = triedb.Nodes()
@@ -318,7 +322,7 @@ func testIteratorContinueAfterError(t *testing.T, memonly bool) {
 		// Remove a random node from the database. It can't be the root node
 		// because that one is already loaded.
 		var (
-			rkey common.Hash
+			rkey digest.Digest
 			rval []byte
 			robj *cachedNode
 		)
@@ -333,11 +337,11 @@ func testIteratorContinueAfterError(t *testing.T, memonly bool) {
 			}
 		}
 		if memonly {
-			robj = triedb.nodes[rkey]
-			delete(triedb.nodes, rkey)
+			robj = triedb.dirties[rkey]
+			delete(triedb.dirties, rkey)
 		} else {
-			rval, _ = diskdb.Get(rkey[:])
-			diskdb.Delete(rkey[:])
+			rval, _ = diskdb.Get(rkey.Bytes())
+			diskdb.Delete(rkey.Bytes())
 		}
 		// Iterate until the error is hit.
 		seen := make(map[string]bool)
@@ -350,9 +354,9 @@ func testIteratorContinueAfterError(t *testing.T, memonly bool) {
 
 		// Add the node back and continue iteration.
 		if memonly {
-			triedb.nodes[rkey] = robj
+			triedb.dirties[rkey] = robj
 		} else {
-			diskdb.Put(rkey[:], rval)
+			diskdb.Put(rkey.Bytes(), rval)
 		}
 		checkIteratorNoDups(t, it, seen)
 		if it.Error() != nil {
@@ -379,25 +383,25 @@ func testIteratorContinueAfterSeekError(t *testing.T, memonly bool) {
 	diskdb := ethdb.NewMemDatabase()
 	triedb := NewDatabase(diskdb)
 
-	ctr, _ := New(common.Hash{}, triedb)
+	ctr, _ := New(digest.Empty(), triedb)
 	for _, val := range testdata1 {
 		ctr.Update([]byte(val.k), []byte(val.v))
 	}
 	root, _ := ctr.Commit(nil)
 	if !memonly {
-		triedb.Commit(root, true)
+		triedb.Commit(root)
 	}
-	barNodeHash := common.HexToHash("05041990364eb72fcb1127652ce40d8bab765f2bfe53225b1170d276cc101c2e")
+	barNodeHash := digest.FromHex("05041990364eb72fcb1127652ce40d8bab765f2bfe53225b1170d276cc101c2e")
 	var (
 		barNodeBlob []byte
 		barNodeObj  *cachedNode
 	)
 	if memonly {
-		barNodeObj = triedb.nodes[barNodeHash]
-		delete(triedb.nodes, barNodeHash)
+		barNodeObj = triedb.dirties[barNodeHash]
+		delete(triedb.dirties, barNodeHash)
 	} else {
-		barNodeBlob, _ = diskdb.Get(barNodeHash[:])
-		diskdb.Delete(barNodeHash[:])
+		barNodeBlob, _ = diskdb.Get(barNodeHash.Bytes())
+		diskdb.Delete(barNodeHash.Bytes())
 	}
 	// Create a new iterator that seeks to "bars". Seeking can't proceed because
 	// the node is missing.
@@ -411,9 +415,9 @@ func testIteratorContinueAfterSeekError(t *testing.T, memonly bool) {
 	}
 	// Reinsert the missing node.
 	if memonly {
-		triedb.nodes[barNodeHash] = barNodeObj
+		triedb.dirties[barNodeHash] = barNodeObj
 	} else {
-		diskdb.Put(barNodeHash[:], barNodeBlob)
+		diskdb.Put(barNodeHash.Bytes(), barNodeBlob)
 	}
 	// Check that iteration produces the right set of values.
 	if err := checkIteratorOrder(testdata1[2:], NewIterator(it)); err != nil {
