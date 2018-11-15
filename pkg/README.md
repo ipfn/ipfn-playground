@@ -16,6 +16,7 @@ Go implementation of IPFN core with command line tool and daemon.
 | [celldag][celldag] | Cell IPFS DAG  | [IPFS DAG][ipfs-dag]         | Prototype                | [godoc][celldag-doc] |
 | [cells][cells]     | Cells & Codecs | [IPFN Cell V1][cell-spec]    |                          | [godoc][cells-doc]   |
 | [codec][codec]     | IPFN Codec     |                              |                          | [godoc][codec-doc]   |
+| [digest][digest]   | Multihashing   | [multihash][multihash]       |                          | [godoc][digest-doc]  |
 | [sealbox][sealbox] | Seal Box       | [Web3 Secrets][web3-secrets] |                          | [godoc][sealbox-doc] |
 
 ## Common
@@ -65,48 +66,51 @@ This source code is part of [IPFN](https://github.com/ipfn) – interplanetary f
 [badge-godoc]: https://godoc.org/github.com/ipfn/ipfn/pkg?status.svg
 [badge-ipfn]: https://img.shields.io/badge/project-IPFN-blue.svg?style=flat-square
 [base32i-doc]: https://godoc.org/github.com/ipfn/ipfn/pkg/common/base32i
-[base32i-spec]: https://github.com/ipfn/ipfn/blob/master/src/go/common/base32i/base32i.go#L25
-[base32i]: https://github.com/ipfn/ipfn/tree/master/src/go/common/base32i
+[base32i-spec]: https://github.com/ipfn/ipfn/blob/master/pkg/common/base32i/base32i.go#L25
+[base32i]: https://github.com/ipfn/ipfn/tree/master/pkg/common/base32i
+[codec]: https://github.com/ipfn/ipfn/tree/master/pkg/codec
 [codec-doc]: https://godoc.org/github.com/ipfn/ipfn/pkg/codec
-[codec]: https://github.com/ipfn/ipfn/tree/master/src/go/codec
+[codecs]: https://github.com/ipfn/ipfn/tree/master/pkg/common/codecs
 [codecs-doc]: https://godoc.org/github.com/ipfn/ipfn/pkg/common/codecs
-[codecs]: https://github.com/ipfn/ipfn/tree/master/src/go/common/codecs
+[digest]: https://github.com/ipfn/ipfn/tree/master/pkg/digest
+[digest-doc]: https://godoc.org/github.com/ipfn/ipfn/pkg/digest
 [bccsp-doc]: https://godoc.org/github.com/ipfn/ipfn/pkg/crypto/bccsp
 [bccsp-spec]: https://jira.hyperledger.org/secure/attachment/10124/BCCSP.pdf
-[bccsp]: https://github.com/ipfn/ipfn/tree/master/src/go/crypto/bccsp
+[bccsp]: https://github.com/ipfn/ipfn/tree/master/pkg/crypto/bccsp
 [bip32]: https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki
 [cell-spec]: https://github.com/ipfn/ipfn/tree/master/src/proto/cell.proto
 [celldag-doc]: https://godoc.org/github.com/ipfn/ipfn/pkg/cells/celldag
-[celldag]: https://github.com/ipfn/ipfn/tree/master/src/go/cells/celldag
+[celldag]: https://github.com/ipfn/ipfn/tree/master/pkg/cells/celldag
 [cells-doc]: https://godoc.org/github.com/ipfn/ipfn/pkg/cells
-[cells]: https://github.com/ipfn/ipfn/tree/master/src/go/cells
+[cells]: https://github.com/ipfn/ipfn/tree/master/pkg/cells
 [ci]: https://travis-ci.org/ipfn/ipfn
 [cmdutil-doc]: https://godoc.org/github.com/ipfn/ipfn/pkg/utils/cmdutil
-[cmdutil]: https://github.com/ipfn/ipfn/tree/master/src/go/utils/cmdutil
+[cmdutil]: https://github.com/ipfn/ipfn/tree/master/pkg/utils/cmdutil
 [commands-doc]: https://godoc.org/github.com/ipfn/ipfn/pkg/commands
-[commands]: https://godoc.org/github.com/ipfn/ipfn/tree/master/src/go/commands
+[commands]: https://godoc.org/github.com/ipfn/ipfn/tree/master/pkg/commands
 [docs]: https://docs.ipfn.io/
 [entropy-doc]: https://godoc.org/github.com/ipfn/ipfn/pkg/utils/entropy
-[entropy]: https://github.com/ipfn/ipfn/tree/master/src/go/utils/entropy
+[entropy]: https://github.com/ipfn/ipfn/tree/master/pkg/utils/entropy
 [fabric]: https://github.com/hyperledger/fabric
 [flog-doc]: https://godoc.org/github.com/ipfn/ipfn/pkg/utils/flog
-[flog]: https://github.com/ipfn/ipfn/tree/master/src/go/utils/flog
+[flog]: https://github.com/ipfn/ipfn/tree/master/pkg/utils/flog
 [godoc-ipfn]: https://godoc.org/github.com/ipfn/ipfn/tree/master/src/go
 [hdkeychain-doc]: https://godoc.org/github.com/ipfn/ipfn/pkg/utils/hdkeychain
-[hdkeychain]: https://github.com/ipfn/ipfn/tree/master/src/go/utils/hdkeychain
+[hdkeychain]: https://github.com/ipfn/ipfn/tree/master/pkg/utils/hdkeychain
 [hashutil-doc]: https://godoc.org/github.com/ipfn/ipfn/pkg/utils/hashutil
-[hashutil]: https://github.com/ipfn/ipfn/tree/master/src/go/utils/hashutil
+[hashutil]: https://github.com/ipfn/ipfn/tree/master/pkg/utils/hashutil
 [hexutil-doc]: https://godoc.org/github.com/ipfn/ipfn/pkg/utils/hexutil
-[hexutil]: https://github.com/ipfn/ipfn/tree/master/src/go/utils/hexutil
+[hexutil]: https://github.com/ipfn/ipfn/tree/master/pkg/utils/hexutil
 [ipfs-dag]: https://github.com/ipfs/specs/tree/master/merkledag
 [pkcid-doc]: https://godoc.org/github.com/ipfn/ipfn/pkg/common/pkcid
-[pkcid]: https://github.com/ipfn/ipfn/tree/master/src/go/common/pkcid
+[pkcid]: https://github.com/ipfn/ipfn/tree/master/pkg/common/pkcid
 [org-ipfn]: https://github.com/ipfn
 [sealbox-doc]: https://godoc.org/github.com/ipfn/ipfn/pkg/crypto/sealbox
-[sealbox]: https://godoc.org/github.com/ipfn/ipfn/tree/master/src/go/crypto/sealbox
+[sealbox]: https://godoc.org/github.com/ipfn/ipfn/tree/master/pkg/crypto/sealbox
 [shortaddress-doc]: https://godoc.org/github.com/ipfn/ipfn/pkg/common/shortaddress
-[shortaddress-spec]: https://github.com/ipfn/ipfn/blob/master/src/go/common/shortaddress/address.go#L15
-[shortaddress]: https://github.com/ipfn/ipfn/tree/master/src/go/common/shortaddress
+[shortaddress-spec]: https://github.com/ipfn/ipfn/blob/master/pkg/common/shortaddress/address.go#L15
+[shortaddress]: https://github.com/ipfn/ipfn/tree/master/pkg/common/shortaddress
 [wallet-doc]: https://godoc.org/github.com/ipfn/ipfn/pkg/wallet
 [web3-secrets]: https://github.com/ethereum/wiki/wiki/Web3-Secret-Storage-Definition
 [cid-spec]: https://github.com/ipld/cid
+[multihash]: https://github.com/multiformats/multihash
