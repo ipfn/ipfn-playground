@@ -41,6 +41,11 @@ Copyright: 2018, SMF Authors
            2018, The IPFN Developers
 License: Apache-2.0
 
+Files: pkg/digest/encoding.go
+Source: https://github.com/multiformats/go-multihash
+Copyright: 2014-2018, multiformats developers
+License: MIT
+
 Files: pkg/crypto/bccsp/*
        pkg/crypto/idemix/*
        pkg/utils/flog/*
