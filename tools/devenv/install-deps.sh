@@ -54,8 +54,8 @@ function debs() {
 		apt-get install -y scylla-gcc73-g++-7
 		source /etc/profile.d/scylla.sh
 
-    update-alternatives --remove-all gcc
-    update-alternatives --remove-all g++
+		update-alternatives --remove-all gcc
+		update-alternatives --remove-all g++
 		update-alternatives --install /usr/bin/gcc gcc $(which gcc-7) 10
 		update-alternatives --install /usr/bin/g++ g++ $(which g++-7) 20
 		update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 30
