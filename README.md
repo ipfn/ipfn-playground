@@ -39,7 +39,7 @@ This source code is part of [IPFN](https://github.com/ipfn) – interplanetary f
 [godoc-ipfn]: https://godoc.org/github.com/ipfn/ipfn/pkg
 [org-ipfn]: https://github.com/ipfn
 [COPYING]: https://github.com/ipfn/ipfn/blob/master/COPYING.txt
-[go-ipfn]: https://github.com/ipfn/ipfn/tree/master/src/go
-[js-ipfn]: https://github.com/ipfn/ipfn/tree/master/src/js
-[py-ipfn]: https://github.com/ipfn/ipfn/tree/master/src/python
-[cpp-ipfn]: https://github.com/ipfn/ipfn/tree/master/src
+[go-ipfn]: https://github.com/ipfn/ipfn/tree/master/pkg
+[js-ipfn]: https://github.com/ipfn/ipfn/tree/master/typescript
+[py-ipfn]: https://github.com/ipfn/ipfn/tree/master/python
+[cpp-ipfn]: https://github.com/ipfn/ipfn/tree/master/include
