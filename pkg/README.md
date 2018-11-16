@@ -32,6 +32,7 @@ Go implementation of IPFN core with command line tool and daemon.
 
 | Name                     | Description       | Spec            | Comment                  | Docs                    |
 |:-------------------------|:------------------|:----------------|:-------------------------|:------------------------|
+| [byteutil][byteutil]     | Byte Utilities    |                 |                          | [godoc][byteutil-doc]   |
 | [cmdutil][cmdutil]       | Console Utilities |                 |                          | [godoc][cmdutil-doc]    |
 | [entropy][entropy]       | Entropy           |                 |                          | [godoc][entropy-doc]    |
 | [flog][flog]             | Logging Utilities |                 | Source: [Fabric][fabric] | [godoc][flog-doc]       |
@@ -44,14 +45,12 @@ Go implementation of IPFN core with command line tool and daemon.
 |:---------------------|:--------------|:-----|:--------|:----------------------|
 | [commands][commands] | IPFN Commands |      |         | [godoc][commands-doc] |
 
-
 ## Dependencies
 
 See Go [dep](https://golang.github.io/dep/) management tool.
 
 ## License
 
-Contributors licensed under the Apache License 2.0.
 See [COPYING][COPYING] file for licensing details.
 
 ## Project
@@ -98,6 +97,8 @@ This source code is part of [IPFN](https://github.com/ipfn) – interplanetary f
 [hdkeychain]: https://github.com/ipfn/ipfn/tree/master/pkg/utils/hdkeychain
 [hexutil-doc]: https://godoc.org/github.com/ipfn/ipfn/pkg/utils/hexutil
 [hexutil]: https://github.com/ipfn/ipfn/tree/master/pkg/utils/hexutil
+[byteutil-doc]: https://godoc.org/github.com/ipfn/ipfn/pkg/utils/byteutil
+[byteutil]: https://github.com/ipfn/ipfn/tree/master/pkg/utils/byteutil
 [ipfs-dag]: https://github.com/ipfs/specs/tree/master/merkledag
 [pkcid-doc]: https://godoc.org/github.com/ipfn/ipfn/pkg/common/pkcid
 [pkcid]: https://github.com/ipfn/ipfn/tree/master/pkg/common/pkcid
