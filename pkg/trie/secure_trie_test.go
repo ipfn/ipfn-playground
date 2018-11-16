@@ -25,7 +25,6 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/gxed/hashland/keccak"
 	"github.com/ipfn/ipfn/pkg/digest"
 	"github.com/ipfn/ipfn/pkg/trie/ethdb"
 	"github.com/ipfn/ipfn/pkg/utils/byteutil"
@@ -100,7 +99,7 @@ func TestSecureGetKey(t *testing.T) {
 
 	key := []byte("foo")
 	value := []byte("bar")
-	seckey := digest.SumBytes(keccak.New256(), key)
+	seckey := digest.SumKeccak256(key)
 
 	if !bytes.Equal(trie.Get(key), value) {
 		t.Errorf("Get did not return bar")

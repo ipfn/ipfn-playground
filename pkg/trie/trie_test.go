@@ -598,7 +598,7 @@ func BenchmarkHash(b *testing.B) {
 	// Insert the accounts into the trie and hash it
 	trie := newEmpty()
 	for i := 0; i < len(addresses); i++ {
-		trie.Update(digest.SumBytes(keccak.New256(), addresses[i][:]), accounts[i])
+		trie.Update(digest.SumKeccak256(addresses[i][:]), accounts[i])
 	}
 	b.ResetTimer()
 	b.ReportAllocs()

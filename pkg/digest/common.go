@@ -12,17 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package hashutil
+package digest
 
 import (
 	keccak "github.com/gxed/hashland/keccakpg"
+	"github.com/minio/sha256-simd"
 )
 
 // SumKeccak256 - Sums Keccak256 secure hash.
 func SumKeccak256(data ...[]byte) []byte {
-	h := keccak.New256()
-	for _, body := range data {
-		h.Write(body)
-	}
-	return h.Sum(nil)
+	return SumBytes(keccak.New256(), data...)
+}
+
+// SumSha256 - Sums Sha256 secure hash.
+func SumSha256(data ...[]byte) []byte {
+	return SumBytes(sha256.New(), data...)
 }

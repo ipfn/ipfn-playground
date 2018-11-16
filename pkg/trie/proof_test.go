@@ -26,7 +26,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/gxed/hashland/keccak"
 	"github.com/ipfn/ipfn/pkg/digest"
 	"github.com/ipfn/ipfn/pkg/trie/ethdb"
 	"github.com/ipfn/ipfn/pkg/utils/byteutil"
@@ -52,7 +51,7 @@ func makeProvers(trie *Trie) []func(key []byte) *ethdb.MemDatabase {
 		proof := ethdb.NewMemDatabase()
 		if it := NewIterator(trie.NodeIterator(key)); it.Next() && bytes.Equal(key, it.Key) {
 			for _, p := range it.Prove() {
-				proof.Put(digest.SumBytes(keccak.New256(), p), p)
+				proof.Put(digest.SumKeccak256(p), p)
 			}
 		}
 		return proof
@@ -115,7 +114,7 @@ func TestBadProof(t *testing.T) {
 			proof.Delete(key)
 
 			mutateByte(val)
-			proof.Put(digest.SumBytes(keccak.New256(), val), val)
+			proof.Put(digest.SumKeccak256(val), val)
 
 			if _, _, err := VerifyProof(root, kv.k, proof); err == nil {
 				t.Fatalf("prover %d: expected proof to fail for key %x", i, kv.k)

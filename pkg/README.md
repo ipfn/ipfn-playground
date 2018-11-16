@@ -35,7 +35,6 @@ Go implementation of IPFN core with command line tool and daemon.
 | [cmdutil][cmdutil]       | Console Utilities |                 |                          | [godoc][cmdutil-doc]    |
 | [entropy][entropy]       | Entropy           |                 |                          | [godoc][entropy-doc]    |
 | [flog][flog]             | Logging Utilities |                 | Source: [Fabric][fabric] | [godoc][flog-doc]       |
-| [hashutil][hashutil]     | Hashing Utilities |                 |                          | [godoc][hashutil-doc]   |
 | [hexutil][hexutil]       | Hex Utilities     |                 |                          | [godoc][hexutil-doc]    |
 | [hdkeychain][hdkeychain] | HD-Key Derivation | [BIP-32][bip32] |                          | [godoc][hdkeychain-doc] |
 
@@ -78,7 +77,7 @@ This source code is part of [IPFN](https://github.com/ipfn) – interplanetary f
 [bccsp-spec]: https://jira.hyperledger.org/secure/attachment/10124/BCCSP.pdf
 [bccsp]: https://github.com/ipfn/ipfn/tree/master/pkg/crypto/bccsp
 [bip32]: https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki
-[cell-spec]: https://github.com/ipfn/ipfn/tree/master/src/proto/cell.proto
+[cell-spec]: https://github.com/ipfn/ipfn/tree/master/proto/cell.proto
 [celldag-doc]: https://godoc.org/github.com/ipfn/ipfn/pkg/cells/celldag
 [celldag]: https://github.com/ipfn/ipfn/tree/master/pkg/cells/celldag
 [cells-doc]: https://godoc.org/github.com/ipfn/ipfn/pkg/cells
@@ -94,11 +93,9 @@ This source code is part of [IPFN](https://github.com/ipfn) – interplanetary f
 [fabric]: https://github.com/hyperledger/fabric
 [flog-doc]: https://godoc.org/github.com/ipfn/ipfn/pkg/utils/flog
 [flog]: https://github.com/ipfn/ipfn/tree/master/pkg/utils/flog
-[godoc-ipfn]: https://godoc.org/github.com/ipfn/ipfn/tree/master/src/go
+[godoc-ipfn]: https://godoc.org/github.com/ipfn/ipfn/tree/master/pkg
 [hdkeychain-doc]: https://godoc.org/github.com/ipfn/ipfn/pkg/utils/hdkeychain
 [hdkeychain]: https://github.com/ipfn/ipfn/tree/master/pkg/utils/hdkeychain
-[hashutil-doc]: https://godoc.org/github.com/ipfn/ipfn/pkg/utils/hashutil
-[hashutil]: https://github.com/ipfn/ipfn/tree/master/pkg/utils/hashutil
 [hexutil-doc]: https://godoc.org/github.com/ipfn/ipfn/pkg/utils/hexutil
 [hexutil]: https://github.com/ipfn/ipfn/tree/master/pkg/utils/hexutil
 [ipfs-dag]: https://github.com/ipfs/specs/tree/master/merkledag
