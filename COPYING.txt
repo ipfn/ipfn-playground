@@ -35,59 +35,59 @@ License: MIT or NCSA
     https://github.com/kripken/emscripten/blob/master/LICENSE
 
 Files: cmake/util/tests.cmake
-       src/third_party/CMakeLists.txt
+       third_party/CMakeLists.txt
 Source: https://github.com/smfrpc/smf/
 Copyright: 2018, SMF Authors
            2018, The IPFN Developers
 License: Apache-2.0
 
-Files: src/go/crypto/bccsp/*
-       src/go/crypto/idemix/*
-       src/go/utils/flog/*
+Files: pkg/crypto/bccsp/*
+       pkg/crypto/idemix/*
+       pkg/utils/flog/*
 Source: https://github.com/hyperledger/fabric
 Copyright: 2018, IBM Corp.
 License: Apache-2.0
 
-Files: src/go/crypto/sealbox/*
-       src/go/utils/hdkeychain/*
-       src/go/utils/mathutil/*
-       src/go/utils/byteutil/*
-       src/go/trie/*
+Files: pkg/crypto/sealbox/*
+       pkg/utils/hdkeychain/*
+       pkg/utils/mathutil/*
+       pkg/utils/byteutil/*
+       pkg/trie/*
 Source: https://github.com/ethereum/go-ethereum
 Copyright: 2017, The go-ethereum Authors
            2018, The IPFN Developers
 License: GPL-3.0+
 
-Files: src/go/utils/base32i/*
+Files: pkg/utils/base32i/*
 Source: https://github.com/btcsuite/btcutil/blob/master/base58/base58check.go
 Copyright: 2013-2014, The btcsuite developers
            2018, The IPFN Developers
 License: ISC
 
-Files: src/go/store/{errors,interfaces,key}.go
-       src/go/store/fsdb/*.go
+Files: pkg/store/{errors,interfaces,key}.go
+       pkg/store/fsdb/*.go
 Source: https://github.com/fishy/fsdb
 Copyright: 2017, Yuxuan 'fishy' Wang
            2018, The IPFN Developers
 License: BSD-3-clause
 
-Files: src/third_party/pybind11/*
+Files: third_party/pybind11/*
 Source: https://github.com/pybind/pybind11/
 Copyright: 2016, Wenzel Jakob <wenzel.jakob@epfl.ch>
 License: BSD-style
     https://github.com/pybind/pybind11/blob/master/LICENSE
 
-Files: src/third_party/smf/*
+Files: third_party/smf/*
 Source: https://github.com/smfrpc/smf/
 Copyright: 2016-2018, SMF Authors
 License: Apache-2.0
 
-Files: src/tests/bench/checksum.cc
+Files: tests/bench/checksum.cc
 Source: https://github.com/smfrpc/smf/
 Copyright: 2018, Alexander Gallego
 License: Apache-2.0
 
-Files: src/third_party/tvm/*
+Files: third_party/tvm/*
 Source: https://github.com/dmlc/tvm/
 Copyright: 2017, TVM Contributors <https://github.com/dmlc/tvm/blob/master/CONTRIBUTORS.md>
 License: Apache-2.0
