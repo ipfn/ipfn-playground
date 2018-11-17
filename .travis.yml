@@ -4,6 +4,8 @@ go:
 
 script:
  - ./tools/devenv/install-go-tools.sh
- - go test -v ./src/go/...
+ - gx install --global
+ - go get -u ./pkg/...
+ - go test -v ./pkg/...
  - go test -v -covermode=count -coverprofile=coverage.out
  - $GOPATH/bin/goveralls -coverprofile=coverage.out -service=travis-ci -repotoken $COVERALLS_TOKEN
