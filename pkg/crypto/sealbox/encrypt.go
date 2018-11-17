@@ -24,8 +24,8 @@ import (
 	"encoding/hex"
 	"encoding/json"
 
-	"github.com/ipfn/ipfn/pkg/utils/entropy"
-	"github.com/ipfn/ipfn/pkg/utils/hashutil"
+	"github.com/ipfn/ipfn/pkg/crypto/entropy"
+	"github.com/ipfn/ipfn/pkg/digest"
 	"golang.org/x/crypto/scrypt"
 )
 
@@ -73,7 +73,7 @@ func Encrypt(body, pwd []byte, scryptN, scryptP int) (_ SealedBox, err error) {
 				DKLen: scryptDKLen,
 				Salt:  hex.EncodeToString(salt),
 			},
-			MAC: hex.EncodeToString(hashutil.SumKeccak256(derivedKey[16:32], cipherText)),
+			MAC: hex.EncodeToString(digest.SumSha256(derivedKey[16:32], cipherText)),
 		},
 	}, nil
 }
