@@ -18,6 +18,7 @@ import (
 	"bytes"
 	"encoding/hex"
 	"hash"
+	"io"
 )
 
 // Size - Default digest size.
@@ -32,11 +33,15 @@ var emptyDigest = Digest{0}
 
 // Sum - Sums hash digest using provided hasher.
 func Sum(h hash.Hash, data ...[]byte) (digest Digest) {
-	h.Reset()
-	for _, body := range data {
-		h.Write(body)
+	if r, ok := h.(io.Reader); ok {
+		h.Reset()
+		for _, body := range data {
+			h.Write(body)
+		}
+		r.Read(digest[:])
+		return
 	}
-	return FromBytes(h.Sum(nil))
+	return FromBytes(SumBytes(h, data...))
 }
 
 // SumBytes - Sums hash digest using provided hasher.
@@ -44,6 +49,10 @@ func SumBytes(h hash.Hash, data ...[]byte) (digest []byte) {
 	h.Reset()
 	for _, body := range data {
 		h.Write(body)
+	}
+	if r, ok := h.(io.Reader); ok {
+		r.Read(digest)
+		return
 	}
 	return h.Sum(nil)
 }

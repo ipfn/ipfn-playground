@@ -17,8 +17,8 @@ package digest
 import (
 	"testing"
 
+	"github.com/crackcomm/sha256-simd"
 	"github.com/ipfn/ipfn/pkg/utils/hexutil"
-	"github.com/minio/sha256-simd"
 	multihash "github.com/multiformats/go-multihash"
 	"github.com/stretchr/testify/assert"
 	"golang.org/x/crypto/sha3"
