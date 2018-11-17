@@ -51,7 +51,7 @@ func makeProvers(trie *Trie) []func(key []byte) *ethdb.MemDatabase {
 		proof := ethdb.NewMemDatabase()
 		if it := NewIterator(trie.NodeIterator(key)); it.Next() && bytes.Equal(key, it.Key) {
 			for _, p := range it.Prove() {
-				proof.Put(digest.SumKeccak256(p), p)
+				proof.Put(digest.SumBytes(hasherFunc(), p), p)
 			}
 		}
 		return proof
@@ -92,7 +92,7 @@ func TestOneElementProof(t *testing.T) {
 		}
 		val, _, err := VerifyProof(trie.Hash(), []byte("k"), proof)
 		if err != nil {
-			t.Fatalf("prover %d: failed to verify proof: %v\nraw proof: %x", i, err, proof)
+			t.Fatalf("prover %d: failed to verify proof, err: %v\nraw proof: %x", i, err, proof)
 		}
 		if !bytes.Equal(val, []byte("v")) {
 			t.Fatalf("prover %d: verified value mismatch: have %x, want 'k'", i, val)
@@ -114,7 +114,7 @@ func TestBadProof(t *testing.T) {
 			proof.Delete(key)
 
 			mutateByte(val)
-			proof.Put(digest.SumKeccak256(val), val)
+			proof.Put(digest.SumBytes(hasherFunc(), val), val)
 
 			if _, _, err := VerifyProof(root, kv.k, proof); err == nil {
 				t.Fatalf("prover %d: expected proof to fail for key %x", i, kv.k)
@@ -138,7 +138,7 @@ func TestMissingKeyProof(t *testing.T) {
 		}
 		val, _, err := VerifyProof(trie.Hash(), []byte(key), proof)
 		if err != nil {
-			t.Fatalf("test %d: failed to verify proof: %v\nraw proof: %x", i, err, proof)
+			t.Fatalf("test %d: failed to verify proof, err: %v\nraw proof: %x", i, err, proof)
 		}
 		if val != nil {
 			t.Fatalf("test %d: verified value mismatch: have %x, want nil", i, val)

@@ -99,7 +99,7 @@ func TestSecureGetKey(t *testing.T) {
 
 	key := []byte("foo")
 	value := []byte("bar")
-	seckey := digest.SumKeccak256(key)
+	seckey := digest.SumBytes(hasherFunc(), key)
 
 	if !bytes.Equal(trie.Get(key), value) {
 		t.Errorf("Get did not return bar")

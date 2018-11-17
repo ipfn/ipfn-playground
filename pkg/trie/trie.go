@@ -24,7 +24,6 @@ import (
 	"bytes"
 	"fmt"
 
-	"github.com/gxed/hashland/keccak"
 	"github.com/ipfn/ipfn/pkg/digest"
 	"github.com/ipfn/ipfn/pkg/trie/metrics"
 	"github.com/ipfn/ipfn/pkg/utils/flog"
@@ -32,10 +31,12 @@ import (
 
 var (
 	// emptyRoot is the known root hash of an empty trie.
-	emptyRoot = digest.FromHex("56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421")
+	// value is set in init using SetHashFunc function.
+	emptyRoot digest.Digest
 
 	// emptyState is the known hash of an empty state trie entry.
-	emptyState = digest.Sum(keccak.New256(), nil)
+	// value is set in init using SetHashFunc function.
+	emptyState digest.Digest
 
 	// package logger
 	logger = flog.MustGetLogger("trie")

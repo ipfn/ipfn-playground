@@ -24,7 +24,7 @@ import (
 	"sync"
 
 	"github.com/cespare/xxhash"
-	"github.com/ethereum/go-ethereum/crypto/sha3"
+	"github.com/crackcomm/sha256-simd"
 	"github.com/ethereum/go-ethereum/rlp"
 	"github.com/ipfn/ipfn/pkg/digest"
 	"github.com/ipfn/ipfn/pkg/utils/byteutil"
@@ -56,13 +56,22 @@ func (b *sliceBuffer) Reset() {
 	*b = (*b)[:0]
 }
 
+// default hasher function
+var hasherFunc = sha256.New
+
+// SetHashFunc - Sets trie hashing function.
+func SetHashFunc(fn func() hash.Hash) {
+	hasherFunc = fn
+	emptyRoot = digest.Sum(hasherFunc(), []byte{0x80})
+	emptyState = digest.Sum(hasherFunc(), nil)
+}
+
 // hashers live in a global db.
 var hasherPool = sync.Pool{
 	New: func() interface{} {
 		return &hasher{
 			tmp:    make(sliceBuffer, 0, 550), // cap is as large as a full fullNode.
-			hasher: sha3.NewKeccak256(),
-			// hasher: sha256.New(),
+			hasher: hasherFunc(),
 		}
 	},
 }

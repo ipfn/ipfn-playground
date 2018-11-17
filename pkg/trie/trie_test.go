@@ -32,13 +32,14 @@ import (
 	"testing/quick"
 
 	"github.com/davecgh/go-spew/spew"
+	"github.com/ethereum/go-ethereum/crypto/sha3"
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/gxed/hashland/keccak"
 	"github.com/ipfn/ipfn/pkg/digest"
 	"github.com/ipfn/ipfn/pkg/trie/ethdb"
 )
 
 func init() {
+	SetHashFunc(sha3.NewKeccak256)
 	spew.Config.Indent = "    "
 	spew.Config.DisableMethods = false
 }
@@ -47,6 +48,14 @@ func init() {
 func newEmpty() *Trie {
 	trie, _ := New(digest.Empty(), NewDatabase(ethdb.NewMemDatabase()))
 	return trie
+}
+
+func TestEmptyRootSum(t *testing.T) {
+	res := digest.Sum(hasherFunc(), []byte{0x80})
+	exp := digest.FromHex("56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421")
+	if res != digest.Digest(exp) {
+		t.Errorf("expected %x got %x", exp, res)
+	}
 }
 
 func TestEmptyTrie(t *testing.T) {
@@ -591,14 +600,14 @@ func BenchmarkHash(b *testing.B) {
 			nonce   = uint64(random.Int63())
 			balance = new(big.Int).Rand(random, new(big.Int).Exp(big2, big256, nil))
 			root    = emptyRoot
-			code    = digest.Sum(keccak.New256(), nil)
+			code    = digest.Sum(hasherFunc(), nil)
 		)
 		accounts[i], _ = rlp.EncodeToBytes([]interface{}{nonce, balance, root, code})
 	}
 	// Insert the accounts into the trie and hash it
 	trie := newEmpty()
 	for i := 0; i < len(addresses); i++ {
-		trie.Update(digest.SumKeccak256(addresses[i][:]), accounts[i])
+		trie.Update(digest.SumBytes(hasherFunc(), addresses[i][:]), accounts[i])
 	}
 	b.ResetTimer()
 	b.ReportAllocs()
