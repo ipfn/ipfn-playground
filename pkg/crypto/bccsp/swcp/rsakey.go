@@ -24,7 +24,7 @@ import (
 	"math/big"
 
 	"github.com/ipfn/ipfn/pkg/crypto/bccsp"
-	"github.com/ipfn/ipfn/pkg/utils/hashutil"
+	"github.com/ipfn/ipfn/pkg/digest"
 )
 
 // rsaPublicKey reflects the ASN.1 structure of a PKCS#1 public key.
@@ -56,7 +56,7 @@ func (k *rsaPrivateKey) SKI() []byte {
 	})
 
 	// Hash it
-	return hashutil.SumSha256(raw)
+	return digest.SumSha256(raw)
 }
 
 // Symmetric returns true if this key is a symmetric key,
@@ -107,7 +107,7 @@ func (k *rsaPublicKey) SKI() []byte {
 	})
 
 	// Hash it
-	return hashutil.SumSha256(raw)
+	return digest.SumSha256(raw)
 }
 
 // Symmetric returns true if this key is a symmetric key,

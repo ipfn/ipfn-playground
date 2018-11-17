@@ -21,7 +21,7 @@ import (
 	"hash"
 
 	"github.com/ipfn/ipfn/pkg/crypto/bccsp"
-	"github.com/minio/sha256-simd"
+	"github.com/crackcomm/sha256-simd"
 	"golang.org/x/crypto/sha3"
 )
 

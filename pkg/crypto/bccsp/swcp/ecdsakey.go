@@ -23,7 +23,7 @@ import (
 	"fmt"
 
 	"github.com/ipfn/ipfn/pkg/crypto/bccsp"
-	"github.com/ipfn/ipfn/pkg/utils/hashutil"
+	"github.com/ipfn/ipfn/pkg/digest"
 )
 
 type ecdsaPrivateKey struct {
@@ -46,7 +46,7 @@ func (k *ecdsaPrivateKey) SKI() []byte {
 	raw := elliptic.Marshal(k.privKey.Curve, k.privKey.PublicKey.X, k.privKey.PublicKey.Y)
 
 	// Hash it
-	return hashutil.SumSha256(raw)
+	return digest.SumSha256(raw)
 }
 
 // Symmetric returns true if this key is a symmetric key,
@@ -91,7 +91,7 @@ func (k *ecdsaPublicKey) SKI() []byte {
 	raw := elliptic.Marshal(k.pubKey.Curve, k.pubKey.X, k.pubKey.Y)
 
 	// Hash it
-	return hashutil.SumSha256(raw)
+	return digest.SumSha256(raw)
 }
 
 // Symmetric returns true if this key is a symmetric key,
