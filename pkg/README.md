@@ -87,8 +87,8 @@ This source code is part of [IPFN](https://github.com/ipfn) – interplanetary f
 [commands-doc]: https://godoc.org/github.com/ipfn/ipfn/pkg/commands
 [commands]: https://godoc.org/github.com/ipfn/ipfn/tree/master/pkg/commands
 [docs]: https://docs.ipfn.io/
-[entropy-doc]: https://godoc.org/github.com/ipfn/ipfn/pkg/utils/entropy
-[entropy]: https://github.com/ipfn/ipfn/tree/master/pkg/utils/entropy
+[entropy-doc]: https://godoc.org/github.com/ipfn/ipfn/pkg/crypto/entropy
+[entropy]: https://github.com/ipfn/ipfn/tree/master/pkg/crypto/entropy
 [fabric]: https://github.com/hyperledger/fabric
 [flog-doc]: https://godoc.org/github.com/ipfn/ipfn/pkg/utils/flog
 [flog]: https://github.com/ipfn/ipfn/tree/master/pkg/utils/flog
