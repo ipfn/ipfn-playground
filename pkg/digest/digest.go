@@ -50,10 +50,6 @@ func SumBytes(h hash.Hash, data ...[]byte) (digest []byte) {
 	for _, body := range data {
 		h.Write(body)
 	}
-	if r, ok := h.(io.Reader); ok {
-		r.Read(digest)
-		return
-	}
 	return h.Sum(nil)
 }
 
