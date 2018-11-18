@@ -14,6 +14,8 @@ if [ -f /etc/profile.d/goroot.sh ]; then
 	source /etc/profile.d/goroot.sh
 fi
 
+# go fomatting tool
+go get -u winterdrache.de/goformat/goformat
 # go dependencies management
 go get -u github.com/golang/dep/cmd/dep
 # go testing assertion tool
