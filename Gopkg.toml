@@ -75,10 +75,6 @@
 
 [[constraint]]
   branch = "master"
-  name = "github.com/ipfn/go-ipfn-cells"
-
-[[constraint]]
-  branch = "master"
   name = "github.com/ipfn/go-ipfn-cmd-util"
 
 [[constraint]]
@@ -99,7 +95,8 @@
 
 [[constraint]]
   branch = "master"
-  name = "github.com/crackcomm/sha256-simd"
+  name = "github.com/minio/sha256-simd"
+  source = "https://github.com/crackcomm/sha256-simd.git"
 
 [[constraint]]
   name = "github.com/mitchellh/go-homedir"

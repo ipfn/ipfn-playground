@@ -59,14 +59,6 @@
   version = "v1.1.0"
 
 [[projects]]
-  branch = "master"
-  digest = "1:9153bc790f08623e17c230feb7e85faa1bd58c8623c0dbc0e19832d4526433d2"
-  name = "github.com/crackcomm/sha256-simd"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "1fe6a69a05ea67d88fa959913de008550bb66340"
-
-[[projects]]
   digest = "1:ffe9824d294da03b391f44e1ae8281281b4afc1bdaa9588c9097785e3af10cec"
   name = "github.com/davecgh/go-spew"
   packages = ["spew"]
@@ -246,9 +238,62 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:bca5d02411092f90cf75463a3202afef626c6eef8632bc1836bcd7ea084ba510"
+  digest = "1:b1f11e914fb2b3e6d06cab22589eb2b87d456aed9d395c3d677c0198dc2839b4"
   name = "github.com/ipfs/go-ipfs"
-  packages = ["core/coredag"]
+  packages = [
+    ".",
+    "assets",
+    "blocks/blockstoreutil",
+    "cmd/ipfs/util",
+    "commands",
+    "commands/legacy",
+    "core",
+    "core/commands",
+    "core/commands/cmdenv",
+    "core/commands/dag",
+    "core/commands/e",
+    "core/commands/name",
+    "core/commands/object",
+    "core/commands/unixfs",
+    "core/coreapi",
+    "core/coreapi/interface",
+    "core/coreapi/interface/options",
+    "core/coredag",
+    "core/corehttp",
+    "core/corerepo",
+    "core/coreunix",
+    "dagutils",
+    "exchange/reprovide",
+    "filestore",
+    "filestore/pb",
+    "fuse/ipns",
+    "fuse/mount",
+    "fuse/node",
+    "fuse/readonly",
+    "keystore",
+    "namesys",
+    "namesys/opts",
+    "namesys/republisher",
+    "p2p",
+    "pin",
+    "pin/gc",
+    "pin/internal/pb",
+    "plugin",
+    "plugin/loader",
+    "plugin/plugins/badgerds",
+    "plugin/plugins/flatfs",
+    "plugin/plugins/git",
+    "plugin/plugins/levelds",
+    "repo",
+    "repo/common",
+    "repo/fsrepo",
+    "repo/fsrepo/migrations",
+    "tar",
+    "thirdparty/cidv0v1",
+    "thirdparty/dir",
+    "thirdparty/math2",
+    "thirdparty/verifbs",
+  ]
   pruneopts = "UT"
   revision = "31099e882469fab12a98f2069e38c847f0b1188c"
 
@@ -345,11 +390,12 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:445210ef1e723060b3ebeb691648b5090f154992ee35f7065b70a6a5a96a3bb8"
+  digest = "1:9153bc790f08623e17c230feb7e85faa1bd58c8623c0dbc0e19832d4526433d2"
   name = "github.com/minio/sha256-simd"
   packages = ["."]
   pruneopts = "UT"
-  revision = "51976451ce1942acbb55707a983ed232fa027110"
+  revision = "1fe6a69a05ea67d88fa959913de008550bb66340"
+  source = "https://github.com/crackcomm/sha256-simd.git"
 
 [[projects]]
   digest = "1:78bbb1ba5b7c3f2ed0ea1eab57bdd3859aec7e177811563edc41198a760b06af"
@@ -708,7 +754,6 @@
     "github.com/allegro/bigcache",
     "github.com/btcsuite/btcd/btcec",
     "github.com/cespare/xxhash",
-    "github.com/crackcomm/sha256-simd",
     "github.com/davecgh/go-spew/spew",
     "github.com/ethereum/go-ethereum/crypto/sha3",
     "github.com/ethereum/go-ethereum/rlp",
@@ -720,13 +765,27 @@
     "github.com/hyperledger/fabric-amcl/amcl",
     "github.com/hyperledger/fabric-amcl/amcl/FP256BN",
     "github.com/ipfn/go-base32check",
-    "github.com/ipfn/go-ipfn-cells",
     "github.com/ipfn/go-ipfn-cmd-util",
     "github.com/ipfn/go-ipfn-cmd-util/logger",
     "github.com/ipfn/go-ipfn-keypair",
+    "github.com/ipfs/go-ipfs",
     "github.com/ipfs/go-ipfs-shell",
+    "github.com/ipfs/go-ipfs/assets",
+    "github.com/ipfs/go-ipfs/cmd/ipfs/util",
+    "github.com/ipfs/go-ipfs/commands",
+    "github.com/ipfs/go-ipfs/core",
+    "github.com/ipfs/go-ipfs/core/commands",
     "github.com/ipfs/go-ipfs/core/coredag",
+    "github.com/ipfs/go-ipfs/core/corehttp",
+    "github.com/ipfs/go-ipfs/core/corerepo",
+    "github.com/ipfs/go-ipfs/fuse/node",
+    "github.com/ipfs/go-ipfs/namesys",
+    "github.com/ipfs/go-ipfs/plugin/loader",
+    "github.com/ipfs/go-ipfs/repo",
+    "github.com/ipfs/go-ipfs/repo/fsrepo",
+    "github.com/ipfs/go-ipfs/repo/fsrepo/migrations",
     "github.com/miekg/pkcs11",
+    "github.com/minio/sha256-simd",
     "github.com/mitchellh/go-homedir",
     "github.com/onsi/gomega",
     "github.com/onsi/gomega/gbytes",
