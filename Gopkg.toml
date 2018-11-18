@@ -79,10 +79,6 @@
 
 [[constraint]]
   branch = "master"
-  name = "github.com/ipfn/go-ipfn-keypair"
-
-[[constraint]]
-  branch = "master"
   name = "github.com/ipfs/go-ipfs"
 
 [[constraint]]

@@ -26,29 +26,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:401d088d63d37e8da99e1cf7e917a465436a41a143ef16a0a8013873745a2ddd"
+  digest = "1:c0decf632843204d2b8781de7b26e7038584e2dcccc7e2f401e88ae85b1df2b7"
   name = "github.com/btcsuite/btcd"
-  packages = [
-    "btcec",
-    "chaincfg",
-    "chaincfg/chainhash",
-    "wire",
-  ]
+  packages = ["btcec"]
   pruneopts = "UT"
   revision = "67e573d211ace594f1366b4ce9d39726c4b19bd0"
-
-[[projects]]
-  branch = "master"
-  digest = "1:5be1c66caeb03381e4e7322eddfc0b06b26991ddba3ad39e009ccf67c20dfb18"
-  name = "github.com/btcsuite/btcutil"
-  packages = [
-    ".",
-    "base58",
-    "bech32",
-    "hdkeychain",
-  ]
-  pruneopts = "UT"
-  revision = "ab6388e0c60ae4834a1f57511e20c17b5f78be4b"
 
 [[projects]]
   digest = "1:4c69f3f6b7b2f6481f858db3cb7a84c7a5958287be33ec05ce4814ea49ef555d"
@@ -195,22 +177,6 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:b81139af644cb304be0492bb3afb00e50396455ce330f8c5c4c6e1f2b5a1aeb6"
-  name = "github.com/ipfn/go-bip39"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "01dc483f4230143fdb9980478c0ef3e9b8f419ee"
-
-[[projects]]
-  branch = "master"
-  digest = "1:3f084087a3f05637cccabccd7f67e40db64ff05bb564e6c69c643203d4b8f8bd"
-  name = "github.com/ipfn/go-ipfn-cells"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "0cf5e3b84c9a8ede259a013488a8c029755ccc99"
-
-[[projects]]
-  branch = "master"
   digest = "1:fefe9e0db67ba2dc744699d7fede4789935319c0289c8bac2826a0b1c473b2fe"
   name = "github.com/ipfn/go-ipfn-cmd-util"
   packages = [
@@ -219,22 +185,6 @@
   ]
   pruneopts = "UT"
   revision = "b1ed6e26dcc16d46655c1b84fa233ee778dd95b3"
-
-[[projects]]
-  branch = "master"
-  digest = "1:ceb80b9b8dd59f721371779da36d322e0c826f1667d2903fbb6e9701129d6253"
-  name = "github.com/ipfn/go-ipfn-crypto"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "414e7a4dfdf126820d2e9f4ede93c3ed8a8fae4d"
-
-[[projects]]
-  branch = "master"
-  digest = "1:e4b19267c1e9589f7b1f7028d1077e48f9b2e496bf0081db7e4f0c3f7bf1d656"
-  name = "github.com/ipfn/go-ipfn-keypair"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "86cb70f8ab479235d9adf723c5be313c70488716"
 
 [[projects]]
   branch = "master"
@@ -617,12 +567,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:3fc67ca78bdac9ba679c8cf2252a2a87afaa1c8106d4baf84c9dbe98c6f5fa53"
+  digest = "1:6ce74cd2bab0e66a3a03decdc4c17c60110019258593ed306cd3f131af81629a"
   name = "golang.org/x/crypto"
   packages = [
     "blake2s",
     "pbkdf2",
-    "ripemd160",
     "scrypt",
     "sha3",
     "ssh/terminal",
@@ -767,7 +716,6 @@
     "github.com/ipfn/go-base32check",
     "github.com/ipfn/go-ipfn-cmd-util",
     "github.com/ipfn/go-ipfn-cmd-util/logger",
-    "github.com/ipfn/go-ipfn-keypair",
     "github.com/ipfs/go-ipfs",
     "github.com/ipfs/go-ipfs-shell",
     "github.com/ipfs/go-ipfs/assets",
