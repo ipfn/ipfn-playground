@@ -40,14 +40,14 @@ var PrefixV1 = cid.Prefix{
 // CID - Creates CID from public key.
 //
 // Resulting CID has codec ID of `codecs.PubkeyHashV1`.
-func CID(pub *ecdsa.PublicKey) (c *cells.CID) {
+func CID(pub *ecdsa.PublicKey) (c cells.CID) {
 	return BytesToCID(PubkeyBytes(pub))
 }
 
 // BytesToCID - Creates CID from public key.
 //
 // Follows ethereum pattern and strips one byte.
-func BytesToCID(pubBytes []byte) (c *cells.CID) {
+func BytesToCID(pubBytes []byte) (c cells.CID) {
 	c, err := cells.SumCID(PrefixV1, pubBytes[1:])
 	if err != nil {
 		panic(err)

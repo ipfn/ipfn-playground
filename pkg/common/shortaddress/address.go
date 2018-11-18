@@ -43,7 +43,7 @@ type Address struct {
 	ID cells.ID `json:"id,omitempty"`
 
 	// CID - Content ID.
-	CID *cells.CID `json:"cid,omitempty"`
+	CID cells.CID `json:"cid,omitempty"`
 
 	// Extra - Extra checksum.
 	Extra uint16 `json:"extra,omitempty"`
@@ -87,14 +87,14 @@ func ToBytes(src string) (body []byte, err error) {
 }
 
 // FromCID - Creates address from content identifier.
-func FromCID(c *cells.CID) (addr *Address) {
+func FromCID(c cells.CID) (addr *Address) {
 	addr = new(Address)
 	addr.SetCID(c)
 	return
 }
 
 // CidToShort - Creates short address from content identifier.
-func CidToShort(c *cells.CID) (addr *Address) {
+func CidToShort(c cells.CID) (addr *Address) {
 	addr = new(Address)
 	addr.SetBytes(c.Bytes())
 	return
@@ -102,7 +102,7 @@ func CidToShort(c *cells.CID) (addr *Address) {
 
 // IsShortAddress - Returns true if there is no cid available, only short address.
 func (addr *Address) IsShortAddress() bool {
-	return addr.CID == nil
+	return !addr.CID.Defined()
 }
 
 // String - Returns short address in string format.
@@ -116,7 +116,7 @@ func (addr *Address) String() string {
 }
 
 // SetCID - Sets address from cid.
-func (addr *Address) SetCID(c *cells.CID) {
+func (addr *Address) SetCID(c cells.CID) {
 	bytes := c.Bytes()
 	addr.ID = cells.NewID(bytes)
 	addr.Extra = ChecksumBytes(addr.ID, bytes)
@@ -163,7 +163,7 @@ func (addr *Address) Unmarshal(body []byte) (err error) {
 
 // MarshalJSON - Marshals address as JSON.
 func (addr *Address) MarshalJSON() ([]byte, error) {
-	if addr.CID != nil {
+	if addr.CID.Defined() {
 		return []byte(fmt.Sprintf("%q", addr.CID.String())), nil
 	}
 	return []byte(fmt.Sprintf("%q", addr.String())), nil
