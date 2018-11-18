@@ -141,6 +141,10 @@
   name = "google.golang.org/grpc"
   version = "1.16.0"
 
+[[override]]
+  branch = "master"
+  name = "github.com/segmentio/go-prompt"
+
 [prune]
   go-tests = true
   unused-packages = true
