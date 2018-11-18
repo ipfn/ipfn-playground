@@ -30,7 +30,7 @@ import (
 	"hash/crc32"
 	"math"
 
-	cid "gx/ipfs/QmapdYm1b22Frv3k17fqrBYTFRxwiaVJkB299Mfn33edeB/go-cid"
+	cid "gx/ipfs/QmR8BauakNcBa3RbE4nbQu76PDiJgoQgz8AJdhJuiU4TAw/go-cid"
 
 	"github.com/gogo/protobuf/proto"
 	"github.com/ipfn/ipfn/pkg/cells"

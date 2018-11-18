@@ -17,7 +17,7 @@ package ipfsdb
 import (
 	"github.com/ipfn/ipfn/pkg/trie/ethdb"
 
-	cid "gx/ipfs/QmapdYm1b22Frv3k17fqrBYTFRxwiaVJkB299Mfn33edeB/go-cid"
+	cid "gx/ipfs/QmR8BauakNcBa3RbE4nbQu76PDiJgoQgz8AJdhJuiU4TAw/go-cid"
 )
 
 // Wrap - Wraps database with IPFS storage.

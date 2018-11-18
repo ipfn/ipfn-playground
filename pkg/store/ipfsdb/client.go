@@ -17,7 +17,7 @@ package ipfsdb
 import (
 	"net/http"
 
-	cid "gx/ipfs/QmapdYm1b22Frv3k17fqrBYTFRxwiaVJkB299Mfn33edeB/go-cid"
+	cid "gx/ipfs/QmR8BauakNcBa3RbE4nbQu76PDiJgoQgz8AJdhJuiU4TAw/go-cid"
 
 	"github.com/ipfn/ipfn/pkg/utils/flog"
 	shell "github.com/ipfs/go-ipfs-shell"

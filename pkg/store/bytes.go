@@ -20,13 +20,13 @@ import (
 
 // Bytes - Byte reader.
 type Bytes interface {
-	// ReadBytes - Reads value from under key.
+	// Get - Reads value from under key.
 	//
 	// If the key does not exist, it should return a NoSuchKeyError.
-	ReadBytes(ctx context.Context, key Key) ([]byte, error)
+	Get(ctx context.Context, key Key) ([]byte, error)
 
-	// Write - Writes value under key.
+	// Set - Writes value under key.
 	//
 	// If the key does not exist, it should return a NoSuchKeyError.
-	WriteBytes(ctx context.Context, key Key, body []byte) error
+	Set(ctx context.Context, key Key, body []byte) error
 }

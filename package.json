@@ -7,27 +7,27 @@
   "gxDependencies": [
     {
       "author": "whyrusleeping",
-      "hash": "QmapdYm1b22Frv3k17fqrBYTFRxwiaVJkB299Mfn33edeB",
+      "hash": "QmR8BauakNcBa3RbE4nbQu76PDiJgoQgz8AJdhJuiU4TAw",
       "name": "go-cid",
-      "version": "0.7.21"
+      "version": "0.9.1"
     },
     {
       "author": "stebalien",
-      "hash": "QmTRCUvZLiir12Qr6MV3HKfKMHX8Nf1Vddn6t2g5nsQSb9",
+      "hash": "QmWoXtvgC8inqFkAATB7cp2Dax7XBi9VDvSg9RCCZufmRk",
       "name": "go-block-format",
-      "version": "0.1.7"
+      "version": "0.2.1"
     },
     {
       "author": "whyrusleeping",
-      "hash": "QmWi2BYBL5gJ3CiAiQchg6rn1A8iBsrWy51EYxvHVjFvLb",
+      "hash": "QmcKKBwfz6FyQdHR2jsXrrF6XeSBXYL86anmWNewpFpoF5",
       "name": "go-ipld-format",
-      "version": "0.5.4"
+      "version": "0.7.2"
     },
     {
       "author": "multiformats",
-      "hash": "QmPnFwZ2JXKnXgMw8CdBPxn7FWh6LLdjUjxV1fKHuJnkr8",
+      "hash": "QmerPMzPk1mJVowm8KgmoknWa4yCYvvugMPsgWmDNUvDLW",
       "name": "go-multihash",
-      "version": "1.0.8"
+      "version": "1.0.9"
     }
   ],
   "gxVersion": "0.14.0",
@@ -35,5 +35,5 @@
   "license": "Apache-2.0",
   "name": "ipfn",
   "releaseCmd": "git commit -m \"chore(gx): publish $VERSION\"",
-  "version": "0.0.0"
+  "version": "0.0.1"
 }
