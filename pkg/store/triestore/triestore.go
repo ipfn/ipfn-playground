@@ -17,19 +17,20 @@ package triestore
 import (
 	"errors"
 
-	"github.com/gogo/protobuf/proto"
-
-	cells "github.com/ipfn/go-ipfn-cells"
+	"github.com/ipfn/ipfn/pkg/cells"
+	"github.com/ipfn/ipfn/pkg/chain"
+	"github.com/ipfn/ipfn/pkg/digest"
 	"github.com/ipfn/ipfn/pkg/store"
+	"github.com/ipfn/ipfn/pkg/trie"
 	"github.com/ipfn/ipfn/pkg/utils/flog"
 )
 
 // Store - Execution store.
 type Store interface {
-	store.Bytes
+	store.Simple
 
 	// Commit - Saves store state to database.
-	Commit() (*cells.CID, error)
+	Commit() (cells.CID, error)
 
 	// Clone - Clones store with current state.
 	Clone() (Store, error)
@@ -38,20 +39,16 @@ type Store interface {
 var logger = flog.MustGetLogger("triestore")
 
 // NewStore - Creates new mutable execution store.
-func NewStore(state *cells.CID, triedb *trie.Database) (_ Store, err error) {
-	var hash common.Hash
-	if state != nil {
-		hash = common.BytesToHash(state.Digest())
+func NewStore(state cells.CID, triedb *trie.Database) (_ Store, err error) {
+	// TODO: check for content id and hash algo
+	var hash digest.Digest
+	if state.Defined() {
+		hash = digest.FromBytes(state.Digest())
 	}
 	t, err := trie.New(hash, triedb)
 	if err != nil {
 		return
 	}
-	tb, err := t.TryGet(totalKey)
-	if err != nil {
-		return
-	}
-	total, _ := proto.DecodeVarint(tb)
 	return &execStore{
 		trie:   t,
 		triedb: triedb,
@@ -59,60 +56,43 @@ func NewStore(state *cells.CID, triedb *trie.Database) (_ Store, err error) {
 	}, nil
 }
 
-var totalKey = []byte("rootchain.total_power")
-
 type execStore struct {
 	trie   *trie.Trie
 	triedb *trie.Database
-	commit *cells.CID
+	commit cells.CID
 }
 
-func (s *execStore) ReadBytes(key store.Key) (val []byte, err error) {
-	return s.trie.TryGet(key.Bytes())
+func (s *execStore) Get(key store.Key) (val []byte, err error) {
+	return s.trie.TryGet(key)
 }
 
-func (s *execStore) WriteBytes(key store.Key, body []byte) (err error) {
-	prev, err := s.ReadBytes(key)
+func (s *execStore) Set(key store.Key, body []byte) (err error) {
+	err = s.trie.TryUpdate(key, body)
 	if err != nil {
 		return
 	}
-	err = s.trie.TryUpdate(key.Bytes(), body)
-	if err != nil {
-		return
-	}
-	s.commit = nil
-	s.total += value - prev
-	logger.Debugw("Store Update", "key", key, "value", value, "total", s.total, "prev", prev)
+	s.commit = cells.UndefCID
 	return nil
 }
 
-func (s *execStore) Total() uint64 {
-	return s.total
-}
-
-func (s *execStore) Commit() (_ *cells.CID, err error) {
-	err = s.trie.TryUpdate(totalKey, proto.EncodeVarint(s.total))
-	if err != nil {
-		return
-	}
+func (s *execStore) Commit() (_ cells.CID, err error) {
 	commit, err := s.trie.Commit(nil)
 	if err != nil {
 		return
 	}
-	err = s.triedb.Commit(commit, false)
+	err = s.triedb.Commit(commit)
 	if err != nil {
 		return
 	}
-	panic("unimplemented")
-	// s.commit = cells.NewCIDFromHash(contents.StateTrie, commit[:], contents.StateTriePrefix.MhType)
+	s.commit = cells.NewCIDFromHash(chain.StateTrie, commit[:], chain.StateTriePrefix.MhType)
 	return s.commit, nil
 }
 
 func (s *execStore) Clone() (Store, error) {
-	if s.commit == nil {
+	if !s.commit.Defined() {
 		return nil, errors.New("store not committed")
 	}
-	t, err := trie.New(common.BytesToHash(s.commit.Digest()), s.triedb)
+	t, err := trie.New(digest.FromBytes(s.commit.Digest()), s.triedb)
 	if err != nil {
 		return nil, err
 	}
