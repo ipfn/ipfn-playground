@@ -107,7 +107,7 @@ func decryptV3(box *Crypto, pwd string) (keyBytes []byte, err error) {
 		return nil, err
 	}
 
-	calculatedMAC := digest.SumSha256(derivedKey[16:32], cipherText)
+	calculatedMAC := digest.SumKeccak256(derivedKey[16:32], cipherText)
 	if !bytes.Equal(calculatedMAC, mac) {
 		return nil, ErrDecrypt
 	}
@@ -140,12 +140,12 @@ func decryptV1(box *Crypto, pwd string) (keyBytes []byte, err error) {
 		return nil, err
 	}
 
-	calculatedMAC := digest.SumSha256(derivedKey[16:32], cipherText)
+	calculatedMAC := digest.SumKeccak256(derivedKey[16:32], cipherText)
 	if !bytes.Equal(calculatedMAC, mac) {
 		return nil, ErrDecrypt
 	}
 
-	plainText, err := aesCBCDecrypt(digest.SumSha256(derivedKey[:16])[:16], cipherText, iv)
+	plainText, err := aesCBCDecrypt(digest.SumKeccak256(derivedKey[:16])[:16], cipherText, iv)
 	if err != nil {
 		return nil, err
 	}

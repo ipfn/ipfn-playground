@@ -73,7 +73,7 @@ func Encrypt(body, pwd []byte, scryptN, scryptP int) (_ SealedBox, err error) {
 				DKLen: scryptDKLen,
 				Salt:  hex.EncodeToString(salt),
 			},
-			MAC: hex.EncodeToString(digest.SumSha256(derivedKey[16:32], cipherText)),
+			MAC: hex.EncodeToString(digest.SumKeccak256(derivedKey[16:32], cipherText)),
 		},
 	}, nil
 }
