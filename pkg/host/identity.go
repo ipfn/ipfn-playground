@@ -19,20 +19,9 @@ import (
 	libp2p "gx/ipfs/QmVvV8JQmmqPCwXAaesWJPheUiEFQJ9HWRhWhuFuxVQxpR/go-libp2p"
 
 	"github.com/btcsuite/btcd/btcec"
-	"github.com/ipfn/go-ipfn-keypair"
 )
 
 // Identity - Creates new identity from private key.
 func Identity(privkey *btcec.PrivateKey) libp2p.Option {
 	return libp2p.Identity((*crypto.Secp256k1PrivateKey)(privkey))
-}
-
-// KeyPair - Creates new identity from keypair.
-// Panics if given keypair is not private key.
-func KeyPair(keys *keypair.KeyPair) libp2p.Option {
-	privkey, err := keys.ECPrivKey()
-	if err != nil {
-		panic(err)
-	}
-	return Identity(privkey)
 }
