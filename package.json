@@ -28,6 +28,24 @@
       "hash": "QmerPMzPk1mJVowm8KgmoknWa4yCYvvugMPsgWmDNUvDLW",
       "name": "go-multihash",
       "version": "1.0.9"
+    },
+    {
+      "author": "whyrusleeping",
+      "hash": "QmNiJiXwWE3kRhZrC5ej3kSjWHm337pYfhjLGSCDNKJP2s",
+      "name": "go-libp2p-crypto",
+      "version": "2.0.4"
+    },
+    {
+      "author": "whyrusleeping",
+      "hash": "QmVvV8JQmmqPCwXAaesWJPheUiEFQJ9HWRhWhuFuxVQxpR",
+      "name": "go-libp2p",
+      "version": "6.0.27"
+    },
+    {
+      "author": "whyrusleeping",
+      "hash": "QmahxMNoNuSsgQefo9rkpcfRFmQrMN6Q99aztKXf63K7YJ",
+      "name": "go-libp2p-host",
+      "version": "3.0.19"
     }
   ],
   "gxVersion": "0.14.0",
@@ -37,3 +55,4 @@
   "releaseCmd": "git commit -m \"chore(gx): publish $VERSION\"",
   "version": "0.0.1"
 }
+
