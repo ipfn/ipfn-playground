@@ -20,8 +20,8 @@ import (
 	"fmt"
 	"hash"
 
-	"github.com/minio/sha256-simd"
 	"github.com/ipfn/ipfn/pkg/crypto/bccsp"
+	"github.com/minio/sha256-simd"
 	"golang.org/x/crypto/sha3"
 )
 
