@@ -22,3 +22,6 @@ go get -u github.com/stretchr/testify/assert
 go get -u golang.org/x/tools/cmd/cover
 # coveralls generator
 go get -u github.com/mattn/goveralls
+# go ipfs dependencies
+go get -u github.com/whyrusleeping/gx
+go get -u github.com/whyrusleeping/gx-go
