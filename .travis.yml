@@ -2,10 +2,13 @@ language: go
 go:
  - "1.10.x"
 
-script:
+install:
  - ./tools/devenv/install-go-tools.sh
  - gx install --global
  - go get -u ./pkg/...
- - go test -v ./pkg/...
+
+script:
+ - diff -au <(gofmt -d .) <(printf "")
+ - go test -race -v ./pkg/...
  - go test -v -covermode=count -coverprofile=coverage.out
  - $GOPATH/bin/goveralls -coverprofile=coverage.out -service=travis-ci -repotoken $COVERALLS_TOKEN
