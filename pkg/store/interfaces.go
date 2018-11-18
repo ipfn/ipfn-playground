@@ -74,6 +74,12 @@ type Scanner interface {
 	ScanKeys(ctx context.Context, keyFunc KeyFunc, errFunc ErrFunc) error
 }
 
+// Database - Store database with scanner and reader.
+type Database interface {
+	Reader
+	Scanner
+}
+
 // KeyFunc is used in ScanKeys function in Scanner interface.
 //
 // It's the callback function called for every key scanned.

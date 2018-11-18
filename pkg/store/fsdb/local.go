@@ -88,7 +88,7 @@ type impl struct {
 // Open opens an FSDB with the given options.
 //
 // There's no need to close it.
-func Open(opts Options) store.Reader {
+func Open(opts Options) store.Database {
 	return &impl{
 		opts: opts,
 	}

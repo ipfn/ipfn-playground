@@ -43,7 +43,7 @@ import (
 
 func TestOptions(t *testing.T) {
 	root := "/foobar"
-	opts := fsdbstore.NewDefaultOptions(root)
+	opts := NewDefaultOptions(root)
 
 	t.Run(
 		"dirs",
@@ -51,28 +51,28 @@ func TestOptions(t *testing.T) {
 			var expect, actual string
 
 			opts.SetDataDir("data2")
-			expect = "/foobar" + fsdbstore.PathSeparator + "data2" + fsdbstore.PathSeparator
+			expect = "/foobar" + PathSeparator + "data2" + PathSeparator
 			actual = opts.GetRootDataDir()
 			if expect != actual {
 				t.Errorf("data dir expected %q, got %q", expect, actual)
 			}
 
-			opts.SetDataDir("data2" + fsdbstore.PathSeparator)
-			expect = "/foobar" + fsdbstore.PathSeparator + "data2" + fsdbstore.PathSeparator
+			opts.SetDataDir("data2" + PathSeparator)
+			expect = "/foobar" + PathSeparator + "data2" + PathSeparator
 			actual = opts.GetRootDataDir()
 			if expect != actual {
 				t.Errorf("data dir expected %q, got %q", expect, actual)
 			}
 
 			opts.SetTempDir("tmp")
-			expect = "/foobar" + fsdbstore.PathSeparator + "tmp" + fsdbstore.PathSeparator
+			expect = "/foobar" + PathSeparator + "tmp" + PathSeparator
 			actual = opts.GetRootTempDir()
 			if expect != actual {
 				t.Errorf("data dir expected %q, got %q", expect, actual)
 			}
 
-			opts.SetTempDir("tmp" + fsdbstore.PathSeparator)
-			expect = "/foobar" + fsdbstore.PathSeparator + "tmp" + fsdbstore.PathSeparator
+			opts.SetTempDir("tmp" + PathSeparator)
+			expect = "/foobar" + PathSeparator + "tmp" + PathSeparator
 			actual = opts.GetRootTempDir()
 			if expect != actual {
 				t.Errorf("data dir expected %q, got %q", expect, actual)
@@ -98,7 +98,7 @@ func TestOptions(t *testing.T) {
 					"e50d74419e2244eaa7328235f71b48c7e1c33b23f6f9517d14",
 					"",
 				},
-				fsdbstore.PathSeparator,
+				PathSeparator,
 			)
 			actual = opts.GetDirForKey(key)
 			if actual != expect {
@@ -140,7 +140,7 @@ func TestOptions(t *testing.T) {
 					"14",
 					"",
 				},
-				fsdbstore.PathSeparator,
+				PathSeparator,
 			)
 			actual = opts.GetDirForKey(key)
 			if actual != expect {

@@ -18,6 +18,7 @@ import (
 	"net/http"
 
 	cid "gx/ipfs/QmR8BauakNcBa3RbE4nbQu76PDiJgoQgz8AJdhJuiU4TAw/go-cid"
+	mh "gx/ipfs/QmerPMzPk1mJVowm8KgmoknWa4yCYvvugMPsgWmDNUvDLW/go-multihash"
 
 	"github.com/ipfn/ipfn/pkg/utils/flog"
 	shell "github.com/ipfs/go-ipfs-shell"
