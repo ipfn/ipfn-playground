@@ -20,8 +20,8 @@ import (
 	"fmt"
 	"hash"
 
-	"github.com/ipfn/ipfn/pkg/crypto/bccsp"
 	"github.com/crackcomm/sha256-simd"
+	"github.com/ipfn/ipfn/pkg/crypto/bccsp"
 	"golang.org/x/crypto/sha3"
 )
 
@@ -78,7 +78,7 @@ func (conf *config) setSecurityLevelSHA3(level int) (err error) {
 // PKCS11Opts contains options for the P11Factory
 type PKCS11Opts struct {
 	// Default algorithms when not specified (Deprecated?)
-	SecLevel   int              `mapstructure:"security" json:"security"`
+	SecLevel   int           `mapstructure:"security" json:"security"`
 	HashFamily digest.Family `mapstructure:"hash" json:"hash"`
 
 	// Keystore options
