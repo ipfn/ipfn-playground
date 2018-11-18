@@ -2,6 +2,7 @@ language: go
 go:
  - "1.10.x"
 
+sudo: required
 install:
  - ./tools/devenv/install-go-tools.sh
  - gx install --global
