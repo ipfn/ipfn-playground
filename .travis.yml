@@ -8,7 +8,7 @@ install:
  - gx install --global
 
 script:
- - diff -au <(gofmt -d ./pkg) <(printf "")
- - go test -race -v ./pkg/...
- - go test -v -covermode=count -coverprofile=coverage.out
+ - diff -au <(gofmt -s -d ./pkg) <(printf "")
+ - go test -race -v ./...
+ - go test -race -v -covermode=atomic -coverprofile=coverage.out ./pkg/...
  - $GOPATH/bin/goveralls -coverprofile=coverage.out -service=travis-ci -repotoken $COVERALLS_TOKEN
