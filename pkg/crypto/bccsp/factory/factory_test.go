@@ -23,8 +23,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/ipfn/ipfn/pkg/crypto/bccsp"
 	"github.com/ipfn/ipfn/pkg/crypto/bccsp/pkcs11"
+	"github.com/ipfn/ipfn/pkg/digest"
 	"github.com/spf13/viper"
 	"github.com/stretchr/testify/assert"
 )
