@@ -9,7 +9,7 @@ enable_testing()
 set(INTEGRATION_TESTS "")
 set(UNIT_TESTS "")
 set(BENCHMARK_TESTS "")
-set(TEST_RUNNER ${PROJECT_SOURCE_DIR}/src/third_party/smf/src/test_runner.py)
+set(TEST_RUNNER ${PROJECT_SOURCE_DIR}/third_party/smf/src/test_runner.py)
 
 message(STATUS "BUILD_TESTS=${BUILD_TESTS}")
 message(STATUS "BUILD_BENCHMARKS=${BUILD_BENCHMARKS}")
@@ -34,11 +34,8 @@ function (ipfn_test)
       target_compile_options(
         ${IPFN_TEST_BINARY_NAME}
         PRIVATE --coverage)
-      target_link_libraries(
-        ${IPFN_TEST_BINARY_NAME}
-        PRIVATE --coverage)
     endif()
-    add_test (
+    add_test(
       NAME ${IPFN_TEST_BINARY_NAME}
       COMMAND
       ${TEST_RUNNER}
@@ -59,11 +56,8 @@ function (ipfn_test)
       target_compile_options(
         ${IPFN_TEST_BINARY_NAME}
         PRIVATE --coverage)
-      target_link_libraries(
-        ${IPFN_TEST_BINARY_NAME}
-        PRIVATE --coverage)
     endif()
-    add_test (
+    add_test(
       NAME ${IPFN_TEST_BINARY_NAME}
       COMMAND
       ${TEST_RUNNER}
@@ -79,15 +73,7 @@ function (ipfn_test)
       ${IPFN_TEST_BINARY_NAME} "${IPFN_TEST_SOURCES}")
     target_link_libraries(
       ${IPFN_TEST_BINARY_NAME} "${IPFN_TEST_LIBRARIES}")
-    if(BUILD_TEST_COVERAGE)
-      target_compile_options(
-        ${IPFN_TEST_BINARY_NAME}
-        PRIVATE --coverage)
-      target_link_libraries(
-        ${IPFN_TEST_BINARY_NAME}
-        PRIVATE --coverage)
-    endif()
-    add_test (
+    add_test(
       NAME ${IPFN_TEST_BINARY_NAME}
       COMMAND
       ${TEST_RUNNER}
@@ -106,8 +92,8 @@ function (ipfn_test)
     target_compile_definitions(${IPFN_TEST_BINARY_NAME}
       PUBLIC ${i})
   endforeach()
+endfunction()
 
-endfunction ()
 if(BUILD_TESTS)
   add_custom_target(check
     COMMAND ctest --output-on-failure -N -R "^IPFN"
