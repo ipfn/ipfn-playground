@@ -6,7 +6,7 @@ sudo: required
 install:
  - bash ./tools/devenv/install-go-tools.sh
  - gx install --global
- - go get -u ./pkg/...
+ - go get ./pkg/...
 
 script:
  - diff -au <(gofmt -d .) <(printf "")
