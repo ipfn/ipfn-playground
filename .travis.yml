@@ -4,7 +4,7 @@ go:
 
 sudo: required
 install:
- - ./tools/devenv/install-go-tools.sh
+ - bash ./tools/devenv/install-go-tools.sh
  - gx install --global
  - go get -u ./pkg/...
 
