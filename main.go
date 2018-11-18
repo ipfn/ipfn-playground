@@ -16,7 +16,7 @@
 package main
 
 import (
-	"github.com/ipfn/ipfn/go/cmd"
+	"github.com/ipfn/ipfn/pkg/cmd"
 )
 
 func main() {
