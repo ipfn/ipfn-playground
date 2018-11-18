@@ -24,7 +24,7 @@ import (
 	"math/big"
 	"sync"
 
-	"github.com/crackcomm/sha256-simd"
+	"github.com/minio/sha256-simd"
 
 	"github.com/miekg/pkcs11"
 	"go.uber.org/zap/zapcore"

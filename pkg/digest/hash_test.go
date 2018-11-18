@@ -19,8 +19,8 @@ import (
 
 	multihash "gx/ipfs/QmerPMzPk1mJVowm8KgmoknWa4yCYvvugMPsgWmDNUvDLW/go-multihash"
 
-	"github.com/crackcomm/sha256-simd"
 	"github.com/ipfn/ipfn/pkg/utils/hexutil"
+	"github.com/minio/sha256-simd"
 	"github.com/stretchr/testify/assert"
 	"golang.org/x/crypto/sha3"
 )

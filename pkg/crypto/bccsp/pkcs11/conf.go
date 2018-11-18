@@ -20,7 +20,7 @@ import (
 	"fmt"
 	"hash"
 
-	"github.com/crackcomm/sha256-simd"
+	"github.com/minio/sha256-simd"
 	"github.com/ipfn/ipfn/pkg/crypto/bccsp"
 	"golang.org/x/crypto/sha3"
 )

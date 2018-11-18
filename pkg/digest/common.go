@@ -15,8 +15,8 @@
 package digest
 
 import (
-	"github.com/crackcomm/sha256-simd"
 	keccak "github.com/gxed/hashland/keccakpg"
+	"github.com/minio/sha256-simd"
 )
 
 // SumKeccak256 - Sums Keccak256 secure hash.

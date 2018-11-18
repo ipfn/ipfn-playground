@@ -26,8 +26,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/crackcomm/sha256-simd"
 	"github.com/ipfn/ipfn/pkg/digest"
+	"github.com/minio/sha256-simd"
 	"golang.org/x/crypto/pbkdf2"
 	"golang.org/x/crypto/scrypt"
 )

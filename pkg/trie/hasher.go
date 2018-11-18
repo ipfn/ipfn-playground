@@ -24,10 +24,10 @@ import (
 	"sync"
 
 	"github.com/cespare/xxhash"
-	"github.com/crackcomm/sha256-simd"
 	"github.com/ethereum/go-ethereum/rlp"
 	"github.com/ipfn/ipfn/pkg/digest"
 	"github.com/ipfn/ipfn/pkg/utils/byteutil"
+	"github.com/minio/sha256-simd"
 )
 
 type hasher struct {
