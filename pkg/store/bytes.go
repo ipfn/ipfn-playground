@@ -30,3 +30,16 @@ type Bytes interface {
 	// If the key does not exist, it should return a NoSuchKeyError.
 	Set(ctx context.Context, key Key, body []byte) error
 }
+
+// Simple - Byte reader.
+type Simple interface {
+	// Get - Reads value from under key.
+	//
+	// If the key does not exist, it should return a NoSuchKeyError.
+	Get(key Key) ([]byte, error)
+
+	// Set - Writes value under key.
+	//
+	// If the key does not exist, it should return a NoSuchKeyError.
+	Set(key Key, body []byte) error
+}
