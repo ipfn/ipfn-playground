@@ -50,7 +50,7 @@ func TestBinaryCell(t *T) {
 
 	id, err := de.Checksum()
 	assert.Equal(t, nil, err)
-	assert.Equal(t, ID(0x1663e9dbd3c404b2), id)
+	assert.Equal(t, ID(0xb89a2f9596685985), id)
 
 	cid := de.CID()
 	assert.Equal(t, nil, err)

@@ -75,7 +75,7 @@ func (c *dagCell) RawData() []byte {
 	return c.body
 }
 
-func (c *dagCell) Cid() *cid.Cid {
+func (c *dagCell) Cid() cid.Cid {
 	return c.Cell.CID().Cid
 }
 

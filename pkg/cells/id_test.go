@@ -23,7 +23,7 @@ import (
 func TestComputeID(t *T) {
 	id, err := cidCell.Checksum()
 	assert.Equal(t, nil, err)
-	assert.Equal(t, ID(0x13fb93194e573bd2), id)
+	assert.Equal(t, ID(0xf9354b0e056554bc), id)
 }
 
 func TestParseID(t *T) {

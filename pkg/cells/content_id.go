@@ -23,22 +23,25 @@ import (
 
 // CID - Content ID wrapper.
 type CID struct {
-	*cid.Cid
+	cid.Cid
 }
 
+// UndefCID - Alias to an empty content ID.
+var UndefCID = CID{}
+
 // NewCID - Creates new wrapped content ID v1 for codec and hash.
-func NewCID(codecType uint64, mhash mh.Multihash) *CID {
-	return &CID{Cid: cid.NewCidV1(codecType, mhash)}
+func NewCID(codecType uint64, mhash mh.Multihash) CID {
+	return CID{Cid: cid.NewCidV1(codecType, mhash)}
 }
 
 // NewCIDFromHash - Creates new wrapped content ID v1 for codec and hash.
-func NewCIDFromHash(codecType uint64, hash []byte, hashType uint64) *CID {
+func NewCIDFromHash(codecType uint64, hash []byte, hashType uint64) CID {
 	mhash, _ := mh.Encode(hash, mh.SHA2_256)
 	return NewCID(cid.EthStateTrie, mhash)
 }
 
 // SumCID - Sums content id and wraps.
-func SumCID(prefix cid.Prefix, body []byte) (_ *CID, err error) {
+func SumCID(prefix cid.Prefix, body []byte) (_ CID, err error) {
 	c, err := prefix.Sum(body)
 	if err != nil {
 		return
@@ -47,30 +50,30 @@ func SumCID(prefix cid.Prefix, body []byte) (_ *CID, err error) {
 }
 
 // WrapCID - Wraps content id.
-func WrapCID(c *cid.Cid) *CID {
-	return &CID{Cid: c}
+func WrapCID(c cid.Cid) CID {
+	return CID{Cid: c}
 }
 
 // DecodeCID - Decodes CID.
-func DecodeCID(v string) (_ *CID, err error) {
+func DecodeCID(v string) (_ CID, err error) {
 	c, err := cid.Decode(v)
 	if err != nil {
 		return
 	}
-	return &CID{Cid: c}, nil
+	return CID{Cid: c}, nil
 }
 
 // ParseCID - Parses CID.
-func ParseCID(v interface{}) (_ *CID, err error) {
+func ParseCID(v interface{}) (_ CID, err error) {
 	c, err := cid.Parse(v)
 	if err != nil {
 		return
 	}
-	return &CID{Cid: c}, nil
+	return CID{Cid: c}, nil
 }
 
 // Digest - Returns 32 bytes of hash.
-func (c *CID) Digest() []byte {
+func (c CID) Digest() []byte {
 	h := c.Hash()
 	return h[len(h)-32:]
 }
@@ -86,6 +89,11 @@ func (c *CID) UnmarshalJSON(b []byte) (err error) {
 }
 
 // MarshalJSON - Marshals the cid as string.
-func (c *CID) MarshalJSON() ([]byte, error) {
+func (c CID) MarshalJSON() ([]byte, error) {
 	return []byte(fmt.Sprintf("%q", c)), nil
+}
+
+// Defined - Returns true if CID is not empty.
+func (c *CID) Defined() bool {
+	return c != nil && c.Cid.Defined()
 }

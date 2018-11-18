@@ -17,12 +17,15 @@ package cells
 import (
 	"encoding/json"
 	"fmt"
+
+	cid "gx/ipfs/QmR8BauakNcBa3RbE4nbQu76PDiJgoQgz8AJdhJuiU4TAw/go-cid"
+	mh "gx/ipfs/QmerPMzPk1mJVowm8KgmoknWa4yCYvvugMPsgWmDNUvDLW/go-multihash"
 )
 
 // Cell - Operation cell interface.
 type Cell interface {
 	// CID - Operation CID.
-	CID() *CID
+	CID() CID
 
 	// OpCode - Operation ID.
 	OpCode() ID
@@ -65,13 +68,21 @@ type BinaryCell struct {
 	memory   []byte
 	children []Cell
 
-	cid  *CID
+	cid  CID
 	body []byte
 }
 
+// CellPrefix - Binary cell CID prefix.
+var CellPrefix = cid.Prefix{
+	Version:  1,
+	Codec:    0x70bc,
+	MhType:   mh.SHA2_256,
+	MhLength: 32,
+}
+
 // CID - Computes marshaled cell cid.
-func (cell *BinaryCell) CID() (_ *CID) {
-	if cell.cid != nil {
+func (cell *BinaryCell) CID() (_ CID) {
+	if cell.cid.Defined() {
 		return cell.cid
 	}
 	body, err := cell.Marshal()
@@ -166,6 +177,6 @@ func (cell *BinaryCell) MarshalJSON() (_ []byte, err error) {
 }
 
 func (cell *BinaryCell) reset() {
-	cell.cid = nil
+	cell.cid = UndefCID
 	cell.body = nil
 }
