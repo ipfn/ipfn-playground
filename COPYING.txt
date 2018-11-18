@@ -8,6 +8,11 @@ Files: *
 Copyright: 2017-2018, The IPFN Developers
 License: Apache-2.0
 
+Files: apps/ipfs/*
+Source: https://github.com/ipfs/go-ipfs
+Copyright: 2014-2018, Juan Batiz-Benet
+License: MIT
+
 Files: cmake/util/Util.cmake
 Source: https://github.com/dmlc/tvm/
 Copyright: 2017, TVM Contributors
@@ -54,8 +59,6 @@ Copyright: 2018, IBM Corp.
 License: Apache-2.0
 
 Files: pkg/crypto/sealbox/*
-       pkg/utils/hdkeychain/*
-       pkg/utils/mathutil/*
        pkg/utils/byteutil/*
        pkg/trie/*
 Source: https://github.com/ethereum/go-ethereum
@@ -63,7 +66,7 @@ Copyright: 2017, The go-ethereum Authors
            2018, The IPFN Developers
 License: GPL-3.0+
 
-Files: pkg/utils/base32i/*
+Files: pkg/common/base32i/*
 Source: https://github.com/btcsuite/btcutil/blob/master/base58/base58check.go
 Copyright: 2013-2014, The btcsuite developers
            2018, The IPFN Developers
@@ -116,3 +119,7 @@ Copyright: 2015-2018, Cloudius Systems, Ltd.
            2017-2018, SMF Authors
            2018, The IPFN Developers
 License: Apache-2.0
+
+Files: vendor/
+Copyright: *
+License: *
