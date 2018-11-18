@@ -23,18 +23,18 @@ const (
 	ChainHeader = 0x51df0
 	// ChainSigned - Content ID of Chain Signed Header Version 1. (335344)
 	ChainSigned = 0x135ae
-	// OperationTrie - Content ID of Cell Trie Version 1. (26156)
+	// OperationTrie - Content ID of Cell Operation Trie Version 1. (26156)
 	OperationTrie = 0x662c
-	// StateTrie - Content ID of Cell Trie Version 1. (27549)
+	// StateTrie - Content ID of Cell State Trie Version 1. (27549)
 	StateTrie = 0x6b9d
 )
 
 // Codecs - Maps the name of a codec to its type.
 var Codecs = map[string]uint64{
-	"chain-header":   ChainHeader,
-	"chain-signed":   ChainSigned,
-	"operation-trie": OperationTrie,
-	"state-trie":     StateTrie,
+	"ipfn-chain-header": ChainHeader,
+	"ipfn-chain-signed": ChainSigned,
+	"ipfn-ops-trie":     OperationTrie,
+	"ipfn-state-trie":   StateTrie,
 }
 
 func init() {

@@ -18,10 +18,11 @@ import (
 	"context"
 	"fmt"
 
+	crypto "gx/ipfs/QmNiJiXwWE3kRhZrC5ej3kSjWHm337pYfhjLGSCDNKJP2s/go-libp2p-crypto"
+	libp2p "gx/ipfs/QmVvV8JQmmqPCwXAaesWJPheUiEFQJ9HWRhWhuFuxVQxpR/go-libp2p"
+	libp2phost "gx/ipfs/QmahxMNoNuSsgQefo9rkpcfRFmQrMN6Q99aztKXf63K7YJ/go-libp2p-host"
+
 	"github.com/btcsuite/btcd/btcec"
-	libp2p "github.com/libp2p/go-libp2p"
-	crypto "github.com/libp2p/go-libp2p-crypto"
-	libp2phost "github.com/libp2p/go-libp2p-host"
 )
 
 // Host - Node host interface.

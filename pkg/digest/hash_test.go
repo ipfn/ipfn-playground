@@ -17,9 +17,10 @@ package digest
 import (
 	"testing"
 
+	multihash "gx/ipfs/QmerPMzPk1mJVowm8KgmoknWa4yCYvvugMPsgWmDNUvDLW/go-multihash"
+
 	"github.com/crackcomm/sha256-simd"
 	"github.com/ipfn/ipfn/pkg/utils/hexutil"
-	multihash "github.com/multiformats/go-multihash"
 	"github.com/stretchr/testify/assert"
 	"golang.org/x/crypto/sha3"
 )

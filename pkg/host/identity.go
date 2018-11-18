@@ -15,10 +15,11 @@
 package host
 
 import (
+	crypto "gx/ipfs/QmNiJiXwWE3kRhZrC5ej3kSjWHm337pYfhjLGSCDNKJP2s/go-libp2p-crypto"
+	libp2p "gx/ipfs/QmVvV8JQmmqPCwXAaesWJPheUiEFQJ9HWRhWhuFuxVQxpR/go-libp2p"
+
 	"github.com/btcsuite/btcd/btcec"
 	"github.com/ipfn/go-ipfn-keypair"
-	libp2p "github.com/libp2p/go-libp2p"
-	crypto "github.com/libp2p/go-libp2p-crypto"
 )
 
 // Identity - Creates new identity from private key.

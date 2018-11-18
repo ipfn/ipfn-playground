@@ -16,8 +16,7 @@ package cells
 
 import (
 	cid "gx/ipfs/QmR8BauakNcBa3RbE4nbQu76PDiJgoQgz8AJdhJuiU4TAw/go-cid"
-
-	multihash "github.com/multiformats/go-multihash"
+	multihash "gx/ipfs/QmerPMzPk1mJVowm8KgmoknWa4yCYvvugMPsgWmDNUvDLW/go-multihash"
 )
 
 // TODO - Returns empty cell.
