@@ -20,7 +20,7 @@ import (
 	"fmt"
 	"hash"
 
-	"github.com/ipfn/ipfn/pkg/crypto/bccsp"
+	"github.com/ipfn/ipfn/pkg/digest"
 	"github.com/minio/sha256-simd"
 	"golang.org/x/crypto/sha3"
 )
