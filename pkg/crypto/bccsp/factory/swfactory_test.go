@@ -19,7 +19,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/ipfn/ipfn/pkg/crypto/bccsp"
+	"github.com/ipfn/ipfn/pkg/digest"
 	"github.com/stretchr/testify/assert"
 )
 

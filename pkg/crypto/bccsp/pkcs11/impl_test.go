@@ -41,6 +41,7 @@ import (
 	"github.com/ipfn/ipfn/pkg/crypto/bccsp/signer"
 	"github.com/ipfn/ipfn/pkg/crypto/bccsp/swcp"
 	"github.com/ipfn/ipfn/pkg/crypto/bccsp/utils"
+	"github.com/ipfn/ipfn/pkg/digest"
 	"github.com/stretchr/testify/assert"
 	"golang.org/x/crypto/sha3"
 )
@@ -843,7 +844,7 @@ func TestKeyImportFromX509ECDSAPublicKey(t *testing.T) {
 		UnknownExtKeyUsage: testUnknownExtKeyUsage,
 
 		BasicConstraintsValid: true,
-		IsCA:                  true,
+		IsCA: true,
 
 		OCSPServer:            []string{"http://ocurrentBCCSP.example.com"},
 		IssuingCertificateURL: []string{"http://crt.example.com/ca1.crt"},
@@ -1689,7 +1690,7 @@ func TestKeyImportFromX509RSAPublicKey(t *testing.T) {
 		UnknownExtKeyUsage: testUnknownExtKeyUsage,
 
 		BasicConstraintsValid: true,
-		IsCA:                  true,
+		IsCA: true,
 
 		OCSPServer:            []string{"http://ocurrentBCCSP.example.com"},
 		IssuingCertificateURL: []string{"http://crt.example.com/ca1.crt"},

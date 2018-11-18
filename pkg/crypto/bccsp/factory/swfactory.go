@@ -18,6 +18,7 @@ package factory
 import (
 	"github.com/ipfn/ipfn/pkg/crypto/bccsp"
 	"github.com/ipfn/ipfn/pkg/crypto/bccsp/swcp"
+	"github.com/ipfn/ipfn/pkg/digest"
 	"github.com/pkg/errors"
 )
 

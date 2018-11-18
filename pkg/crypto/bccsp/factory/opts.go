@@ -15,7 +15,7 @@
 
 package factory
 
-import "github.com/ipfn/ipfn/pkg/crypto/bccsp"
+import "github.com/ipfn/ipfn/pkg/digest"
 
 // GetDefaultOpts offers a default implementation for Opts
 // returns a new instance every time

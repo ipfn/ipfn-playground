@@ -24,6 +24,7 @@ import (
 	"testing"
 
 	"github.com/ipfn/ipfn/pkg/crypto/bccsp"
+	"github.com/ipfn/ipfn/pkg/digest"
 	"github.com/miekg/pkcs11"
 	"github.com/stretchr/testify/assert"
 )
