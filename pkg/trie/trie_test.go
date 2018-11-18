@@ -32,14 +32,15 @@ import (
 	"testing/quick"
 
 	"github.com/davecgh/go-spew/spew"
-	"github.com/ethereum/go-ethereum/crypto/sha3"
 	"github.com/ethereum/go-ethereum/rlp"
 	"github.com/ipfn/ipfn/pkg/digest"
 	"github.com/ipfn/ipfn/pkg/trie/ethdb"
+
+	keccak "github.com/gxed/hashland/keccakpg"
 )
 
 func init() {
-	SetHashFunc(sha3.NewKeccak256)
+	SetHashFunc(keccak.New256)
 	spew.Config.Indent = "    "
 	spew.Config.DisableMethods = false
 }
