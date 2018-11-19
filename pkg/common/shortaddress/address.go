@@ -49,7 +49,7 @@ type Address struct {
 	Extra uint16 `json:"extra,omitempty"`
 }
 
-// ChecksumBytes - Calculates chceksum for ID and CID.
+// ChecksumBytes - Calculates checksum for ID and CID.
 func ChecksumBytes(id cells.ID, bytes []byte) uint16 {
 	return uint16(math.Ceil(math.Sqrt(float64(uint64(id) % uint64(crc32.ChecksumIEEE(bytes))))))
 }
