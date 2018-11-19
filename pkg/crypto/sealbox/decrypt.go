@@ -22,7 +22,6 @@ package sealbox
 import (
 	"bytes"
 	"encoding/hex"
-	"encoding/json"
 	"errors"
 	"fmt"
 
@@ -34,16 +33,6 @@ import (
 
 // ErrDecrypt - Error returned on failed decryption attempt.
 var ErrDecrypt = errors.New("could not decrypt key with given passphrase")
-
-// DecryptJSON - Unmarshals and decrypts JSON sealed box.
-func DecryptJSON(body []byte, pwd string) (_ []byte, err error) {
-	var box SealedBox
-	err = json.Unmarshal(body, &box)
-	if err != nil {
-		return
-	}
-	return box.Decrypt(pwd)
-}
 
 // Decrypt - Decrypts a key from a json blob, returning the private key itself.
 func (box *SealedBox) Decrypt(pwd string) ([]byte, error) {

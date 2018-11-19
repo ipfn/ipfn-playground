@@ -22,21 +22,11 @@ package sealbox
 import (
 	"crypto/aes"
 	"encoding/hex"
-	"encoding/json"
 
 	"github.com/ipfn/ipfn/pkg/crypto/entropy"
 	"github.com/ipfn/ipfn/pkg/digest"
 	"golang.org/x/crypto/scrypt"
 )
-
-// EncryptToJSON - Encrypts a box to JSON using the specified scrypt parameters.
-func EncryptToJSON(body, pwd []byte, scryptN, scryptP int) (_ []byte, err error) {
-	box, err := Encrypt(body, pwd, scryptN, scryptP)
-	if err != nil {
-		return
-	}
-	return json.Marshal(box)
-}
 
 // Encrypt - Encrypts a box using the specified scrypt parameters.
 func Encrypt(body, pwd []byte, scryptN, scryptP int) (_ SealedBox, err error) {
@@ -52,7 +42,6 @@ func Encrypt(body, pwd []byte, scryptN, scryptP int) (_ SealedBox, err error) {
 	if err != nil {
 		return
 	}
-	// TODO(crackcomm): use bccsp
 	cipherText, err := aesCTRXOR(derivedKey[:16], body, iv)
 	if err != nil {
 		return

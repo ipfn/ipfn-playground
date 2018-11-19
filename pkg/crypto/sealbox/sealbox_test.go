@@ -22,6 +22,7 @@ package sealbox
 // Implements #TST-crypto-sealed
 
 import (
+	"encoding/json"
 	"io/ioutil"
 	"testing"
 )
@@ -41,23 +42,28 @@ func TestKeyEncryptDecrypt(t *testing.T) {
 
 	// Do a few rounds of decryption and encryption
 	for i := 0; i < 3; i++ {
-		// Try a bad password first
-		if _, err := DecryptJSON(keyjson, password+"bad"); err == nil {
+		var box SealedBox
+		err = json.Unmarshal(keyjson, &box)
+		if err != nil {
+			return
+		}
+		if _, err := box.Decrypt(password + "bad"); err == nil {
 			t.Errorf("test %d: json key decrypted with bad password", i)
 		}
 		// Decrypt with the correct password
-		body, err := DecryptJSON(keyjson, password)
+		body, err := box.Decrypt(password)
 		if err != nil {
 			t.Fatalf("test %d: json key failed to decrypt: %v", i, err)
 		}
-		// TODO(crackcomm): ...
-		// if !bytes.Equal(key.Address, address) {
-		// 	t.Errorf("test %d: key address mismatch: have %x, want %x", i, key.Address, address)
-		// }
 		// Recrypt with a new password and start over
 		password += "new data appended"
-		if keyjson, err = EncryptToJSON(body, []byte(password), veryLightScryptN, veryLightScryptP); err != nil {
-			t.Errorf("test %d: failed to recrypt key %v", i, err)
+		box, err = Encrypt(body, []byte(password), veryLightScryptN, veryLightScryptP)
+		if err != nil {
+			t.Errorf("test %d: failed to encrypt %v", i, err)
+		}
+		keyjson, err = json.Marshal(box)
+		if err != nil {
+			t.Errorf("test %d: failed to marshal json %v", i, err)
 		}
 	}
 }
