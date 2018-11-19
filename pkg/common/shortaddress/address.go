@@ -154,7 +154,7 @@ func (addr *Address) Unmarshal(body []byte) (err error) {
 	if err != nil {
 		return err
 	}
-	if checksum > math.MaxUint32 {
+	if checksum > math.MaxUint16 {
 		return errors.New("checksum too big")
 	}
 	addr.Extra = uint16(checksum)
