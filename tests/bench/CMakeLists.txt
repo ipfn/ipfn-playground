@@ -1,12 +1,2 @@
 
-set(BENCH_ROOT ${PROJECT_SOURCE_DIR}/src/tests/bench)
-
-ipfn_test(
-  BENCHMARK_TEST
-  BINARY_NAME checksum
-  SOURCES ${BENCH_ROOT}/checksum.cc
-  INCLUDES ${XXHASH_SOURCE_DIR}
-  DEFINITIONS -DXXH_PRIVATE_API
-  SOURCE_DIRECTORY ${BENCH_ROOT}
-  LIBRARIES benchmark
-)
+add_subdirectory(checksum)
