@@ -28,8 +28,14 @@ const (
 	// ECDSA Elliptic Curve Digital Signature Algorithm over P-384 curve
 	ECDSAP384 = "ECDSAP384"
 
+	// ECDSA Elliptic Curve Digital Signature Algorithm over Curve25519
+	ED25519 = "ED25519"
+
 	// ECDSAReRand ECDSA key re-randomization
 	ECDSAReRand = "ECDSA_RERAND"
+
+	// ED25519ReRand ED25519 key re-randomization
+	ED25519ReRand = "ED25519_RERAND"
 
 	// RSA at the default security level.
 	// Each BCCSP may or may not support default security level. If not supported than

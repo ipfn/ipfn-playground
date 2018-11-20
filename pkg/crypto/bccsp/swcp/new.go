@@ -69,6 +69,7 @@ func NewWithParams(securityLevel int, hashFamily digest.Family, keyStore bccsp.K
 	swbccsp.AddWrapper(reflect.TypeOf(&aesPrivateKey{}), &aescbcpkcs7Decryptor{})
 
 	// Set the signers
+	swbccsp.AddWrapper(reflect.TypeOf(&ed25519PrivateKey{}), &ed25519Signer{})
 	swbccsp.AddWrapper(reflect.TypeOf(&ecdsaPrivateKey{}), &ecdsaSigner{})
 	swbccsp.AddWrapper(reflect.TypeOf(&rsaPrivateKey{}), &rsaSigner{})
 
@@ -87,6 +88,7 @@ func NewWithParams(securityLevel int, hashFamily digest.Family, keyStore bccsp.K
 	swbccsp.AddWrapper(reflect.TypeOf(&bccsp.ECDSAKeyGenOpts{}), &ecdsaKeyGenerator{curve: conf.ellipticCurve})
 	swbccsp.AddWrapper(reflect.TypeOf(&bccsp.ECDSAP256KeyGenOpts{}), &ecdsaKeyGenerator{curve: elliptic.P256()})
 	swbccsp.AddWrapper(reflect.TypeOf(&bccsp.ECDSAP384KeyGenOpts{}), &ecdsaKeyGenerator{curve: elliptic.P384()})
+	swbccsp.AddWrapper(reflect.TypeOf(&bccsp.ED25519KeyGenOpts{}), &ed25519KeyGenerator{})
 	swbccsp.AddWrapper(reflect.TypeOf(&bccsp.AESKeyGenOpts{}), &aesKeyGenerator{length: conf.aesBitLength})
 	swbccsp.AddWrapper(reflect.TypeOf(&bccsp.AES256KeyGenOpts{}), &aesKeyGenerator{length: 32})
 	swbccsp.AddWrapper(reflect.TypeOf(&bccsp.AES192KeyGenOpts{}), &aesKeyGenerator{length: 24})
@@ -98,6 +100,8 @@ func NewWithParams(securityLevel int, hashFamily digest.Family, keyStore bccsp.K
 	swbccsp.AddWrapper(reflect.TypeOf(&bccsp.RSA4096KeyGenOpts{}), &rsaKeyGenerator{length: 4096})
 
 	// Set the key generators
+	swbccsp.AddWrapper(reflect.TypeOf(&ed25519PrivateKey{}), &ed25519PrivateKeyKeyDeriver{})
+	// swbccsp.AddWrapper(reflect.TypeOf(&ed25519PublicKey{}), &ed25519PublicKeyKeyDeriver{})
 	swbccsp.AddWrapper(reflect.TypeOf(&ecdsaPrivateKey{}), &ecdsaPrivateKeyKeyDeriver{})
 	swbccsp.AddWrapper(reflect.TypeOf(&ecdsaPublicKey{}), &ecdsaPublicKeyKeyDeriver{})
 	swbccsp.AddWrapper(reflect.TypeOf(&aesPrivateKey{}), &aesPrivateKeyKeyDeriver{conf: conf})
