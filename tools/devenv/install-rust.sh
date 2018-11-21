@@ -5,20 +5,14 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
+. $(dirname "$0")/functions.sh
+
 #
 # Installs Rust language compiler.
 # Separate file for accessibility.
 #
 # See: https://rustup.rs/
 #
-
-. $(dirname "$0")/functions.sh
-
-set -e
-set -x
-
-HOME_DIR=$(my_homedir)
-USERNAME=$(my_username)
 
 # Download rust installer and choose latest language compiler.
 curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain nightly -y

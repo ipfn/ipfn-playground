@@ -5,6 +5,9 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
+set -e
+set -x
+
 # Supposed to overcome sudo
 function my_username() {
 	WHOAMI=$(who am i | awk '{print $1}')
@@ -35,3 +38,15 @@ function ask_yes_or_no() {
 	*) echo "no" ;;
 	esac
 }
+
+# Supposed to overcome sudo
+export HOME_DIR=$(my_homedir)
+export USERNAME=$(my_username)
+export IPFN_PATH="/opt/gopath/src/github.com/ipfn/ipfn"
+export DEVENV_PATH=$(dirname "${BASH_SOURCE[0]}")
+if [[ "" == $DEVENV_REVISION ]]; then
+	export DEVENV_REVISION=$( (
+		cd $DEVENV_PATH
+		git rev-parse --short HEAD
+	))
+fi

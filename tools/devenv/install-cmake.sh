@@ -7,12 +7,6 @@
 
 . $(dirname "$0")/functions.sh
 
-set -e
-set -x
-
-HOME_DIR=$(my_homedir)
-USERNAME=$(my_username)
-
 CMAKE_VER=3.13
 CMAKE_VERF=3.13.0-rc2
 CMAKE_ARCH=x86_64

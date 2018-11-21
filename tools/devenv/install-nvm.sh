@@ -8,12 +8,6 @@
 
 . $(dirname "$0")/functions.sh
 
-set -e
-set -x
-
-HOME_DIR=$(my_homedir)
-USERNAME=$(my_username)
-
 # ----------------------------------------------------------------
 # Install nvm to manage multiple NodeJS versions
 # ----------------------------------------------------------------

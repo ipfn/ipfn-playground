@@ -7,15 +7,6 @@
 
 . $(dirname "$0")/functions.sh
 
-set -e
-set -x
-
-# Supposed to overcome sudo
-HOME_DIR=$(my_homedir)
-USERNAME=$(my_username)
-
-echo $USERNAME
-
 # ----------------------------------------------------------------
 # Install Caddy server
 # ----------------------------------------------------------------

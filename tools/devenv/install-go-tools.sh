@@ -5,8 +5,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-set -e
-set -x
+. $(dirname "$0")/functions.sh
 
 # ensure go environment variables
 # file can be not existent on Travis CI
@@ -27,3 +26,5 @@ go get -u github.com/mattn/goveralls
 # go ipfs dependencies
 go get -u github.com/whyrusleeping/gx
 go get -u github.com/whyrusleeping/gx-go
+
+chown -hR $USERNAME:$USERNAME $GOPATH

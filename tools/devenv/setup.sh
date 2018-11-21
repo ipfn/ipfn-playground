@@ -12,41 +12,29 @@ set -e
 set -x
 
 # Install git after update
-apt-get update -qy
-apt-get install -qy git
-
-# Supposed to overcome sudo
-HOME_DIR=$(my_homedir)
-USERNAME=$(my_username)
-IPFN_PATH="/opt/gopath/src/github.com/ipfn/ipfn"
-DEVENV_PATH=$(dirname "$0")
-if [[ "" == $DEVENV_REVISION ]]; then
-	DEVENV_REVISION=$( (
-		cd $DEVENV_PATH
-		git rev-parse --short HEAD
-	))
-fi
+sudo apt-get update -qy
+sudo apt-get install -qy git
 
 # Install WARNING before we start provisioning so that it
 # will remain active.  We will remove the warning after
 # success
 SCRIPT_DIR="$(readlink -f "$(dirname "$0")")"
-cat $DEVENV_PATH/motd-failure.txt >/etc/motd
+sudo bash -c 'cat '$DEVENV_PATH'/motd-failure.txt >/etc/motd'
 
-bash $DEVENV_PATH/install-deps.sh
+sudo bash $DEVENV_PATH/install-deps.sh
 
 # ----------------------------------------------------------------
 # Install CMake
 # ----------------------------------------------------------------
 if [ ! -f /opt/cmake/bin/cmake ]; then
-	bash $DEVENV_PATH/install-cmake.sh
+	sudo bash $DEVENV_PATH/install-cmake.sh
 fi
 
 # ----------------------------------------------------------------
 # Install nvm and Node.js
 # ----------------------------------------------------------------
 if [ ! -d $HOME_DIR/.nvm ]; then
-	bash $DEVENV_PATH/install-nvm.sh
+	sudo bash $DEVENV_PATH/install-nvm.sh
 fi
 
 # ----------------------------------------------------------------
@@ -56,7 +44,7 @@ if [ ! -f /usr/bin/docker ]; then
 	if [ -f /.dockerenv ]; then
 		echo "Not installing Docker inside Docker"
 	else
-		bash $DEVENV_PATH/install-docker.sh
+		sudo bash $DEVENV_PATH/install-docker.sh
 	fi
 fi
 
@@ -64,7 +52,7 @@ fi
 # Install Go and test tools
 # ----------------------------------------------------------------
 if [ ! -f /opt/go/bin/go ]; then
-	bash $DEVENV_PATH/install-go.sh
+	sudo bash $DEVENV_PATH/install-go.sh
 	bash $DEVENV_PATH/install-go-tools.sh
 fi
 
@@ -72,14 +60,14 @@ fi
 # Install Rust
 # ----------------------------------------------------------------
 if [ ! -d $HOME_DIR/.cargo ]; then
-	bash $DEVENV_PATH/install-rust.sh
+	sudo bash $DEVENV_PATH/install-rust.sh
 fi
 
 # ----------------------------------------------------------------
 # Install Emscripten
 # ----------------------------------------------------------------
 if [ ! -d /opt/fastcomp/build/bin ]; then
-	bash $DEVENV_PATH/install-emscripten.sh
+	sudo bash $DEVENV_PATH/install-emscripten.sh
 fi
 
 # ----------------------------------------------------------------
@@ -100,24 +88,5 @@ echo $DEVENV_REVISION >/var/ipfn/build-head-rev
 cd $IPFN_PATH
 
 # Update limits.conf to increase nofiles for LevelDB and network connections
-cp $DEVENV_PATH/limits.conf /etc/security/limits.conf
-
-# Configure vagrant specific environment
-cat <<EOF >/etc/profile.d/vagrant-devenv.sh
-# Expose the tools/devenv in the $PATH
-export IPFN_PATH=$IPFN_PATH
-export PATH=\$PATH:$IPFN_PATH/build/src/apps
-export IPFN_CFG_PATH=$IPFN_PATH/sampleconfig/
-EOF
-
-# Set our shell prompt to something less ugly than the default from packer
-# Also make it so that it cd's the user to the fabric dir upon logging in
-cat <<EOF >$HOME_DIR/.bashrc
-DEVENV_REVISION=\$(cat /var/ipfn/build-head-rev)
-PS1="\u@ipfn:\$DEVENV_REVISION:\w$ "
-cd $IPFN_PATH
-EOF
-
-# Install success message.
-SCRIPT_DIR="$(readlink -f "$DEVENV_PATH")"
-cat "$SCRIPT_DIR/motd-success.txt" >/etc/motd
+sudo cp $DEVENV_PATH/limits.conf /etc/security/limits.conf
+sudo bash $DEVENV_PATH/profile.sh

@@ -13,12 +13,6 @@
 
 . $(dirname "$0")/functions.sh
 
-set -e
-set -x
-
-HOME_DIR=$(my_homedir)
-USERNAME=$(my_username)
-
 export EM_VER=1.38.16
 
 # Install java
