@@ -1,6 +1,6 @@
 FROM debian:stretch
 
-MAINTAINER IPFN Developers <developers@ipfn.io>
+MAINTAINER IPFN Developers <dev@ipfn.io>
 
 RUN apt-get update -qy
 RUN apt-get install -qy git
