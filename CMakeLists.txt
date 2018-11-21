@@ -22,12 +22,14 @@ endif()
 set(CMAKE_MODULE_PATH
     ${CMAKE_MODULE_PATH}
     "${CMAKE_SOURCE_DIR}/cmake"
+    "${CMAKE_SOURCE_DIR}/cmake/golang"
     "${CMAKE_SOURCE_DIR}/cmake/modules"
     "${CMAKE_SOURCE_DIR}/cmake/rust"
     "${CMAKE_SOURCE_DIR}/cmake/toolchain"
     "${CMAKE_SOURCE_DIR}/cmake/util")
 
 include(Util)
+include(GoSimple)
 
 # Configuration defaults
 if(EXISTS ${CMAKE_CURRENT_BINARY_DIR}/config.cmake)
@@ -84,6 +86,7 @@ if(BUILD_WASM_TARGET)
 endif()
 
 if(BUILD_TESTS)
+  enable_testing()
   add_subdirectory(tests)
 endif()
 
