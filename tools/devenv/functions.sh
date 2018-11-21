@@ -50,3 +50,9 @@ if [[ "" == $DEVENV_REVISION ]]; then
 		git rev-parse --short HEAD
 	))
 fi
+
+if [[ "root" == $(whoami) ]]; then
+	export SUDO=""
+elif [[ "" == $SUDO ]]; then
+	export SUDO="sudo"
+fi

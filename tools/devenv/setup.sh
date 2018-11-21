@@ -12,29 +12,29 @@ set -e
 set -x
 
 # Install git after update
-sudo apt-get update -qy
-sudo apt-get install -qy git
+$SUDO apt-get update -qy
+$SUDO apt-get install -qy git
 
 # Install WARNING before we start provisioning so that it
 # will remain active.  We will remove the warning after
 # success
 SCRIPT_DIR="$(readlink -f "$(dirname "$0")")"
-sudo bash -c 'cat '$DEVENV_PATH'/motd-failure.txt >/etc/motd'
+$SUDO bash -c 'cat '$DEVENV_PATH'/motd-failure.txt >/etc/motd'
 
-sudo bash $DEVENV_PATH/install-deps.sh
+$SUDO bash $DEVENV_PATH/install-deps.sh
 
 # ----------------------------------------------------------------
 # Install CMake
 # ----------------------------------------------------------------
 if [ ! -f /opt/cmake/bin/cmake ]; then
-	sudo bash $DEVENV_PATH/install-cmake.sh
+	$SUDO bash $DEVENV_PATH/install-cmake.sh
 fi
 
 # ----------------------------------------------------------------
 # Install nvm and Node.js
 # ----------------------------------------------------------------
 if [ ! -d $HOME_DIR/.nvm ]; then
-	sudo bash $DEVENV_PATH/install-nvm.sh
+	$SUDO bash $DEVENV_PATH/install-nvm.sh
 fi
 
 # ----------------------------------------------------------------
@@ -44,7 +44,7 @@ if [ ! -f /usr/bin/docker ]; then
 	if [ -f /.dockerenv ]; then
 		echo "Not installing Docker inside Docker"
 	else
-		sudo bash $DEVENV_PATH/install-docker.sh
+		$SUDO bash $DEVENV_PATH/install-docker.sh
 	fi
 fi
 
@@ -52,7 +52,7 @@ fi
 # Install Go and test tools
 # ----------------------------------------------------------------
 if [ ! -f /opt/go/bin/go ]; then
-	sudo bash $DEVENV_PATH/install-go.sh
+	$SUDO bash $DEVENV_PATH/install-go.sh
 	bash $DEVENV_PATH/install-go-tools.sh
 fi
 
@@ -60,14 +60,14 @@ fi
 # Install Rust
 # ----------------------------------------------------------------
 if [ ! -d $HOME_DIR/.cargo ]; then
-	sudo bash $DEVENV_PATH/install-rust.sh
+	$SUDO bash $DEVENV_PATH/install-rust.sh
 fi
 
 # ----------------------------------------------------------------
 # Install Emscripten
 # ----------------------------------------------------------------
 if [ ! -d /opt/fastcomp/build/bin ]; then
-	sudo bash $DEVENV_PATH/install-emscripten.sh
+	$SUDO bash $DEVENV_PATH/install-emscripten.sh
 fi
 
 # ----------------------------------------------------------------
@@ -88,5 +88,5 @@ echo $DEVENV_REVISION >/var/ipfn/build-head-rev
 cd $IPFN_PATH
 
 # Update limits.conf to increase nofiles for LevelDB and network connections
-sudo cp $DEVENV_PATH/limits.conf /etc/security/limits.conf
-sudo bash $DEVENV_PATH/profile.sh
+$SUDO cp $DEVENV_PATH/limits.conf /etc/security/limits.conf
+$SUDO bash $DEVENV_PATH/profile.sh
