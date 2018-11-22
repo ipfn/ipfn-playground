@@ -13,6 +13,11 @@ Source: https://github.com/ipfs/go-ipfs
 Copyright: 2014-2018, Juan Batiz-Benet
 License: MIT
 
+Files: include/ipfn/util/coding/base32i.h
+Source: https://github.com/tplgy/cppcodec
+Copyright: 2015, Topology Inc.
+License: MIT
+
 Files: cmake/util/Util.cmake
 Source: https://github.com/dmlc/tvm/
 Copyright: 2017, TVM Contributors
