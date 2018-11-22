@@ -17,3 +17,5 @@ add_test(
 set_tests_properties(go_ipfn_test PROPERTIES
   WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
   DEPENDS ${GX_INSTALLED})
+
+add_subdirectory(codecs)
