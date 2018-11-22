@@ -6,3 +6,6 @@
 	path = third_party/smf
 	url = https://github.com/smfrpc/smf.git
 	branch = master
+[submodule "third_party/cppcodec"]
+	path = third_party/cppcodec
+	url = https://github.com/tplgy/cppcodec.git
