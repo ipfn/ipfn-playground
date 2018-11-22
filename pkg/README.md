@@ -104,7 +104,7 @@ This source code is part of [IPFN](https://github.com/ipfn) – interplanetary f
 [pkcid]: https://github.com/ipfn/ipfn/tree/master/pkg/common/pkcid
 [org-ipfn]: https://github.com/ipfn
 [sealbox-doc]: https://godoc.org/github.com/ipfn/ipfn/pkg/crypto/sealbox
-[sealbox]: https://godoc.org/github.com/ipfn/ipfn/tree/master/pkg/crypto/sealbox
+[sealbox]: https://github.com/ipfn/ipfn/tree/master/pkg/crypto/sealbox
 [shortaddress-doc]: https://godoc.org/github.com/ipfn/ipfn/pkg/common/shortaddress
 [shortaddress-spec]: https://github.com/ipfn/ipfn/blob/master/pkg/common/shortaddress/address.go#L15
 [shortaddress]: https://github.com/ipfn/ipfn/tree/master/pkg/common/shortaddress
