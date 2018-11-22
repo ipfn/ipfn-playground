@@ -23,8 +23,6 @@
 
 namespace varint {
 
-using namespace cppcodec;
-
 inline const char *
 parse32(const char *p, const char *l, uint32_t *OUTPUT) {
   // Version with bounds checks.
@@ -350,8 +348,8 @@ encode64(char *sptr, uint64_t v) {
 template <typename T>
 inline const char *
 parse64(const T &encoded, uint64_t *OUTPUT) {
-  const char *start = data::char_data(encoded);
-  return parse64_limit(start, start + data::size(encoded), OUTPUT);
+  const char *start = cppcodec::data::char_data(encoded);
+  return parse64_limit(start, start + cppcodec::data::size(encoded), OUTPUT);
 }
 
 }  // namespace varint
