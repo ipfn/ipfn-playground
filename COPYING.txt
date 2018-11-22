@@ -112,6 +112,11 @@ Copyright: 2015, Topology Inc.
            2015, See individual files
 License: MIT
 
+Files: third_party/ed25519-donna/*
+Source: https://github.com/floodyberry/ed25519-donna
+Copyright: 2013, Andrew M. <liquidsun@gmail.com>
+License: public-domain
+
 Files: tools/aufs.py
 Source: https://github.com/crackcomm/aufs.py
 Copyright: 2009-2018, Solomon Hykes <solomon.hykes@dotcloud.com>
