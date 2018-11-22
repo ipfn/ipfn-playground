@@ -18,6 +18,11 @@ Source: https://github.com/tplgy/cppcodec
 Copyright: 2015, Topology Inc.
 License: MIT
 
+Files: include/ipfn/util/coding/varint.h
+Source: https://github.com/google/s2geometry
+Copyright: 2001-2018, Google Inc.
+License: Apache-2.0
+
 Files: cmake/util/Util.cmake
 Source: https://github.com/dmlc/tvm/
 Copyright: 2017, TVM Contributors
