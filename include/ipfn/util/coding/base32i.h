@@ -22,7 +22,6 @@
 //
 #pragma once
 
-#include <cctype>  // std::tolower
 #include <cppcodec/base32_crockford.hpp>
 
 namespace cppcodec {
