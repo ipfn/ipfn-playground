@@ -95,10 +95,12 @@ Source: https://github.com/smfrpc/smf/
 Copyright: 2018, Alexander Gallego
 License: Apache-2.0
 
-Files: third_party/tvm/*
-Source: https://github.com/dmlc/tvm/
-Copyright: 2017, TVM Contributors <https://github.com/dmlc/tvm/blob/master/CONTRIBUTORS.md>
-License: Apache-2.0
+Files: third_party/cppcodec/*
+Source: https://github.com/tplgy/cppcodec
+Copyright: 2015, Topology Inc.
+           2018, Jakob Petsovits
+           2015, See individual files
+License: MIT
 
 Files: tools/aufs.py
 Source: https://github.com/crackcomm/aufs.py
