@@ -111,4 +111,4 @@ This source code is part of [IPFN](https://github.com/ipfn) – interplanetary f
 [wallet-doc]: https://godoc.org/github.com/ipfn/ipfn/pkg/wallet
 [web3-secrets]: https://github.com/ethereum/wiki/wiki/Web3-Secret-Storage-Definition
 [cid-spec]: https://github.com/ipld/cid
-[multihash]: https://github.com/multiformats/multihash
+[multihash]: https://multiformats.io/multihash/
