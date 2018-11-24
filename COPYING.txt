@@ -89,6 +89,11 @@ Copyright: 2017, Yuxuan 'fishy' Wang
            2018, The IPFN Developers
 License: BSD-3-clause
 
+Files: third_party/isa-l_crypto/*
+Source: https://github.com/01org/isa-l_crypto
+Copyright: 2011-2018, Intel Corporation
+License: BSD-3-clause
+
 Files: third_party/pybind11/*
 Source: https://github.com/pybind/pybind11/
 Copyright: 2016, Wenzel Jakob <wenzel.jakob@epfl.ch>
