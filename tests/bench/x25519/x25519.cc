@@ -14,8 +14,11 @@
 // limitations under the License.
 //
 #include <benchmark/benchmark.h>
+
 #include <ed25519.h>
 #include <x25519.h>
+
+#include <libhydrogen/hydro_x25519.h>
 
 #include <limits>
 
@@ -35,6 +38,23 @@ BM_x25519(benchmark::State &state) {
   }
 }
 
+static void
+BM_hydro_x25519(benchmark::State &state) {
+  for (auto _ : state) {
+    state.PauseTiming();
+    ed25519_secret_key sk1, sk2;
+    ed25519_randombytes_unsafe(sk1, sizeof(ed25519_secret_key));
+    ed25519_randombytes_unsafe(sk2, sizeof(ed25519_secret_key));
+    ed25519_public_key pk2;
+    ed25519_publickey(sk2, pk2);
+    state.ResumeTiming();
+    uint8_t shared[hydro_x25519_BYTES];
+    hydro_x25519_scalarmult(shared, sk1, pk2, true);
+    benchmark::DoNotOptimize(shared);
+  }
+}
+
 BENCHMARK(BM_x25519)->Arg(32)->Iterations(10000);
+BENCHMARK(BM_hydro_x25519)->Arg(32)->Iterations(10000);
 
 BENCHMARK_MAIN();

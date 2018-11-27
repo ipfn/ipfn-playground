@@ -110,6 +110,11 @@ Source: https://github.com/smfrpc/smf/
 Copyright: 2018, Alexander Gallego
 License: Apache-2.0
 
+Files: tests/bench/x25519/libhydrogen/*
+Source: https://github.com/jedisct1/libhydrogen/
+Copyright: 2017-2018, Frank Denis
+License: ISC
+
 Files: third_party/cppcodec/*
 Source: https://github.com/tplgy/cppcodec
 Copyright: 2015, Topology Inc.
