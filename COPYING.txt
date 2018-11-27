@@ -127,6 +127,15 @@ Source: https://github.com/floodyberry/ed25519-donna
 Copyright: 2013, Andrew M. <liquidsun@gmail.com>
 License: public-domain
 
+Files: third_party/x25519/*
+       tests/x25519/x25519_test.cc
+Source: http://code.google.com/p/curve25519-donna
+Copyright: 2008, Google Inc.
+           2008, Dan Bernstein
+           2008, Adam Langley <agl@imperialviolet.org>
+           2005, Daniel J. Bernstein <djb@cr.yp.to>
+License: BSD-3-clause
+
 Files: tools/aufs.py
 Source: https://github.com/crackcomm/aufs.py
 Copyright: 2009-2018, Solomon Hykes <solomon.hykes@dotcloud.com>
