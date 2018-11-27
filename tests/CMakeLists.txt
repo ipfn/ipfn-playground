@@ -19,3 +19,4 @@ set_tests_properties(go_ipfn_test PROPERTIES
 
 add_subdirectory(codecs)
 add_subdirectory(ed25519)
+add_subdirectory(x25519)
