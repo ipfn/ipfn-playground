@@ -107,7 +107,7 @@ BM_curved25519_pk(benchmark::State &state) {
 }
 
 BENCHMARK(BM_ed25519_donna_pk)->Arg(32);
-BENCHMARK(BM_ed25519_donna_sign)->Arg(32);
+BENCHMARK(BM_ed25519_donna_sign)->Arg(0)->Arg(32);
 BENCHMARK(BM_ed25519_donna_verify)->Arg(32);
 BENCHMARK(BM_ed25519_donna_sign_verify)->Arg(32);
 BENCHMARK(BM_curved25519_pk)->Arg(32);
