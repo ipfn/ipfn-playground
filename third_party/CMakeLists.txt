@@ -48,3 +48,4 @@ if(BUILD_BENCHMARKS)
 endif()
 
 add_subdirectory(ed25519-donna)
+add_subdirectory(x25519)
