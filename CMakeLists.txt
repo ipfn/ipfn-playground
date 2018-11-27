@@ -23,6 +23,7 @@ set(CMAKE_MODULE_PATH
     ${CMAKE_MODULE_PATH}
     "${CMAKE_SOURCE_DIR}/cmake"
     "${CMAKE_SOURCE_DIR}/cmake/golang"
+    "${CMAKE_SOURCE_DIR}/cmake/opt"
     "${CMAKE_SOURCE_DIR}/cmake/modules"
     "${CMAKE_SOURCE_DIR}/cmake/rust"
     "${CMAKE_SOURCE_DIR}/cmake/toolchain"
@@ -87,6 +88,7 @@ endif()
 
 if(BUILD_TESTS)
   enable_testing()
+  find_package(sodium)
   add_subdirectory(tests)
 endif()
 
