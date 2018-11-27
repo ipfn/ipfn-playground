@@ -47,17 +47,4 @@ if(BUILD_BENCHMARKS)
   add_subdirectory(${SMF_THIRD_PARTY_DIR}/google_benchmark)
 endif()
 
-
-if(ED25519) # temporary
-add_library (ed25519-donna STATIC ${CMAKE_CURRENT_SOURCE_DIR}/ed25519-donna/ed25519.c)
-target_include_directories(ed25519-donna
-  PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/ed25519-donna>
-  $<INSTALL_INTERFACE:include>
-  PRIVATE
-  ${CMAKE_CURRENT_SOURCE_DIR}/ed25519-donna)
-
-# Only for MacOS
-find_package (OpenSSL 1.0.2 REQUIRED)
-target_link_libraries (ed25519-donna PUBLIC OpenSSL::SSL)
-endif() # temporary
+add_subdirectory(ed25519-donna)
