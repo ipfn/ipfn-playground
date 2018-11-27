@@ -1,6 +1,5 @@
 
 set(TESTS_ROOT ${PROJECT_SOURCE_DIR}/tests)
-
 set(GX_INSTALLED ${CMAKE_CURRENT_BINARY_DIR}/.gx-done)
 
 add_custom_command(
@@ -19,3 +18,4 @@ set_tests_properties(go_ipfn_test PROPERTIES
   DEPENDS ${GX_INSTALLED})
 
 add_subdirectory(codecs)
+add_subdirectory(ed25519)
