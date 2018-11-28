@@ -21,24 +21,30 @@
 #include <gtest/gtest.h>
 #include <utility>
 
+static const unsigned char basepoint[32] = {9};
+
 TEST(x25519, shared_key) {
+  const std::string expected_shared_hex =
+    "42dedd506f22f8bbe71c2dbfc31e50e2db53861a6f55a2cc77e07e4e271f9807";
   std::vector<uint8_t> seed1 = hex::decode(
     "1b4f0e9851971998e732078544c96b36c3d01cedf7caa332359d6f1d83567014");
   std::vector<uint8_t> seed2 = hex::decode(
     "60303ae22b998861bce3b28f33eec1be758a213c86c93c076dbe9f558c11c752");
 
-  ed25519_public_key pk1;
-  ed25519_publickey(seed2.data(), pk1);
+  ed25519_public_key pk1, pk2;
+  x25519(pk1, seed1.data(), basepoint);
+  x25519(pk2, seed2.data(), basepoint);
 
-  ed25519_secret_key shared;
-  x25519(shared, seed1.data(), pk1);
-  ASSERT_EQ(hex::encode(shared),
-            "ca957a6cedf359467c060feda1eb6ac27c105c49f3d83cecf4f1d17e8bcf841c");
+  ASSERT_EQ(hex::encode(pk1),
+            "4652486ebc271520d844e5bdda9ac243c05dcbe7bc9b93807073a32177a6f73d");
+  ASSERT_EQ(hex::encode(pk2),
+            "ffbc7ba2e4c43be03f8a7f020d0651f582ad1901c254eebb4ec2ecb73148e50d");
 
-  ed25519_public_key shpk;
-  ed25519_publickey(shared, shpk);
-  ASSERT_EQ(hex::encode(shpk),
-            "275cb05c798d9aba960759d59ad27aa6f2e60171e9c74474a315e5538929b187");
+  ed25519_secret_key shared1, shared2;
+  x25519(shared1, seed1.data(), pk2);
+  x25519(shared2, seed2.data(), pk1);
+  ASSERT_EQ(hex::encode(shared1), hex::encode(shared2));
+  ASSERT_EQ(hex::encode(shared1), expected_shared_hex);
 }
 
 TEST(x25519, noncanon) {
@@ -62,7 +68,7 @@ TEST(x25519, noncanon) {
   ASSERT_FALSE(memcmp(out1, out2, sizeof(out1)) == 0);
 }
 
-TEST(x25519, 10k) {
+TEST(x25519, 1k) {
   unsigned char e1k[32];
   unsigned char e2k[32];
   unsigned char e1e2k[32];
@@ -74,7 +80,7 @@ TEST(x25519, 10k) {
   int loop;
   int i;
 
-  for (loop = 0; loop < 10000; ++loop) {
+  for (loop = 0; loop < 1000; ++loop) {
     x25519(e1k, e1, k);
     x25519(e2e1k, e2, e1k);
     x25519(e2k, e2, k);
