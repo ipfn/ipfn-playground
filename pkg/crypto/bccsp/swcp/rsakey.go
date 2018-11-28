@@ -56,7 +56,7 @@ func (k *rsaPrivateKey) SKI() []byte {
 	})
 
 	// Hash it
-	return digest.SumSha256(raw)
+	return digest.SumSha256Bytes(raw)
 }
 
 // Symmetric returns true if this key is a symmetric key,
@@ -107,7 +107,7 @@ func (k *rsaPublicKey) SKI() []byte {
 	})
 
 	// Hash it
-	return digest.SumSha256(raw)
+	return digest.SumSha256Bytes(raw)
 }
 
 // Symmetric returns true if this key is a symmetric key,

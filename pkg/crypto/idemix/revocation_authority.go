@@ -26,7 +26,7 @@ import (
 	"github.com/hyperledger/fabric-amcl/amcl"
 	"github.com/hyperledger/fabric-amcl/amcl/FP256BN"
 	"github.com/ipfn/ipfn/pkg/crypto/bccsp/utils"
-	"github.com/ipfn/ipfn/pkg/digest"
+	"github.com/minio/sha256-simd"
 	"github.com/pkg/errors"
 )
 
@@ -72,7 +72,7 @@ func CreateCRI(key *ecdsa.PrivateKey, unrevokedHandles []*FP256BN.BIG, epoch int
 		return nil, errors.Wrap(err, "failed to marshal CRI")
 	}
 
-	digest := digest.SumSha256(bytesToSign)
+	digest := sha256.Sum256(bytesToSign)
 	cri.EpochPkSig, err = key.Sign(rand.Reader, digest[:], nil)
 	if err != nil {
 		return nil, err
@@ -102,7 +102,7 @@ func VerifyEpochPK(pk *ecdsa.PublicKey, epochPK *ECP2, epochPkSig []byte, epoch 
 	if err != nil {
 		return err
 	}
-	digest := digest.SumSha256(bytesToSign)
+	digest := sha256.Sum256(bytesToSign)
 	r, s, err := utils.UnmarshalECDSASignature(epochPkSig)
 	if err != nil {
 		return errors.Wrap(err, "failed to unmarshal ECDSA signature")

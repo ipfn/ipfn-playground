@@ -39,7 +39,7 @@ func (k *aesPrivateKey) Bytes() (raw []byte, err error) {
 
 // SKI returns the subject key identifier of this key.
 func (k *aesPrivateKey) SKI() (ski []byte) {
-	return digest.SumSha256([]byte{0x01}, k.privKey)
+	return digest.SumSha256Bytes([]byte{0x01}, k.privKey)
 }
 
 // Symmetric returns true if this key is a symmetric key,

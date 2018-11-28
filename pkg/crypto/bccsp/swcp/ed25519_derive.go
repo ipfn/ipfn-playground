@@ -33,8 +33,8 @@ func (kd *ed25519PrivateKeyKeyDeriver) KeyDeriv(k bccsp.Key, opts bccsp.KeyDeriv
 	pk := k.(*ed25519PrivateKey)
 	op := opts.(*bccsp.ED25519ReRandKeyOpts)
 
-	pkhash := digest.SumSha256(pk.privKey.Seed())
-	seed := digest.SumSha256(pkhash, op.Expansion)[:ed25519.SeedSize]
+	pkhash := digest.SumSha256Bytes(pk.privKey.Seed(), op.Expansion)
+	seed := digest.SumSha256Bytes(pkhash[:], op.Expansion)[:ed25519.SeedSize]
 
 	privateKey := ed25519.NewKeyFromSeed(seed)
 	publicKey := make([]byte, ed25519.PublicKeySize)

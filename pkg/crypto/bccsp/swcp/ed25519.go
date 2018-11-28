@@ -84,7 +84,7 @@ func (k *ed25519PublicKey) Bytes() (raw []byte, err error) {
 
 // SKI returns the subject key identifier of this key.
 func (k *ed25519PublicKey) SKI() []byte {
-	return digest.SumSha256(k.pubKey)
+	return digest.SumSha256Bytes(k.pubKey)
 }
 
 // Symmetric returns true if this key is a symmetric key,

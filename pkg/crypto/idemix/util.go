@@ -20,7 +20,7 @@ import (
 
 	"github.com/hyperledger/fabric-amcl/amcl"
 	"github.com/hyperledger/fabric-amcl/amcl/FP256BN"
-	"github.com/ipfn/ipfn/pkg/digest"
+	"github.com/minio/sha256-simd"
 	"github.com/pkg/errors"
 )
 
@@ -54,7 +54,7 @@ func RandModOrder(rng *amcl.RAND) *FP256BN.BIG {
 
 // HashModOrder hashes data into 0, ..., GroupOrder-1
 func HashModOrder(data []byte) *FP256BN.BIG {
-	digest := digest.SumSha256(data)
+	digest := sha256.Sum256(data)
 	digestBig := FP256BN.FromBytes(digest[:])
 	digestBig.Mod(GroupOrder)
 	return digestBig

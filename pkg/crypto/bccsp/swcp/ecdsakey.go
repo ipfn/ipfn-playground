@@ -46,7 +46,7 @@ func (k *ecdsaPrivateKey) SKI() []byte {
 	raw := elliptic.Marshal(k.privKey.Curve, k.privKey.PublicKey.X, k.privKey.PublicKey.Y)
 
 	// Hash it
-	return digest.SumSha256(raw)
+	return digest.SumSha256Bytes(raw)
 }
 
 // Symmetric returns true if this key is a symmetric key,
@@ -91,7 +91,7 @@ func (k *ecdsaPublicKey) SKI() []byte {
 	raw := elliptic.Marshal(k.pubKey.Curve, k.pubKey.X, k.pubKey.Y)
 
 	// Hash it
-	return digest.SumSha256(raw)
+	return digest.SumSha256Bytes(raw)
 }
 
 // Symmetric returns true if this key is a symmetric key,

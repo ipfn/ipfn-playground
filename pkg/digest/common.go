@@ -19,12 +19,22 @@ import (
 	"github.com/minio/sha256-simd"
 )
 
-// SumKeccak256 - Sums Keccak256 secure hash.
-func SumKeccak256(data ...[]byte) []byte {
+// SumKeccak256Bytes - Sums Keccak256 secure hash.
+func SumKeccak256Bytes(data ...[]byte) []byte {
 	return SumBytes(keccak.New256(), data...)
 }
 
-// SumSha256 - Sums Sha256 secure hash.
-func SumSha256(data ...[]byte) []byte {
+// SumSha256Bytes - Sums Sha256 secure hash.
+func SumSha256Bytes(data ...[]byte) []byte {
 	return SumBytes(sha256.New(), data...)
+}
+
+// SumKeccak256 - Sums Keccak256 secure hash.
+func SumKeccak256(data ...[]byte) Digest {
+	return Sum(keccak.New256(), data...)
+}
+
+// SumSha256 - Sums Sha256 secure hash.
+func SumSha256(data ...[]byte) Digest {
+	return Sum(sha256.New(), data...)
 }
