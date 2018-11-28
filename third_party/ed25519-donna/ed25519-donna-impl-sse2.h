@@ -12,7 +12,7 @@ ge25519_p1p1_to_partial(ge25519 *r, const ge25519_p1p1 *p) {
 	curve25519_untangle64(r->x, r->z, xzout);
 }
 
-static void 
+static void
 ge25519_p1p1_to_full(ge25519 *r, const ge25519_p1p1 *p) {
 	packed64bignum25519 ALIGN(16) zy, xt, xx, zz, ty;
 	curve25519_tangle64(ty, p->t, p->y);
@@ -320,6 +320,7 @@ ge25519_double_scalarmult_vartime(ge25519 *r, const ge25519 *p1, const bignum256
 
 		ge25519_p1p1_to_partial(r, &t);
 	}
+  ge25519_p1p1_to_full(r, &t);
 }
 
 #if !defined(HAVE_GE25519_SCALARMULT_BASE_CHOOSE_NIELS)
@@ -369,7 +370,7 @@ ge25519_scalarmult_base_niels(ge25519 *r, const uint8_t table[256][96], const bi
 	ge25519_scalarmult_base_choose_niels(&t, table, 0, b[1]);
 	curve25519_sub_reduce(r->x, t.xaddy, t.ysubx);
 	curve25519_add_reduce(r->y, t.xaddy, t.ysubx);
-	memset(r->z, 0, sizeof(bignum25519)); 
+	memset(r->z, 0, sizeof(bignum25519));
 	r->z[0] = 2;
 	curve25519_copy(r->t, t.t2d);
 	for (i = 3; i < 64; i += 2) {
