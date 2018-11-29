@@ -113,12 +113,9 @@ Vagrant.configure("2") do |config|
     vb.customize ["modifyvm", :id, "--nictype1", "virtio"]
 
     # enables symlinks for windows
-    vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/#{IPFN_PATH}", "1"]
-
-    # /opt/gopath/src/github.com/ipfn/ipfn and /host-dot-ipfn are used by vagrant-spk
     override.vm.synced_folder ".", IPFN_PATH
     override.vm.synced_folder ENV["HOME"] + "/.ipfn", "/host-dot-ipfn"
-    override.vm.synced_folder ".", "/vagrant", disabled: true
+    vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/#{IPFN_PATH}", "1"]
   end
 
   config.vm.provider :libvirt do |libvirt, override|
