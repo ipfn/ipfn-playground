@@ -27,6 +27,13 @@ const Base32Alphabet = "0pzqy9x8bf2tvrwds3jn54khce6mua7l"
 // Encoding - Rootchain address encoder.
 var Encoding = base32.NewEncoding(Base32Alphabet).WithPadding(base32.NoPadding)
 
+// Decode - Encodes rootchain address bytes.
+func Decode(src []byte) (body []byte, err error) {
+	body = make([]byte, Encoding.DecodedLen(len(src)))
+	_, err = Encoding.Decode(body, src)
+	return
+}
+
 // DecodeString - Encodes rootchain address bytes.
 func DecodeString(src string) (body []byte, err error) {
 	body, err = Encoding.DecodeString(src)
