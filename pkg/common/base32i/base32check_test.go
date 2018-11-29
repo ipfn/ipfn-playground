@@ -79,14 +79,3 @@ func TestBase32CheckZeros(t *testing.T) {
 		t.Errorf("CheckEncodeZeros failed: got %s", res)
 	}
 }
-
-func TestBase32Pure(t *testing.T) {
-	res := EncodeToString([]byte("test"))
-	if res != "w3jhxa0" {
-		t.Errorf("EncodeToString failed: got %s expected %q", res, "w3jhxa0")
-	}
-	back, _ := DecodeString(res)
-	if string(back) != "test" {
-		t.Errorf("CheckEncodeZeros failed: got %s expected %q", res, "test")
-	}
-}
