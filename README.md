@@ -5,6 +5,7 @@
 [![Apache-2.0 License][badge-copying]][COPYING]
 [![GoDoc][badge-godoc]][godoc-ipfn]
 [![Travis CI][badge-ci]][ci]
+[![Coverage Status][coverage-badge]][coverage-status]
 
 IPFN – Interplanetary Functions Project Development Environment
 
@@ -36,6 +37,8 @@ This source code is part of [IPFN](https://github.com/ipfn) – interplanetary f
 [badge-ipfn]: https://img.shields.io/badge/project-IPFN-blue.svg?style=flat-square
 [badge-docs]: https://img.shields.io/badge/documentation-IPFN-blue.svg?style=flat-square
 [badge-godoc]: https://godoc.org/github.com/ipfn/ipfn/pkg?status.svg
+[coverage-badge]: https://coveralls.io/repos/github/ipfn/ipfn/badge.svg?branch=master
+[coverage-status]: https://coveralls.io/github/ipfn/ipfn?branch=master
 [godoc-ipfn]: https://godoc.org/github.com/ipfn/ipfn/pkg
 [org-ipfn]: https://github.com/ipfn
 [COPYING]: https://github.com/ipfn/ipfn/blob/master/COPYING.txt
