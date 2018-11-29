@@ -1,8 +1,3 @@
-cmake_minimum_required(VERSION 3.9)
-
-project(isal_crypto VERSION "1.0.0" LANGUAGES C CXX ASM)
-
-include(ExternalProject)
 
 ExternalProject_Add(project_isal_crypto
   PREFIX ${CMAKE_BINARY_DIR}
@@ -14,14 +9,8 @@ ExternalProject_Add(project_isal_crypto
   INSTALL_COMMAND make install DESTDIR=${CMAKE_BINARY_DIR}
   BUILD_IN_SOURCE 1)
 
-# add_library(isal_crypto STAIC IMPORTED)
-# set_target_properties(isal_crypto PROPERTIES
-#   IMPORTED_LOCATION ${CMAKE_CURRENT_BINARY_DIR}/lib/libisal_crypto.a
-#   INTERFACE_INCLUDE_DIRECTORIES  )
-
 add_library(isal_crypto SHARED IMPORTED GLOBAL)
 set_target_properties(isal_crypto PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_CURRENT_BINARY_DIR}/include)
 set_target_properties(isal_crypto PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_BINARY_DIR}/lib/libisal_crypto.so)
 target_include_directories(isal_crypto INTERFACE ${CMAKE_CURRENT_BINARY_DIR}/include)
 add_dependencies(isal_crypto project_isal_crypto)
-# include_directories(${install_dir}/include/isal_crypto-2.0)
