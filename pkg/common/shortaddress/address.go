@@ -49,8 +49,8 @@ type Address struct {
 	Extra uint16 `json:"extra,omitempty"`
 }
 
-// ChecksumBytes - Calculates checksum for ID and CID.
-func ChecksumBytes(id cells.ID, bytes []byte) uint16 {
+// ShortChecksum - Calculates checksum for ID and CID.
+func ShortChecksum(id cells.ID, bytes []byte) uint16 {
 	return uint16(math.Ceil(math.Sqrt(float64(uint64(id) % uint64(crc32.ChecksumIEEE(bytes))))))
 }
 
@@ -119,7 +119,7 @@ func (addr *Address) String() string {
 func (addr *Address) SetCID(c cells.CID) {
 	bytes := c.Bytes()
 	addr.ID = cells.NewID(bytes)
-	addr.Extra = ChecksumBytes(addr.ID, bytes)
+	addr.Extra = ShortChecksum(addr.ID, bytes)
 	addr.CID = c
 	return
 }
@@ -127,7 +127,7 @@ func (addr *Address) SetCID(c cells.CID) {
 // SetBytes - Sets address from bytes.
 func (addr *Address) SetBytes(bytes []byte) {
 	addr.ID = cells.NewID(bytes)
-	addr.Extra = ChecksumBytes(addr.ID, bytes)
+	addr.Extra = ShortChecksum(addr.ID, bytes)
 }
 
 // Marshal - Marshals address as byte array.

@@ -36,7 +36,7 @@ var (
 
 func TestParseAddress(t *T) {
 	a, err := ParseAddress(testSrc)
-	assert.Equal(t, nil, err)
+	assert.NoError(t, err)
 	assert.Equal(t, testAddr.ID, a.ID)
 	assert.Equal(t, testAddr.Extra, a.Extra)
 	assert.Equal(t, testAddr.String(), testSrc)
@@ -47,14 +47,14 @@ func TestAddressJSON(t *T) {
 	assert.Equal(t, `"beqpdfdhq87dkncb"`, fmt.Sprintf("%s", b))
 	r := new(Address)
 	err := json.Unmarshal(b, r)
-	assert.Equal(t, nil, err)
+	assert.NoError(t, err)
 	b, _ = json.Marshal(r)
 	assert.Equal(t, `"beqpdfdhq87dkncb"`, fmt.Sprintf("%s", b))
 }
 
 func TestAddressJSON_CID(t *T) {
 	pk, err := x509.ParseECPrivateKey(hexutil.FromString(testPrivKey))
-	assert.Equal(t, nil, err)
+	assert.NoError(t, err)
 	cid := pkcid.CID(&pk.PublicKey)
 	assert.Equal(t, testKeyCID, cid.String())
 	a := FromCID(cid)
