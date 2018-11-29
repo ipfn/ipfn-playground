@@ -6,6 +6,3 @@
 	path = third_party/smf
 	url = https://github.com/smfrpc/smf.git
 	branch = master
-[submodule "third_party/isa-l_crypto"]
-	path = third_party/isa-l_crypto
-	url = https://github.com/01org/isa-l_crypto.git

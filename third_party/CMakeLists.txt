@@ -49,3 +49,4 @@ endif()
 
 add_subdirectory(ed25519-donna)
 add_subdirectory(x25519)
+add_subdirectory(isa-l_crypto)

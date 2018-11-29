@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.9)
 
-project(ipfn VERSION "0.0.0" LANGUAGES C CXX)
+project(ipfn VERSION "0.0.0" LANGUAGES C CXX ASM)
 
 enable_language(CXX)
 
@@ -31,6 +31,7 @@ set(CMAKE_MODULE_PATH
 
 include(Util)
 include(GoSimple)
+include(ExternalProject)
 
 # Configuration defaults
 if(EXISTS ${CMAKE_CURRENT_BINARY_DIR}/config.cmake)
@@ -48,8 +49,12 @@ if(BUILD_RUST_SDK)
   include(FindRust)
 endif()
 
+# Required for ed25519-donna for sha512
+find_package(OpenSSL 1.0.2 REQUIRED)
+
 set(IPFN_LINKER_LIBS "")
 set(IPFN_RUNTIME_LINKER_LIBS "")
+set(THIRD_PARTY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/third_party)
 
 if(BUILD_DOCS)
   find_package(Doxygen)
