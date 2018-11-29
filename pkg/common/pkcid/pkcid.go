@@ -32,14 +32,14 @@ import (
 // Security directs knowledge of its kind.
 var PrefixV1 = cid.Prefix{
 	Version:  1,
-	Codec:    codecs.PubkeyHashV1,
+	Codec:    codecs.PubkeyV1,
 	MhType:   mh.SHA2_256,
 	MhLength: 32,
 }
 
 // CID - Creates CID from public key.
 //
-// Resulting CID has codec ID of `codecs.PubkeyHashV1`.
+// Resulting CID has codec ID of `codecs.PubkeyV1`.
 func CID(pub *ecdsa.PublicKey) (c cells.CID) {
 	return BytesToCID(PubkeyBytes(pub))
 }
