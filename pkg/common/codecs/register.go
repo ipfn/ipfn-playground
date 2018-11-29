@@ -31,9 +31,9 @@ import (
 )
 
 const (
-	// PubkeyHashV1 - Content ID of Sealed Cell Version 1. (name = "pubkey-hash-v1", id = 24748)
-	PubkeyHashV1 = 0x60ac
-	// BinaryCellV1 - Content ID of Binary Cell Version 1. (name = "cell-binary-v1", id = 28860)
+	// PubkeyV1 - Content ID of Public Kt Version 1. (name = "ipfn-pubkey-v1", id = 24748)
+	PubkeyV1 = 0x60ac
+	// BinaryCellV1 - Content ID of Binary Cell Version 1. (name = "ipfn-cell-v1", id = 28860)
 	BinaryCellV1 = 0x70bc
 )
 
@@ -50,8 +50,8 @@ func init() {
 	// are using these maps to clone later
 	RegisterTarget(Codecs, CodecToStr)
 	Register(map[string]uint64{
-		"pubkey-hash-v1": PubkeyHashV1,
-		"cell-binary-v1": BinaryCellV1,
+		"ipfn-pubkey-v1": PubkeyV1,
+		"ipfn-cell-v1":   BinaryCellV1,
 	})
 	// this one is after to ensure it works
 	RegisterTarget(cid.Codecs, cid.CodecToStr)
