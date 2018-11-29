@@ -15,7 +15,7 @@
 
 package bccsp
 
-// ED25519KeyGenOpts contains options for ECDSA key generation with curve P-384.
+// ED25519KeyGenOpts contains options for ed25519 key generation.
 type ED25519KeyGenOpts struct {
 	Temporary bool
 }
@@ -31,7 +31,7 @@ func (opts *ED25519KeyGenOpts) Ephemeral() bool {
 	return opts.Temporary
 }
 
-// ED25519ReRandKeyOpts contains options for ECDSA key re-randomization.
+// ED25519ReRandKeyOpts contains options for ed25519 key re-randomization.
 type ED25519ReRandKeyOpts struct {
 	Temporary bool
 	Expansion []byte
