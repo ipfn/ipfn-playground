@@ -16,32 +16,40 @@ package swcp
 
 import (
 	"errors"
+	"io"
 
 	"github.com/ipfn/ipfn/pkg/crypto/bccsp"
-	"github.com/ipfn/ipfn/pkg/digest"
+	"github.com/minio/sha256-simd"
 	"golang.org/x/crypto/ed25519"
+	"golang.org/x/crypto/hkdf"
 )
 
 type ed25519PrivateKeyKeyDeriver struct{}
 
-func (kd *ed25519PrivateKeyKeyDeriver) KeyDeriv(k bccsp.Key, opts bccsp.KeyDerivOpts) (bccsp.Key, error) {
+func (kd *ed25519PrivateKeyKeyDeriver) KeyDeriv(k bccsp.Key, opts bccsp.KeyDerivOpts) (_ bccsp.Key, err error) {
 	// Validate opts
 	if opts == nil {
 		return nil, errors.New("derive opts cant be nil")
 	}
 
-	pk := k.(*ed25519PrivateKey)
-	op := opts.(*bccsp.ED25519ReRandKeyOpts)
+	var (
+		sk     = k.(*ed25519PrivateKey)
+		op     = opts.(*bccsp.ED25519ReRandKeyOpts)
+		r      = hkdf.New(sha256.New, sk.privKey.Seed(), op.Expansion, []byte("ad9ba3560bdcd0894f887ea27774ac98"))
+		seed   = make([]byte, ed25519.PrivateKeySize)
+		pubkey = make([]byte, ed25519.PublicKeySize)
+	)
 
-	pkhash := digest.SumSha256Bytes(pk.privKey.Seed(), op.Expansion)
-	seed := digest.SumSha256Bytes(pkhash[:], op.Expansion)[:ed25519.SeedSize]
+	_, err = io.ReadFull(r, seed)
+	if err != nil {
+		return nil, err
+	}
 
 	privateKey := ed25519.NewKeyFromSeed(seed)
-	publicKey := make([]byte, ed25519.PublicKeySize)
-	copy(publicKey, privateKey[32:])
+	copy(pubkey, privateKey[32:])
 
 	return &ed25519PrivateKey{
 		privKey: privateKey,
-		pubKey:  &ed25519PublicKey{publicKey},
+		pubKey:  &ed25519PublicKey{pubkey},
 	}, nil
 }
