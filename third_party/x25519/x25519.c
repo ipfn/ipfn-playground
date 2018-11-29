@@ -867,16 +867,16 @@ crecip(limb *out, const limb *z) {
 
 int
 x25519(uint8_t *mypublic, const uint8_t *secret, const uint8_t *basepoint) {
-  limb bp[10], x[10], z[11], zmone[10];
+  // copy secret
   uint8_t e[32];
-  int i;
-
-  for (i = 0; i < 32; ++i)
+  for (int i = 0; i < 32; ++i) {
     e[i] = secret[i];
+  }
   e[0] &= 248;
   e[31] &= 127;
   e[31] |= 64;
 
+  limb bp[10], x[10], z[11], zmone[10];
   fexpand(bp, basepoint);
   cmult(x, z, e, bp);
   crecip(zmone, z);

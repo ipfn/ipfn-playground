@@ -7,10 +7,16 @@
 
 #include "x25519.h"
 
+#ifdef __cplusplus
 extern "C" {
+#endif
+
 extern uint64_t
 tsc_read();
+
+#ifdef __cplusplus
 }
+#endif
 
 int
 main(int argc, char **argv) {

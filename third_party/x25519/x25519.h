@@ -51,9 +51,8 @@
 extern "C" {
 #endif
 
-extern int
-x25519(unsigned char *dst, const unsigned char *secret,
-       const unsigned char *pubkey);
+extern int x25519(unsigned char *shared, const unsigned char *secret,
+                  const unsigned char *pubkey);
 
 #ifdef __cplusplus
 }
