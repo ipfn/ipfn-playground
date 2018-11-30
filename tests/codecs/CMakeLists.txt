@@ -12,5 +12,5 @@ ipfn_test(
   BINARY_NAME varint
   SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/varint.cc
   SOURCE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-  LIBRARIES gtest cppcodec
+  LIBRARIES gtest cppcodec ipfn_core
 )

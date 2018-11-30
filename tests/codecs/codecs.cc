@@ -15,7 +15,7 @@
 //
 #include <cppcodec/base32_crockford.hpp>
 #include <cppcodec/base64_rfc4648.hpp>
-#include <ipfn/util/coding/base32i.h>
+#include <ipfn/util/coding/base32i.hpp>
 
 #include <gtest/gtest.h>
 

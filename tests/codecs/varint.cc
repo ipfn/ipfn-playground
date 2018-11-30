@@ -13,7 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include <ipfn/util/coding/varint.h>
+#include <ipfn/util/coding/varint.hpp>
 
 #include <gtest/gtest.h>
 #include <utility>
