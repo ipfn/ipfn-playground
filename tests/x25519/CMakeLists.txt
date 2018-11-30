@@ -4,5 +4,5 @@ ipfn_test(
   BINARY_NAME x25519
   SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/x25519_test.cc
   SOURCE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-  LIBRARIES gtest cppcodec ed25519-donna x25519
+  LIBRARIES gtest cppcodec ed25519-donna x25519 ipfn_core
 )

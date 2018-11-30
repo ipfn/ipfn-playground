@@ -13,38 +13,35 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include <cppcodec/hex_default_lower.hpp>
+#include <ipfn/crypto/key_pair.hpp>
+#include <ipfn/crypto/x25519.hpp>
 
-#include <ed25519.h>
 #include <x25519.h>
 
 #include <gtest/gtest.h>
 #include <utility>
 
-static const unsigned char basepoint[32] = {9};
+using namespace ipfn::crypto;
 
 TEST(x25519, shared_key) {
   const std::string expected_shared_hex =
     "42dedd506f22f8bbe71c2dbfc31e50e2db53861a6f55a2cc77e07e4e271f9807";
-  std::vector<uint8_t> seed1 = hex::decode(
+  const std::string expected_pk1_hex =
+    "4652486ebc271520d844e5bdda9ac243c05dcbe7bc9b93807073a32177a6f73d";
+  const std::string expected_pk2_hex =
+    "ffbc7ba2e4c43be03f8a7f020d0651f582ad1901c254eebb4ec2ecb73148e50d";
+  auto seed1 = *key_pair::from_seed_hex(
     "1b4f0e9851971998e732078544c96b36c3d01cedf7caa332359d6f1d83567014");
-  std::vector<uint8_t> seed2 = hex::decode(
+  auto seed2 = *key_pair::from_seed_hex(
     "60303ae22b998861bce3b28f33eec1be758a213c86c93c076dbe9f558c11c752");
 
-  ed25519_public_key pk1, pk2;
-  x25519(pk1, seed1.data(), basepoint);
-  x25519(pk2, seed2.data(), basepoint);
+  ASSERT_EQ(seed1.x25519_public().encode_hex(), expected_pk1_hex);
+  ASSERT_EQ(seed2.x25519_public().encode_hex(), expected_pk2_hex);
 
-  ASSERT_EQ(hex::encode(pk1),
-            "4652486ebc271520d844e5bdda9ac243c05dcbe7bc9b93807073a32177a6f73d");
-  ASSERT_EQ(hex::encode(pk2),
-            "ffbc7ba2e4c43be03f8a7f020d0651f582ad1901c254eebb4ec2ecb73148e50d");
-
-  ed25519_secret_key shared1, shared2;
-  x25519(shared1, seed1.data(), pk2);
-  x25519(shared2, seed2.data(), pk1);
-  ASSERT_EQ(hex::encode(shared1), hex::encode(shared2));
-  ASSERT_EQ(hex::encode(shared1), expected_shared_hex);
+  auto shared1 = x25519_shared(seed1, seed2.x25519_public());
+  auto shared2 = x25519_shared(seed2, seed1.x25519_public());
+  ASSERT_EQ(shared1.encode_hex(), shared2.encode_hex());
+  ASSERT_EQ(shared1.encode_hex(), expected_shared_hex);
 }
 
 TEST(x25519, noncanon) {
