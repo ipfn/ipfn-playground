@@ -50,12 +50,12 @@ class key_pair {
   /**
    * @brief  Returns public part of ed25519 key.
    */
-  inline const public_key &pubkey() const { return public_; }
+  inline const public_key &key_public() const { return public_; }
 
   /**
    * @brief  Returns private part of ed25519 key.
    */
-  inline const private_key &privkey() const { return private_; }
+  inline const private_key &key_private() const { return private_; }
 
   /**
    * @brief  Returns public x25519 key derived from ed25519 key.

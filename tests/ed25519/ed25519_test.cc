@@ -31,9 +31,9 @@ TEST(ed25519, public_key) {
   auto seed2 = *key_pair::from_seed_hex(
     "60303ae22b998861bce3b28f33eec1be758a213c86c93c076dbe9f558c11c752");
 
-  ASSERT_EQ(seed1.pubkey().encode_hex(),
+  ASSERT_EQ(seed1.key_public().encode_hex(),
             "f33235d17f08fe3301747e873d83cdf37c317cb448e4b65d3fdd00c08d57a24e");
-  ASSERT_EQ(seed2.pubkey().encode_hex(),
+  ASSERT_EQ(seed2.key_public().encode_hex(),
             "667e390ba5dcb5b79e371654027807459b1ab7becb4e778f73e9eec090205b10");
 }
 
@@ -46,8 +46,8 @@ TEST(ed25519, curved_key) {
   static const unsigned char curve25519_basepoint[32] = {9};
 
   ed25519_public_key cpk1, cpk2;
-  x25519(cpk1, seed1.privkey().ptr(), curve25519_basepoint);
-  x25519(cpk2, seed2.privkey().ptr(), curve25519_basepoint);
+  x25519(cpk1, seed1.key_private().ptr(), curve25519_basepoint);
+  x25519(cpk2, seed2.key_private().ptr(), curve25519_basepoint);
 
   ASSERT_EQ(seed1.x25519_public().encode_hex(), hex::encode(cpk1));
   ASSERT_EQ(seed2.x25519_public().encode_hex(), hex::encode(cpk2));

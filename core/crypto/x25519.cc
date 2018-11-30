@@ -34,7 +34,7 @@ x25519_shared(const private_key &priv, const public_key &pub) {
 
 private_key
 x25519_shared(const key_pair &priv, const public_key &pub) {
-  return x25519_shared(priv.privkey(), pub);
+  return x25519_shared(priv.key_private(), pub);
 }
 
 public_key
