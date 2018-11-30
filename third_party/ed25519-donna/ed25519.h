@@ -31,15 +31,6 @@ void ed25519_randombytes_unsafe(void *out, size_t count);
 void curved25519_scalarmult_basepoint(unsigned char *pk,
                                       const unsigned char *e);
 
-/**
- * x25519 public key alias
- */
-inline int
-x25519_pubkey(unsigned char *pk, const unsigned char *sk) {
-  curved25519_scalarmult_basepoint(pk, sk);
-  return 0;
-}
-
 #if defined(__cplusplus)
 }
 #endif
