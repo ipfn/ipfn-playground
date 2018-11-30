@@ -1,5 +1,6 @@
 
 add_library(ed25519-donna STATIC ${CMAKE_CURRENT_SOURCE_DIR}/ed25519.c)
+set_property(TARGET ed25519-donna PROPERTY POSITION_INDEPENDENT_CODE ON)
 target_include_directories(ed25519-donna PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 if(USE_SSE2)
