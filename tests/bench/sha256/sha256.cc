@@ -19,25 +19,74 @@
 #include <benchmark/benchmark.h>
 #include <cryptopp/sha.h>
 
+#include <isa-l_crypto/mh_sha256.h>
+
 static void
 BM_sha256_cryptopp(benchmark::State &state) {
+  size_t length = state.range(0) * sizeof(unsigned char);
+  unsigned char *payload = reinterpret_cast<unsigned char *>(malloc(length));
+  std::memset(payload, 'x', state.range(0));
+
   for (auto _ : state) {
-    state.PauseTiming();
-    size_t length = state.range(0) * sizeof(unsigned char);
-    unsigned char *payload = reinterpret_cast<unsigned char *>(malloc(length));
-    std::memset(payload, 'x', state.range(0));
-    std::array<uint8_t, 32> digest{};
-    state.ResumeTiming();
     CryptoPP::SHA256 hash{};
+    std::array<uint8_t, 32> digest{};
     hash.Update(payload, length);
     hash.Final(reinterpret_cast<unsigned char *>(digest.data()));
     benchmark::DoNotOptimize(digest);
-    state.PauseTiming();
-    free(payload);
-    state.ResumeTiming();
   }
+  free(payload);
 }
 
-BENCHMARK(BM_sha256_cryptopp)->RangeMultiplier(2)->Range(8, 8 << 10);
+static void
+BM_sha256_ica_l_crypto(benchmark::State &state) {
+  size_t length = state.range(0) * sizeof(unsigned char);
+  unsigned char *payload = reinterpret_cast<unsigned char *>(malloc(length));
+  std::memset(payload, 'x', state.range(0));
+  struct mh_sha256_ctx *ctx =
+    reinterpret_cast<struct mh_sha256_ctx *>(malloc(sizeof(mh_sha256_ctx)));
+
+  for (auto _ : state) {
+    std::array<uint8_t, 32> digest{};
+    mh_sha256_init(ctx);
+    mh_sha256_update(ctx, payload, length);
+    mh_sha256_finalize(ctx, digest.data());
+    benchmark::DoNotOptimize(digest);
+  }
+  free(payload);
+}
+
+static void
+BM_sha512_cryptopp(benchmark::State &state) {
+  size_t length = state.range(0) * sizeof(unsigned char);
+  unsigned char *payload = reinterpret_cast<unsigned char *>(malloc(length));
+  std::memset(payload, 'x', state.range(0));
+
+  for (auto _ : state) {
+    CryptoPP::SHA512 hash{};
+    std::array<uint8_t, 32> digest{};
+    hash.Update(payload, length);
+    hash.Final(reinterpret_cast<unsigned char *>(digest.data()));
+    benchmark::DoNotOptimize(digest);
+  }
+  free(payload);
+}
+
+BENCHMARK(BM_sha256_cryptopp)
+  ->Range(32, 1e6)
+  ->RangeMultiplier(2)
+  ->Arg(1024)
+  ->Arg(2048);
+
+BENCHMARK(BM_sha256_ica_l_crypto)
+  ->Range(32, 1e6)
+  ->RangeMultiplier(2)
+  ->Arg(1024)
+  ->Arg(2048);
+
+BENCHMARK(BM_sha512_cryptopp)
+  ->Range(32, 1e6)
+  ->RangeMultiplier(2)
+  ->Arg(1024)
+  ->Arg(2048);
 
 BENCHMARK_MAIN();

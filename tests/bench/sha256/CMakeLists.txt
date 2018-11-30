@@ -3,7 +3,6 @@ ipfn_test(
   BENCHMARK_TEST
   BINARY_NAME sha256
   SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/sha256.cc
-  INCLUDES ${XXHASH_SOURCE_DIR}
   SOURCE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-  LIBRARIES benchmark cryptopp
+  LIBRARIES benchmark cryptopp isal_crypto
 )
