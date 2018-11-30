@@ -22,9 +22,9 @@ namespace crypto {
 
 std::optional<secret_key>
 secret_key::from_hex(const std::string &encoded) {
-  auto key_data = key_data_from_hex(encoded);
-  if (!key_data) { return std::nullopt; }
-  return secret_key(*key_data);
+  auto data = key_data_from_hex(encoded);
+  if (!data) { return std::nullopt; }
+  return secret_key(*data);
 };
 
 std::string
