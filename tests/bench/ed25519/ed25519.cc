@@ -34,7 +34,6 @@ BM_ed25519_donna_sign(benchmark::State &state) {
     state.ResumeTiming();
     ed25519_signature sig;
     ed25519_sign(payload, length, sk, pk, sig);
-    benchmark::DoNotOptimize(sig);
   }
 }
 
@@ -54,7 +53,6 @@ BM_ed25519_donna_verify(benchmark::State &state) {
     state.ResumeTiming();
     int verify = ed25519_sign_open(payload, length, pk, sig);
     assert(verify == 1);
-    benchmark::DoNotOptimize(verify);
   }
 }
 
@@ -74,7 +72,6 @@ BM_ed25519_donna_sign_verify(benchmark::State &state) {
     ed25519_sign(payload, length, sk, pk, sig);
     int verify = ed25519_sign_open(payload, length, pk, sig);
     assert(verify == 1);
-    benchmark::DoNotOptimize(verify);
   }
 }
 
@@ -87,22 +84,6 @@ BM_ed25519_donna_pk(benchmark::State &state) {
     ed25519_randombytes_unsafe(sk, sizeof(ed25519_secret_key));
     state.ResumeTiming();
     ed25519_publickey(sk, pk);
-    benchmark::DoNotOptimize(pk);
-    benchmark::DoNotOptimize(sk);
-  }
-}
-
-static void
-BM_curved25519_pk(benchmark::State &state) {
-  for (auto _ : state) {
-    state.PauseTiming();
-    ed25519_public_key pk;
-    ed25519_secret_key sk;
-    ed25519_randombytes_unsafe(sk, sizeof(ed25519_secret_key));
-    state.ResumeTiming();
-    curved25519_scalarmult_basepoint(pk, sk);
-    benchmark::DoNotOptimize(pk);
-    benchmark::DoNotOptimize(sk);
   }
 }
 
@@ -110,6 +91,5 @@ BENCHMARK(BM_ed25519_donna_pk)->Arg(32);
 BENCHMARK(BM_ed25519_donna_sign)->Arg(0)->Arg(32);
 BENCHMARK(BM_ed25519_donna_verify)->Arg(32);
 BENCHMARK(BM_ed25519_donna_sign_verify)->Arg(32);
-BENCHMARK(BM_curved25519_pk)->Arg(32);
 
 BENCHMARK_MAIN();

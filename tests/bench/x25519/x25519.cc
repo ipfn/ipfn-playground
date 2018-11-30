@@ -63,6 +63,20 @@ BM_sodium_x25519_ec(benchmark::State &state) {
 }
 #endif
 
+static void
+BM_curved25519_pk(benchmark::State &state) {
+  for (auto _ : state) {
+    state.PauseTiming();
+    ed25519_public_key pk;
+    ed25519_secret_key sk;
+    ed25519_randombytes_unsafe(sk, sizeof(ed25519_secret_key));
+    state.ResumeTiming();
+    curved25519_scalarmult_basepoint(pk, sk);
+  }
+}
+
+BENCHMARK(BM_curved25519_pk)->Arg(32);
+
 BENCHMARK(BM_x25519)->Arg(32)->Iterations(10000);
 BENCHMARK(BM_hydro_x25519)->Arg(32)->Iterations(10000);
 #ifdef USE_SODIUM
