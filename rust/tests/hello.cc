@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include <ipfn/core.h>
+#include <ipfn/core.hpp>
 #include <ipfn/rust/ffi.h>
 
 #include <iostream>

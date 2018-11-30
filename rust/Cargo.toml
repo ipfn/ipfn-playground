@@ -1,14 +1,16 @@
 [package]
 name = "ipfn_rust"
-version = "0.1.0"
-authors = ["IPFN Developers <developers@ipfn.io>"]
-build = "build.rs"
+version = "0.1.1"
+authors = ["IPFN Developers <dev@ipfn.io>"]
+# build = "build.rs"
 
 [lib]
 crate-type = ["cdylib", "staticlib"]
 name = "ipfn_rust"
 
 [dependencies]
+ring = "0.13.5"
+untrusted = "0.6.2"
 
 [build-dependencies]
 cbindgen =  "*"

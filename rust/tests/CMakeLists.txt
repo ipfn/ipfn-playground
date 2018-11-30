@@ -1,5 +1,5 @@
 
-set(RUST_TESTS_ROOT ${PROJECT_SOURCE_DIR}/src/rust/tests)
+set(RUST_TESTS_ROOT ${PROJECT_SOURCE_DIR}/rust/tests)
 
 ipfn_test(
   UNIT_TEST
