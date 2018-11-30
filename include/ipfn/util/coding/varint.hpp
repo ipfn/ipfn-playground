@@ -23,8 +23,21 @@
 
 namespace varint {
 
+const char *parse32(const char *p, const char *l, uint32_t *OUTPUT);
+const char *parse64(const char *p, uint64_t *OUTPUT);
+const char *parse64_limit(const char *p, const char *l, uint64_t *OUTPUT);
+char *encode32(char *sptr, uint32_t v);
+char *encode64(char *sptr, uint64_t v);
+
+template <typename T>
 inline const char *
-parse32(const char *p, const char *l, uint32_t *OUTPUT) {
+parse64(const T &encoded, uint64_t *OUTPUT) {
+  const char *start = cppcodec::data::char_data(encoded);
+  return parse64_limit(start, start + cppcodec::data::size(encoded), OUTPUT);
+}
+
+inline const char *
+parse32_inline(const char *p, const char *l, uint32_t *OUTPUT) {
   // Version with bounds checks.
   // This formerly had an optimization to inline the non-bounds checking Parse32
   // but it was found to be slower than the straightforward implementation.
@@ -57,8 +70,8 @@ done:
   return reinterpret_cast<const char *>(ptr);
 }
 
-const char *
-parse64(const char *p, uint64_t *OUTPUT) {
+inline const char *
+parse64_inline(const char *p, uint64_t *OUTPUT) {
   const unsigned char *ptr = reinterpret_cast<const unsigned char *>(p);
   assert(*ptr >= 128);
 #if defined(__x86_64__)
@@ -190,10 +203,10 @@ done3:
 #endif
 }
 
-const char *
-parse64_limit(const char *p, const char *l, uint64_t *OUTPUT) {
+inline const char *
+parse64_limit_inline(const char *p, const char *l, uint64_t *OUTPUT) {
   if (p + 10 <= l) {
-    return parse64(p, OUTPUT);
+    return parse64_inline(p, OUTPUT);
   } else {
     // See detailed comment in Varint::Parse64Fallback about this general
     // approach.
@@ -292,7 +305,7 @@ parse64_limit(const char *p, const char *l, uint64_t *OUTPUT) {
 }
 
 inline char *
-encode32(char *sptr, uint32_t v) {
+encode32_inline(char *sptr, uint32_t v) {
   // Operate on characters as unsigneds
   uint8_t *ptr = reinterpret_cast<uint8_t *>(sptr);
   static const uint32_t B = 128;
@@ -320,10 +333,10 @@ encode32(char *sptr, uint32_t v) {
   return reinterpret_cast<char *>(ptr);
 }
 
-char *
-encode64(char *sptr, uint64_t v) {
+inline char *
+encode64_inline(char *sptr, uint64_t v) {
   if (v < (1u << 28)) {
-    return encode32(sptr, v);
+    return encode32_inline(sptr, v);
   } else {
     // Operate on characters as unsigneds
     unsigned char *ptr = reinterpret_cast<unsigned char *>(sptr);
@@ -340,16 +353,17 @@ encode64(char *sptr, uint64_t v) {
       return reinterpret_cast<char *>(ptr);
     } else {
       *(ptr++) = (v >> 28) | (1 << 7);
-      return encode32(reinterpret_cast<char *>(ptr), v >> 35);
+      return encode32_inline(reinterpret_cast<char *>(ptr), v >> 35);
     }
   }
 }
 
 template <typename T>
 inline const char *
-parse64(const T &encoded, uint64_t *OUTPUT) {
+parse64_inline(const T &encoded, uint64_t *OUTPUT) {
   const char *start = cppcodec::data::char_data(encoded);
-  return parse64_limit(start, start + cppcodec::data::size(encoded), OUTPUT);
+  return parse64_limit_inline(start, start + cppcodec::data::size(encoded),
+                              OUTPUT);
 }
 
 }  // namespace varint
