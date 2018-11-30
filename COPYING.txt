@@ -2,7 +2,8 @@ Format-Specification: https://www.debian.org/doc/packaging-manuals/copyright-for
 Name: ipfn
 Source: https://www.ipfn.io/
 Maintainer: Łukasz Kurowski <crackcomm@gmail.com>
-
+Comment: It does not include all Contributors.
+         Please create Pull Request for unknown :)
 
 Files: *
 Copyright: 2017-2018, The IPFN Developers
