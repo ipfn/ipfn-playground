@@ -2,7 +2,7 @@
 name = "ipfn_rust"
 version = "0.1.1"
 authors = ["IPFN Developers <dev@ipfn.io>"]
-# build = "build.rs"
+build = "build.rs"
 
 [lib]
 crate-type = ["cdylib", "staticlib"]
