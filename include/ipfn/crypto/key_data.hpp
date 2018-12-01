@@ -42,17 +42,17 @@ class secret_key {
   /**
    * @brief  Returns ed25519 key data.
    */
-  inline const key_data &data() const { return key_data_; }
+  const key_data &data() const { return key_data_; }
 
   /**
    * @brief  Returns direct access to ed25519 key data.
    */
-  inline const unsigned char *ptr() const { return key_data_.data(); }
+  const unsigned char *ptr() const { return key_data_.data(); }
 
   /**
    * @brief  Returns direct write access to ed25519 key data.
    */
-  inline unsigned char *wptr() { return key_data_.data(); }
+  unsigned char *wptr() { return key_data_.data(); }
 
   /**
    * @brief  Returns hex encoded ed25519 key data.
