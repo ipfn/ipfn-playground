@@ -1,6 +1,5 @@
 //
 // Copyright © 2018 The IPFN Developers. All Rights Reserved.
-// Copyright © 2015-2018 Topology LP. All Rights Reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to
@@ -28,5 +27,5 @@ namespace ipfn {
 /**
  * @brief  Hex codec.
  */
-using hex = ::cppcodec::hex_lower;
+using hex = cppcodec::hex_lower;
 }  // namespace ipfn
