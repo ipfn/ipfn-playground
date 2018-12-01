@@ -24,11 +24,11 @@
 using namespace ipfn::crypto;
 
 TEST(x25519, shared_key) {
-  const std::string expected_shared_hex =
+  auto expected_shared_hex =
     "42dedd506f22f8bbe71c2dbfc31e50e2db53861a6f55a2cc77e07e4e271f9807";
-  const std::string expected_pk1_hex =
+  auto expected_pk1_hex =
     "4652486ebc271520d844e5bdda9ac243c05dcbe7bc9b93807073a32177a6f73d";
-  const std::string expected_pk2_hex =
+  auto expected_pk2_hex =
     "ffbc7ba2e4c43be03f8a7f020d0651f582ad1901c254eebb4ec2ecb73148e50d";
   auto seed1 = *key_pair::from_seed_hex(
     "1b4f0e9851971998e732078544c96b36c3d01cedf7caa332359d6f1d83567014");
