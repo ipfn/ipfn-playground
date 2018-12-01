@@ -1,0 +1,8 @@
+
+ipfn_test(
+  UNIT_TEST
+  BINARY_NAME base-x
+  SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/base-x.cc
+  SOURCE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+  LIBRARIES gtest base-x
+)

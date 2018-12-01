@@ -24,21 +24,23 @@
 
 #include <cppcodec/base32_crockford.hpp>
 
-namespace cppcodec {
+namespace ipfn {
 
 namespace detail {
+
+using cppcodec::detail::alphabet_index_t;
 
 // RFC 4648 uses a simple alphabet: A-Z starting at index 0, then 2-7 starting
 // at index 26.
 static constexpr const char base32_ipfn_alphabet[] = {
-  '0', 'p', 'z', 'q', 'y', '9', 'x', '8', 'b', 'f', '2', 't', 'v', 'r',
-  'w', 'd', 's', '3', 'j', 'n', '5', '4', 'k', 'h', 'c', 'e',  // at index 26
-  '6', 'm', 'u', 'a', '7', 'l'};
+  '0', 'p', 'z', 'q', 'y', '9', 'x', '8', 'b', 'f', '2',
+  't', 'v', 'r', 'w', 'd', 's', '3', 'j', 'n', '5', '4',
+  'k', 'h', 'c', 'e', '6', 'm', 'u', 'a', '7', 'l'};
 
 class base32_ipfn : public cppcodec::base32_crockford {
  public:
   template <typename Codec>
-  using codec_impl = stream_codec<Codec, base32_ipfn>;
+  using codec_impl = cppcodec::detail::stream_codec<Codec, base32_ipfn>;
 
   static CPPCODEC_ALWAYS_INLINE constexpr size_t alphabet_size() {
     static_assert(sizeof(base32_ipfn_alphabet) == 32,
@@ -71,6 +73,10 @@ class base32_ipfn : public cppcodec::base32_crockford {
 
 }  // namespace detail
 
-using base32_ipfn = detail::codec<detail::base32<detail::base32_ipfn>>;
+/**
+ * @brief  IPFN alphabet base32i codec.
+ */
+using base32i =
+  cppcodec::detail::codec<cppcodec::detail::base32<detail::base32_ipfn>>;
 
-}  // namespace cppcodec
+}  // namespace ipfn

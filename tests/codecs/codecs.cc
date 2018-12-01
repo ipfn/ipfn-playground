@@ -13,41 +13,43 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#include <cppcodec/base32_crockford.hpp>
-#include <cppcodec/base64_rfc4648.hpp>
+#include <ipfn/util/coding/base32.hpp>
 #include <ipfn/util/coding/base32i.hpp>
+#include <ipfn/util/coding/base58.hpp>
+#include <ipfn/util/coding/base64.hpp>
 
 #include <gtest/gtest.h>
 
-using base64 = cppcodec::base64_rfc4648;
-using base32 = cppcodec::base32_crockford;
-using base32i = cppcodec::base32_ipfn;
+using namespace ipfn;
 
-static std::vector<std::pair<std::string, std::string>> base_test_data = {
-  {{"Ag=="}, {"0b"}},
-  {{"BA=="}, {"0s"}},
-  {{"CA=="}, {"p0"}},
-  {{"EA=="}, {"z0"}},
-  {{"IA=="}, {"y0"}},
-  {{"QA=="}, {"b0"}},
-  {{"gAE="}, {"s00s"}},
-  {{"gAI="}, {"s0p0"}},
-  {{"gAQ="}, {"s0z0"}},
-  {{"gAg="}, {"s0y0"}},
-  {{"gBA="}, {"s0b0"}},
-  {{"gCA="}, {"s0s0"}},
-  {{"gEA="}, {"sp00"}},
-  {{"0vrzv5DE4LJN"}, {"6tad8duscnstynb"}},
-  {{"z6z8+fXBprF4"}, {"e7kde7d4cxntz70"}},
-  {{"neTVtPa4k4jVAQ=="}, {"nhjrtr8khzfc34bp"}},
-  {{"g/i12reXwYO4AQ=="}, {"sduttk4hjl0c8w0p"}},
-  {{"0cWbzpSwoa02"}, {"68zehn55kzs66rs"}},
-  {{"2NH16OCw9PRX"}, {"mqblt680kq6db4c"}},
-  {{"noDYyJfnsrOIAQ=="}, {"n60r3jyhu7et8z0p"}},
-  {{"lKWTlsLVtISUAQ=="}, {"jjje89kz6k6bf90p"}},
-  {{"oI+kyYPp37QM"}, {"5z86fjvqa8dmbq0"}},
-  {{"mdf3xMH0kcKmAQ=="}, {"n8tld3xp7jbu9fsp"}},
-  {{"YW55IGNhcm5hbCBwbGVhc3VyZQ=="}, {"v9h8jbqqv9exuctvypcxcetpwr6hyeb"}},
+static std::vector<std::tuple<std::string, std::string, std::string>>
+  base_test_data = {
+    {{"Ag=="}, {"0b"}, {"2"}},
+    {{"BA=="}, {"0s"}, {"4"}},
+    {{"CA=="}, {"p0"}, {"8"}},
+    {{"EA=="}, {"z0"}, {"G"}},
+    {{"IA=="}, {"y0"}, {"W"}},
+    {{"QA=="}, {"b0"}, {"16"}},
+    {{"gAE="}, {"s00s"}, {"9gv"}},
+    {{"gAI="}, {"s0p0"}, {"9h0"}},
+    {{"gAQ="}, {"s0z0"}, {"9h2"}},
+    {{"gAg="}, {"s0y0"}, {"9h6"}},
+    {{"gBA="}, {"s0b0"}, {"9hE"}},
+    {{"gCA="}, {"s0s0"}, {"9hU"}},
+    {{"gEA="}, {"sp00"}, {"9i4"}},
+    {{"0vrzv5DE4LJN"}, {"6tad8duscnstynb"}, {"2di1pinM6vY5R"}},
+    {{"z6z8+fXBprF4"}, {"e7kde7d4cxntz70"}, {"2bIUuvRoYVJJ6"}},
+    {{"neTVtPa4k4jVAQ=="}, {"nhjrtr8khzfc34bp"}, {"8oTEh3A5PkFlIv"}},
+    {{"g/i12reXwYO4AQ=="}, {"sduttk4hjl0c8w0p"}, {"7O22Mld0VISh2X"}},
+    {{"0cWbzpSwoa02"}, {"68zehn55kzs66rs"}, {"2coGoah288m38"}},
+    {{"2NH16OCw9PRX"}, {"mqblt680kq6db4c"}, {"2i45K8B6LC5QF"}},
+    {{"noDYyJfnsrOIAQ=="}, {"n60r3jyhu7et8z0p"}, {"8qSP47PJuEDghp"}},
+    {{"lKWTlsLVtISUAQ=="}, {"jjje89kz6k6bf90p"}, {"8KLYKATTtgv3Yv"}},
+    {{"oI+kyYPp37QM"}, {"5z86fjvqa8dmbq0"}, {"22V6mGCAt9GKi"}},
+    {{"mdf3xMH0kcKmAQ=="}, {"n8tld3xp7jbu9fsp"}, {"8bHikW1E6BL9DJ"}},
+    {{"YW55IGNhcm5hbCBwbGVhc3VyZQ=="},
+     {"v9h8jbqqv9exuctvypcxcetpwr6hyeb"},
+     {"HmVGpLTqmKQ3BZaV3O6c5olgNl"}},
 };
 
 TEST(cppcodec, base32) {
@@ -58,17 +60,33 @@ TEST(cppcodec, base32) {
 
 TEST(cppcodec, base32i_encode) {
   for (auto &test_pair : base_test_data) {
-    auto decoded = base64::decode(test_pair.first);
+    auto decoded = base64::decode(std::get<0>(test_pair));
     auto encoded = base32i::encode(decoded);
-    ASSERT_EQ(encoded, test_pair.second);
+    ASSERT_EQ(encoded, std::get<1>(test_pair));
   }
 }
 
 TEST(cppcodec, base32i_decode) {
   for (auto &test_pair : base_test_data) {
-    auto decoded = base32i::decode(test_pair.second);
+    auto decoded = base32i::decode(std::get<1>(test_pair));
     auto encoded = base64::encode(decoded);
-    ASSERT_EQ(encoded, test_pair.first);
+    ASSERT_EQ(encoded, std::get<0>(test_pair));
+  }
+}
+
+TEST(cppcodec, base58_encode) {
+  for (auto &test_pair : base_test_data) {
+    auto decoded = base64::decode(std::get<0>(test_pair));
+    auto encoded = base58::encode(decoded);
+    ASSERT_EQ(encoded, std::get<2>(test_pair));
+  }
+}
+
+TEST(cppcodec, base58_decode) {
+  for (auto &test_pair : base_test_data) {
+    auto decoded = base58::decode(std::get<2>(test_pair));
+    auto encoded = base64::encode(decoded);
+    ASSERT_EQ(encoded, std::get<0>(test_pair));
   }
 }
 

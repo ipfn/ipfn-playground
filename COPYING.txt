@@ -116,6 +116,11 @@ Source: https://github.com/jedisct1/libhydrogen/
 Copyright: 2017-2018, Frank Denis
 License: ISC
 
+Files: third_party/base-x/*
+Source: https://github.com/Kronuz/base-x/
+Copyright: 2017, German Mendez Bravo <Kronuz>
+License: MIT
+
 Files: third_party/cppcodec/*
 Source: https://github.com/tplgy/cppcodec
 Copyright: 2015, Topology Inc.

@@ -4,7 +4,7 @@ ipfn_test(
   BINARY_NAME codecs
   SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/codecs.cc
   SOURCE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-  LIBRARIES gtest cppcodec
+  LIBRARIES gtest cppcodec ipfn_core
 )
 
 ipfn_test(
