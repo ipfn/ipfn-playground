@@ -42,7 +42,7 @@ x25519_pubkey(const private_key &seed) {
   public_key result;
   curved25519_scalarmult_basepoint(result.wptr(), seed.ptr());
   return result;
-};
+}
 
 }  // namespace crypto
 }  // namespace ipfn

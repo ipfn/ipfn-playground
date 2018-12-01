@@ -26,7 +26,7 @@ ed25519_pubkey(const private_key &key) {
   public_key result;
   ed25519_publickey(key.ptr(), result.wptr());
   return result;
-};
+}
 
 }  // namespace crypto
 }  // namespace ipfn

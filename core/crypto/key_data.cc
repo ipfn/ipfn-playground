@@ -37,7 +37,7 @@ key_data_from_hex(const std::string &encoded) {
   // decoded size must be 32 bytes
   if (encoded.size() != 64) { return std::nullopt; }
   return hex::decode<key_data>(encoded);
-};
+}
 
 }  // namespace crypto
 }  // namespace ipfn
