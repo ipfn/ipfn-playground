@@ -19,6 +19,7 @@ target_link_libraries(ipfn_core
     ${IPFN_RUNTIME_LINKER_LIBS}
     x25519
     ed25519-donna
+    base-x
     cppcodec)
 
 target_include_directories(ipfn_core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../include)
